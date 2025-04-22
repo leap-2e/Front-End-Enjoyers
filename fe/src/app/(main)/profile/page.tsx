@@ -1,28 +1,15 @@
+import { Header } from "@/app/_components/Header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Camera, ChevronDown, Coffee, Heart } from "lucide-react";
+import Link from "next/link";
 
 export default function DonationScreenCreator() {
     return (
         <div className="w-full h-screen">
 
-            <div className="bg-white flex w-full h-[56px] items-center justify-center">
-                <div className="w-[90%] h-[40px] flex justify-between items-center">
-                    <div className="w-[151px] h-[24px] flex gap-[10px] items-center">
-                        <Coffee />
-                        <p className="text-black font-bold">Buy Me Coffee</p>
-                    </div>
-                    <div className="w-[182px] h-[40px] flex gap-2 items-center">
-                        <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <p className="w-[83px] h-[20px] font-[500]">Jake</p>
-                        <ChevronDown size={20} />
-                    </div>
-                </div>
-            </div>
+            <Header />
 
             <div className="w-full h-[319px] bg-[#F4F4F5] flex justify-center items-center">
                 <Button>
