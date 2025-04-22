@@ -1,9 +1,43 @@
+"use client"
+
 import { Button } from '@/components/ui/button'
 import { Coffee } from 'lucide-react'
-import Image from 'next/image'
 import React from 'react'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { RightSide } from '../_components/RightSide'
+import Link from 'next/link'
 
 const Login = () => {
+  const formSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8, {
+      message: "Password must be at least 8 characters"
+    })
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = () => {
+    console.log("onsubmit works")
+  }
+
   return (
     <div>
       <div className="fixed top-0 bg-transparent flex w-full h-[56px] items-center justify-center">
@@ -13,22 +47,53 @@ const Login = () => {
             <p className="text-black font-bold">Buy Me Coffee</p>
           </div>
           <div>
-            <Button variant="secondary" className='bg-secondary'>Login</Button>
+           <Link href="signup"><Button variant="secondary" className='bg-secondary'>Sign up</Button></Link>
           </div>
         </div>
       </div>
       <div className="flex">
-        <div className="w-1/2 h-screen bg-amber-400 flex justify-center items-center">
-         <div className=''>
-         <img className="w-full" src="/assets/illustration.svg" alt='illustration' />
-         <div>
-          <h1>Find your creative work</h1>
-          <p>Access support. Start a membership.<br /> Setup a shop. It's easier than you think.</p>
-         </div>
-         </div>
-        </div>
-        <div className="w-1/2 h-screen">
+        <RightSide />
+        <div className="w-1/2 h-screen flex items-center justify-center">
+          <div className="w-1/2 space-y-6">
+            <h1 className="text-2xl font-semibold">
+             Welcome back
+            </h1>
+            <div>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter email here" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
 
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter password here" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+
+                    )}
+                  />
+                    <Button type="submit" className="w-full mt-3">Continue</Button>
+                </form>
+              </Form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
