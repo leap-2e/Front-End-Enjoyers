@@ -3,7 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -15,11 +21,13 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { countries } from "@/constants"
+import { v4 as uuidv4 } from 'uuid';
 
 const CreatePaymentInfo = () => {
 
     const formSchema = z.object({
-        country: z.string(),
+        // country: z.string(),
         firstName: z.string(),
         lastName: z.string(),
         cardNumber: z.string(),
@@ -31,7 +39,7 @@ const CreatePaymentInfo = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            country: "",
+            // country: "",
             firstName: "",
             lastName: "",
             cardNumber: "",
@@ -58,20 +66,33 @@ const CreatePaymentInfo = () => {
             <div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <FormField
-                                control={form.control}
-                                name="country"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Select country</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Enter your home country" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
+                        {/* <FormField
+                            control={form.control}
+                            name="country"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Select country</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Enter your home country" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
 
-                                )}
-                            />
+                            )}
+                        /> */}
+                        <Select>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select country" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {countries.map((country) => {
+                                    return(
+                                        <SelectItem value={`${country}`} key={uuidv4()}>{country}</SelectItem>
+                                    )
+                                })}
+                            </SelectContent>
+                        </Select>
+
                         <div className="grid grid-cols-2 gap-3">
                             <FormField
                                 control={form.control}
@@ -94,7 +115,7 @@ const CreatePaymentInfo = () => {
                                     <FormItem>
                                         <FormLabel>Last name</FormLabel>
                                         <FormControl>
-                                            <Input {...field} />
+                                            <Input placeholder="Enter your last name" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -138,7 +159,7 @@ const CreatePaymentInfo = () => {
                                     <FormItem>
                                         <FormLabel>Year</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Enter your last name" {...field} />
+                                            <Input {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -152,7 +173,7 @@ const CreatePaymentInfo = () => {
                                     <FormItem>
                                         <FormLabel>CVC</FormLabel>
                                         <FormControl>
-                                            <Input {...field} />
+                                            <Input type="number" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
