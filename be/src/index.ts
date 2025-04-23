@@ -1,19 +1,40 @@
 import express from "express";
 import { sql } from "./db";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
-app.get('/', async (req, res) => {
+app.get('/', async (_req, res) => {
     const result = await sql`SELECT NOW() AS time`;
-    res.send(`Hello from Express + PostgreSQL! Server time: ${result[0].time}`);
+    res.send(`Hello from Naraa! Server time: ${result[0].time}`);
 });
-app.post('/', async (req, res) => {
-    const { name, about } = req.body
-    const newProfile = await sql`INSERT INTO profiles (name, about)
-    VALUES (${name}, ${about})
+
+app.get('/users', async(_req, res) => {
+    const users = await sql`
+    SELECT * FROM users
     `
-    res.json({ success: true, newProfile })
+    res.json({success: true, users})
+})
+
+app.post('/users', async (req, res) => {
+    const { username } = req.body;
+    const newUser = await sql`
+    INSERT INTO users (username)
+    VALUES (${username})
+    `
+    res.json({ success: true, newUser })
+    console.log("success true")
+})
+
+app.post('/users-register', async(req, res) => {
+    const { email, password } = req.body;
+    const newUser = await sql`
+    INSERT INTO users (email, password)
+    VALUES (${email}, ${password})
+    `
+    res.json({success: true, newUser});
     console.log("success true")
 })
 
