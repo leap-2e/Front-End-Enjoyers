@@ -44,56 +44,58 @@ export function Explore() {
       socialUrl: 'https://buymeacoffee.com/dragons1'
     }
   ];
-  const filteredCreators = creators.filter(creator => 
+  const filteredCreators = creators.filter(creator =>
     creator.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Explore creators</h1>
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-        <Input
-          placeholder="Search name"
-          className="pl-10"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <div className="space-y-4">
-        {filteredCreators.map(creator => (
-          <Card key={creator.id} className="overflow-hidden">
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-10 w-10 border">
-                    <AvatarImage src={creator.avatar} alt={creator.name} />
-                    <AvatarFallback>{creator.name[0]}</AvatarFallback>
-                  </Avatar>
+    <div className='w-3/4'>
+      <div className="max-w-4xl mx-auto p-6 pt-[100px]">
+        <h1 className="text-2xl font-bold mb-6">Explore creators</h1>
+        <div className="relative mb-6">
+          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+          <Input
+            placeholder="Search name"
+            className="pl-10"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="space-y-4">
+          {filteredCreators.map(creator => (
+            <Card key={creator.id} className="overflow-hidden">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10 border">
+                      <AvatarImage src={creator.avatar} alt={creator.name} />
+                      <AvatarFallback>{creator.name[0]}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3 className="text-lg font-semibold">{creator.name}</h3>
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    View profile <ExternalLink className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                   <div>
-                    <h3 className="text-lg font-semibold">{creator.name}</h3>
+                    <h4 className="font-medium mb-2">About {creator.name}</h4>
+                    <p className="text-sm text-gray-600">{creator.about}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-2">Social media URL</h4>
+                    <a href={creator.socialUrl} className="text-sm text-blue-600 break-all hover:underline">
+                      {creator.socialUrl}
+                    </a>
                   </div>
                 </div>
-                <Button variant="outline" size="sm" className="flex items-center gap-2">
-                  View profile <ExternalLink className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div>
-                  <h4 className="font-medium mb-2">About {creator.name}</h4>
-                  <p className="text-sm text-gray-600">{creator.about}</p>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-2">Social media URL</h4>
-                  <a href={creator.socialUrl} className="text-sm text-blue-600 break-all hover:underline">
-                    {creator.socialUrl}
-                  </a>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
- 
+

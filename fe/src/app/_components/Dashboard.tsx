@@ -1,9 +1,7 @@
 "use client";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -15,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export const Dashboard = () => {
@@ -62,8 +61,8 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      <div className="w-[907px] h-[257px] p-6">
+    <div className="w-3/4">
+      <div className="w-full h-[257px] p-6 mt-[100px]">
         <Card>
           <CardHeader>
             <div className="">
@@ -111,15 +110,16 @@ export const Dashboard = () => {
           </CardHeader>
         </Card>
       </div>
-      <div className="w-[907px] h-[716px] p-6">
+      <div className="w-full h-[716px] p-6">
         <div className="flex justify-between pt-4  pb-1">
           <h1 className="font-semibold text-base">Recent transactions</h1>
-          <div className="relative">
+          <div className="relative mb-2">
             <button
-              className="w-[109px] h-[36px] border px-4 py-2 text-left rounded-md bg-white shadow flex"
+              className="w-[109px] h-[36px] border px-4 py-2 text-left rounded-md bg-white shadow flex justify-center items-center gap-1"
               onClick={() => setIsOpen(!isOpen)}
             >
-              <img className="w-2 h-1 mt-2" src="Vector.png" alt="" />
+              {/* <img className="w-2 h-1 mt-2" src="Vector.png" alt="" /> */}
+              <ChevronDown />
               {selected.length > 0
                 ? selected.map((val: any) => `$${val}`).join(", ")
                 : "Amount"}
