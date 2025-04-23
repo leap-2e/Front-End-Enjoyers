@@ -1,10 +1,8 @@
 import { BuyCoffee } from "@/app/_components/BuyCoffee";
 import { EditProfile } from "@/app/_components/EditProfile";
 import { Header } from "@/app/_components/Header";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Camera, Coffee, Heart } from "lucide-react";
+import { Camera } from "lucide-react";
 
 export default function DonationScreenCreator() {
     return (
@@ -19,11 +17,13 @@ export default function DonationScreenCreator() {
                 </Button>
             </div>
 
-            <div className="w-[90%] gap-5 mt-[-100px] mx-auto">
+            <div className="w-[90%] gap-5 mt-[-100px] mx-auto flex">
 
                 <EditProfile />
+
+                <BuyCoffee />
 
             </div>
         </div>
     )
-}
+};

@@ -13,7 +13,7 @@ import { CreateProfile } from "./CreateProfile";
 
 export function EditProfile() {
     return (
-        <div className="w-2/3 h-fit rounded-lg bg-white flex flex-col gap-5 justify-self-center">
+        <div className="w-1/2 h-fit rounded-lg bg-white flex flex-col gap-5 justify-self-center">
             <div className="w-full h-[233px] p-6 gap-2 border border-[#F4F4F5] rounded-md">
                 <div className="w-full h-[48px] flex justify-between">
                     <div className="w-[107px] h-[48px] flex gap-3 items-center">
