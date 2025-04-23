@@ -95,7 +95,7 @@ export function EditProfile() {
                                     </div>
 
                                     <div className="flex gap-3 justify-end items-center">
-                                        <button className="bg-[#F4F4F5] py-[6px] px-4 rounded-md">Cancel</button>
+                                        <button className="bg-[#F4F4F5] py-[6px] px-4 rounded-md hover:bg-black hover:text-white">Cancel</button>
                                         <Button className="py-2 px-4">Save changes</Button>
                                     </div>
                                 </form>
