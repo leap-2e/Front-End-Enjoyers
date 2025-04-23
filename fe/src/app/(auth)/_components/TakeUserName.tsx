@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import axios from "axios"
 import { BASE_URL } from '@/constants'
+import { toast } from 'sonner'
 
 type ValueType = {
   userName: string,
@@ -47,13 +48,14 @@ const TakeUserName = ({ currentStep, setCurrentStep }) => {
   });
 
   const onSubmit = async (value: ValueType) => {
+
     const getUsers = await axios.get(`${BASE_URL}/users`);
-  console.log(getUsers.data.users)
+
     const data = getUsers.data.users.map((d: UserType) => (d.username));
     if (data.includes(value.userName)) {
-      console.log("Username taken ")
+     console.log("Username taken")
     } else {
-      console.log("success true");
+     console.log("Success");
       localStorage.setItem("username", value.userName);
       setCurrentStep(currentStep + 1);
     }

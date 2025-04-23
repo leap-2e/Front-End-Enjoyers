@@ -1,4 +1,3 @@
-import { SALT_ROUND } from "@/constants";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {

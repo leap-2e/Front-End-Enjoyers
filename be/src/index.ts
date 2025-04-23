@@ -1,6 +1,7 @@
 import express from "express";
 import { sql } from "./db";
 import cors from "cors";
+import bcrypt from "bcryptjs";
 
 const app = express();
 app.use(express.json());
@@ -19,15 +20,39 @@ app.get('/users', async (_req, res) => {
 })
 
 app.post('/users', async (req, res) => {
-    const { username, email, password, profile_id } = req.body;
+    const { username, email, password, profile_id, card_id } = req.body;
+
+    const SALT_ROUND = 12;
+    const salt = bcrypt.genSaltSync(SALT_ROUND);
+    const hash = bcrypt.hashSync(password, salt);
+
     const newUser = await sql`
     INSERT INTO users
-    (username, email, password, profile_id)
+    (username, email, password, profile_id, card_id)
     VALUES
-     (${username}, ${email}, ${password}, ${profile_id})
+     (${username}, ${email}, ${hash}, ${profile_id}, ${card_id})
     `
     res.json({ success: true, newUser })
     console.log("success true")
+})
+
+app.post('/check', async (req, res) => {
+
+    const { email, password } = req.body;
+    const user_email = await sql`
+    SELECT email FROM users
+    WHERE email = ${email}
+    `
+    if (user_email) {
+        const hash: any = await sql`
+        SELECT password FROM users
+        WHERE email = ${user_email}
+        `
+        const isCompare = bcrypt.compareSync(password, hash);
+        if (!isCompare) {
+            res.status(401).json({ success: false, message: "User or password is wrong." })
+        }
+    }
 })
 
 app.post('/profiles', async (req, res) => {
@@ -37,6 +62,17 @@ app.post('/profiles', async (req, res) => {
     (id, name, about, avatar_image, social_media_url)
     VALUES 
     (${id}, ${name}, ${about}, ${avatar_image}, ${social_media_url})
+    `
+    res.json({ success: true })
+})
+
+app.post('/cards', async (req, res) => {
+    const { id, country, first_name, last_name, card_number, expiry_year, expiry_month, cvv } = req.body
+    const cardInfo = await sql`
+    INSERT INTO cards 
+    (id, country, first_name, last_name, card_number, expiry_year, expiry_month, cvv)
+    VALUES 
+    (${id}, ${country}, ${first_name}, ${last_name}, ${card_number}, ${expiry_year}, ${expiry_month}, ${cvv})
     `
     res.json({ success: true })
 })

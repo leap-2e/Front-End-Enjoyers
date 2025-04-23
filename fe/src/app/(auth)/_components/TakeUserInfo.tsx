@@ -18,7 +18,6 @@ import { BASE_URL } from '@/constants'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid';
-import bcrypt from "bcryptjs";
 
 type ValueType = {
     email: string,
@@ -46,14 +45,10 @@ const TakeUserInfo = () => {
     const username = localStorage.getItem("username");
     const onSubmit = async (value: ValueType) => {
 
-        const SALT_ROUND = 12;
-        const salt = bcrypt.genSaltSync(SALT_ROUND);
-        const hash = bcrypt.hashSync(value.password, salt);
-
         const profile_id = uuidv4();
         const card_id = uuidv4();
 
-        const createUser = await axios.post(`${BASE_URL}/users`, { username: username, email: value.email, password: hash, profile_id: profile_id, card_id: card_id });
+        const createUser = await axios.post(`${BASE_URL}/users`, { username: username, email: value.email, password: value.password, profile_id: profile_id, card_id: card_id });
         localStorage.setItem("profile_id", profile_id);
         localStorage.setItem("card_id", card_id);
 
