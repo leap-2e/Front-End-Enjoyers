@@ -11,34 +11,35 @@ app.get('/', async (_req, res) => {
     res.send(`Hello from Naraa! Server time: ${result[0].time}`);
 });
 
-app.get('/users', async(_req, res) => {
+app.get('/users', async (_req, res) => {
     const users = await sql`
     SELECT * FROM users
     `
-    res.json({success: true, users})
+    res.json({ success: true, users })
 })
 
 app.post('/users', async (req, res) => {
-    const { username } = req.body;
+    const { username, email, password, profile_id } = req.body;
     const newUser = await sql`
-    INSERT INTO users (username)
-    VALUES (${username})
+    INSERT INTO users
+    (username, email, password, profile_id)
+    VALUES
+     (${username}, ${email}, ${password}, ${profile_id})
     `
     res.json({ success: true, newUser })
     console.log("success true")
 })
 
-app.post('/users-register', async(req, res) => {
-    const { email, password } = req.body;
-    const newUser = await sql`
-    INSERT INTO users (email, password)
-    VALUES (${email}, ${password})
+app.post('/profiles', async (req, res) => {
+    const { id, name, about, avatar_image, social_media_url } = req.body;
+    const newProfile = await sql`
+    INSERT INTO profiles 
+    (id, name, about, avatar_image, social_media_url)
+    VALUES 
+    (${id}, ${name}, ${about}, ${avatar_image}, ${social_media_url})
     `
-    res.json({success: true, newUser});
-    console.log("success true")
+    res.json({ success: true })
 })
-
-
 
 const PORT = 8080;
 app.listen(PORT, () => {
