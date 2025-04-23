@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -23,7 +22,7 @@ const CreateProfile = () => {
             message: "Name must be at least 2 characters.",
         }),
         about: z.string().min(10, {
-                message: "About yourself must be at least 10 characters.",
+            message: "About yourself must be at least 10 characters.",
         }),
         social_media: z.string(),
     });
@@ -56,10 +55,10 @@ const CreateProfile = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel htmlFor="photo">
-                                       <div  className="flex flex-col space-y-3">
-                                       <p>Add photo</p>
-                                       <div className="border border-dashed rounded-full w-40 h-40"></div>
-                                       </div>   
+                                        <div className="flex flex-col space-y-3">
+                                            <p>Add photo</p>
+                                            <div className="border border-dashed rounded-full w-40 h-40"></div>
+                                        </div>
                                     </FormLabel>
                                     <FormControl className="hidden">
                                         <Input id="photo" type="file" placeholder="shadcn" {...field} />
@@ -111,9 +110,9 @@ const CreateProfile = () => {
 
                             )}
                         />
-                       <div className="w-full flex justify-end mt-5">
-                       <Button type="submit" className="w-1/2">Continue</Button>
-                       </div>
+                        <div className="w-full flex justify-end mt-5">
+                            <Button type="submit" className="w-1/2">Continue</Button>
+                        </div>
                     </form>
                 </Form>
 
