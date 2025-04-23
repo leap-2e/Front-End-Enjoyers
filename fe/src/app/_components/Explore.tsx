@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
-export default function Explore() {
+export function Explore() {
   const [searchTerm, setSearchTerm] = useState('');
   const creators = [
     {
