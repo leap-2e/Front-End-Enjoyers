@@ -17,6 +17,21 @@ import { Input } from "@/components/ui/input"
 import axios from "axios"
 import { BASE_URL } from '@/constants'
 
+type ValueType = {
+  userName: string,
+}
+
+type UserType = {
+  card_id: string,
+  created_at: Date,
+  email: string,
+  id: number,
+  password: string,
+  profile_id: string,
+  updated_at: Date,
+  username: string,
+}
+
 const TakeUserName = ({ currentStep, setCurrentStep }) => {
   const formSchema = z.object({
     userName: z.string().min(6, {
@@ -31,9 +46,10 @@ const TakeUserName = ({ currentStep, setCurrentStep }) => {
     },
   });
 
-  const onSubmit = async (value) => {
+  const onSubmit = async (value: ValueType) => {
     const getUsers = await axios.get(`${BASE_URL}/users`);
-    const data = getUsers.data.users.map((d) => (d.username));
+  console.log(getUsers.data.users)
+    const data = getUsers.data.users.map((d: UserType) => (d.username));
     if (data.includes(value.userName)) {
       console.log("Username taken ")
     } else {

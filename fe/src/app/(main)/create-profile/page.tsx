@@ -9,8 +9,7 @@ const CreateProfile = () => {
     const steps = [CreateProfileInfo, CreatePaymentInfo];
     const Components = steps[currentStep]
     return (
-        // <Components currentStep={currentStep} setCurrentStep={setCurrentStep} />
-        <CreatePaymentInfo />
+        <Components currentStep={currentStep} setCurrentStep={setCurrentStep} />
     )
 }
 
