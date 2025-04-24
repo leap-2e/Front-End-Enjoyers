@@ -18,44 +18,75 @@ import {
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+// type User = {
+//   username: string;
+//   avatar: string | null | undefined;
+//   id: number;
+//   socialURL: string;
+//   about: string;
+//   donation: number;
+//   time: string;
+// }
+
+interface User {
+  username: string;
+  avatar: string | null | undefined; // Adjust the type as needed
+  // ... other user properties
+}
+
 const users = [
   {
+    id: 1,
     username: "Guest",
-    link: "instagram.com/welesey",
-    message: "Thank you for being so awesome everyday! You always manage to brighten up my day when I'm feeling down. Although $1 isn't that much money it's all I can contribute at the moment",
+    socialURL: "instagram.com/welesley",
+    avatar: '/api/placeholder/50/50',
+    about: "Thank you for being so awesome everyday! You always manage to brighten up my day when I'm feeling down. Although $1 isn't that much money it's all I can contribute at the moment",
     donation: 1,
     time: "10 hours ago"
   },
   {
+    id: 2,
     username: "John Doe",
-    link: "buymeacoffee.com/bdsadas",
-    message: "Thank you for being so awesome everyday!",
+    socialURL: "buymeacoffee.com/bdsadas",
+    avatar: "https://buy.stripe.com/test_bJ1aG8123456789mno",
+    about: "Thank you for being so awesome everyday!",
     donation: 10,
     time: "10 hours ago"
   },
   {
-    username: "John Doe",
-    link: "buymeacoffee.com/bdsadas",
+    id: 3,
+    username: "Radicals",
+    socialURL: "buymeacoffee.com/gkfgrew",
+    avatar: '/api/placeholder/50/50',
+    about: null,
     donation: 2,
     time: "10 hours ago"
   },
   {
-    username: "John Doe",
-    link: "buymeacoffee.com/bdsadas",
+    id: 4,
+    username: "Guest",
+    socialURL: "facebook.com/penelopeb",
+    avatar: "https://buy.stripe.com/test_bJ1aG8123456789mno",
+    about: null,
     donation: 5,
     time: "10 hours ago"
   },
   {
-    username: "John Doe",
-    link: "buymeacoffee.com/bdsadas",
-    message: "Thank you for being so awesome everyday! You always manage to brighten up my day when I'm feeling down. Although $1 isn't that much money it's all I can contribute at the moment. When I become success...",
+    id: 5,
+    username: "Fan1",
+    socialURL: "buymeacoffee.com/supporterone",
+    avatar: "https://buy.stripe.com/test_bJ1aG8123456789mno",
+    about: "Thank you for being so awesome everyday! You always manage to brighten up my day when I'm feeling down. Although $1 isn't that much money it's all I can contribute at the moment. When I become successful I will be sure to buy you.... Show more",
     donation: 10,
     time: "10 hours ago"
   },
   {
-    username: "John Doe",
-    link: "buymeacoffee.com/bdsadas",
-    donation: 2,
+    id: 6,
+    username: "Guest",
+    socialURL: "instagram.com/welesley",
+    avatar: null,
+    about: null,
+    donation: 1,
     time: "10 hours ago"
   }
 ];
@@ -195,144 +226,43 @@ export const Dashboard = () => {
             )}
           </div>
         </div>
+
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-[12px] p-3">
               <div>
-                <div className="flex justify-between">
-                  <div className="flex gap-1">
-                    <Avatar className="w-[40px] h-[40px]">
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>                    <div className="flex flex-col  ml-1 mt-1 gap-1">
-                      <CardTitle>Guest</CardTitle>
-                      <CardDescription>
-                        <p>instagram.com/welesey</p>
-                      </CardDescription>
+                {users.map((user) => {
+                  return (
+                    <div key={user.id} className="mb-4">
+                      <div className="flex justify-between">
+                        <div className="flex gap-1">
+                          <Avatar className="w-[40px] h-[40px]">
+                            <AvatarImage src={user.avatar} alt={user.username} />
+                            <AvatarFallback>{user.username[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col  ml-1 mt-1 gap-1">
+                            <CardTitle>Guest</CardTitle>
+                            <CardDescription>
+                              <p>{user.socialURL}</p>
+                            </CardDescription>
+                          </div>
+                        </div>
+                        <div>
+                          <span className="font-semibold text-base justify-self-end">{`$${user.donation}`}</span>
+                          <p className="text-[#71717A]">{user.time}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-sm">{user.about}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-base ">+$1</span>
-                    <p className="text-[#71717A]">10 hours ago</p>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-sm">
-                    Thank you for being so awesome everyday! You always manage
-                    to brighten up my day when I’m feeling down. Although $1
-                    isn’t that much money it’s all I can contribute at the
-                    moment{" "}
-                  </p>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between">
-                  <div className="flex gap-1">
-                    <Avatar className="w-[40px] h-[40px]">
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>                    <div className="flex flex-col  ml-1 mt-1 gap-1">
-                      <CardTitle>John Doe</CardTitle>
-                      <CardDescription>
-                        <p>buymeacoffee.com/bdsadas</p>
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-base ">+$10</span>
-                    <p className="text-[#71717A]">10 hours ago</p>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-sm">
-                    Thank you for being so awesome everyday!
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-between">
-                <div className="flex gap-1">
-                  <Avatar className="w-[40px] h-[40px]">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>                  <div className="flex flex-col  ml-1 mt-1 gap-1">
-                    <CardTitle>John Doe</CardTitle>
-                    <CardDescription>
-                      <p>buymeacoffee.com/bdsadas</p>
-                    </CardDescription>
-                  </div>
-                </div>
-                <div>
-                  <span className="font-semibold text-base ">+$2</span>
-                  <p className="text-[#71717A]">10 hours ago</p>
-                </div>
-              </div>
-
-              <div className="flex justify-between">
-                <div className="flex gap-1">
-                  <Avatar className="w-[40px] h-[40px]">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>                  <div className="flex flex-col  ml-1 mt-1 gap-1">
-                    <CardTitle>John Doe</CardTitle>
-                    <CardDescription>
-                      <p>buymeacoffee.com/bdsadas</p>
-                    </CardDescription>
-                  </div>
-                </div>
-                <div>
-                  <span className="font-semibold text-base ">+$5</span>
-                  <p className="text-[#71717A]">10 hours ago</p>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between">
-                  <div className="flex gap-1">
-                    <Avatar className="w-[40px] h-[40px]">
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>                    <div className="flex flex-col  ml-1 mt-1 gap-1">
-                      <CardTitle>John Doe</CardTitle>
-                      <CardDescription>
-                        <p>buymeacoffee.com/bdsadas</p>
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-base ">+$10</span>
-                    <p className="text-[#71717A]">10 hours ago</p>
-                  </div>
-                </div>
-                <div className="text-sm ">
-                  <p>{displayText}</p>
-                  {isLongText && (
-                    <button className="underline" onClick={toggleExpand}>
-                      {isExpanded ? "Show less" : "Show more"}
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex gap-1">
-                  <Avatar className="w-[40px] h-[40px]">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>                  <div className="flex flex-col  ml-1 mt-1 gap-1">
-                    <CardTitle>John Doe</CardTitle>
-                    <CardDescription>
-                      <p>buymeacoffee.com/bdsadas</p>
-                    </CardDescription>
-                  </div>
-                </div>
-                <div>
-                  <span className="font-semibold text-base ">+$2</span>
-                  <p className="text-[#71717A]">10 hours ago</p>
-                </div>
+                  )
+                })}
               </div>
             </div>
           </CardHeader>
         </Card>
+
       </div>
     </div>
   );

@@ -4,12 +4,12 @@ import { SideBarComponent } from "../_components/SideBar";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Header />
-      <div className="flex">
+      <div className="w-full flex gap-4 px-[80px]">
         <SideBarComponent />
         <Dashboard />
       </div>
-    </div >
+    </>
   );
 }

@@ -1,12 +1,15 @@
 'use client';
+
 import { useState } from 'react';
 import { Search, ExternalLink } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+
 export function Explore() {
   const [searchTerm, setSearchTerm] = useState('');
+
   const creators = [
     {
       id: 1,
@@ -44,9 +47,11 @@ export function Explore() {
       socialUrl: 'https://buymeacoffee.com/dragons1'
     }
   ];
+
   const filteredCreators = creators.filter(creator =>
     creator.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   return (
     <div className='w-3/4'>
       <div className="max-w-4xl mx-auto p-6 pt-[100px]">
