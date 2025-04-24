@@ -2,24 +2,17 @@
 
 import { Button } from '@/components/ui/button'
 import { Coffee } from 'lucide-react'
-import React from 'react'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import React, { useState } from 'react'
 import { RightSide } from '../_components/RightSide'
 import Link from 'next/link'
 import { TakeUserName } from '../_components/TakeUserName'
+import { TakeUserInfo } from '../_components/TakeUserInfo'
+import { set } from 'react-hook-form'
 
 const SignUp = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const steps = [TakeUserName, TakeUserInfo];
+  const Components = steps[currentStep];
 
   return (
     <div>
@@ -37,7 +30,7 @@ const SignUp = () => {
       <div className="flex">
         <RightSide />
         <div className="w-1/2 h-screen flex items-center justify-center">
-          <TakeUserName />
+          <Components currentStep={currentStep} setCurrentStep={setCurrentStep} />
         </div>
       </div>
     </div>

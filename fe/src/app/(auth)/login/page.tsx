@@ -17,6 +17,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { RightSide } from '../_components/RightSide'
 import Link from 'next/link'
+import axios from 'axios'
+import { BASE_URL } from '@/constants'
+import { toast } from 'sonner'
 
 const Login = () => {
   const formSchema = z.object({
@@ -34,8 +37,12 @@ const Login = () => {
     },
   });
 
-  const onSubmit = () => {
-    console.log("onsubmit works")
+  const onSubmit = async(value) => {
+  const user = await axios.post(`${BASE_URL}/check`, {email: value.email, password: value.password}); 
+
+  if(user) {
+    toast("User successfully login")
+  }
   }
 
   return (

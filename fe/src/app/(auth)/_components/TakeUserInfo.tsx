@@ -14,10 +14,19 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { RightSide } from '../_components/RightSide'
-import Link from 'next/link'
+import { BASE_URL } from '@/constants'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { v4 as uuidv4 } from 'uuid';
+
+type ValueType = {
+    email: string,
+    password: string,
+};
 
 const TakeUserInfo = () => {
+    const router = useRouter();
+
     const formSchema = z.object({
         email: z.string().email(),
         password: z.string().min(8, {
@@ -33,13 +42,23 @@ const TakeUserInfo = () => {
         },
     });
 
-    const onSubmit = () => {
-        console.log("onsubmit works")
+    const username = localStorage.getItem("username");
+    const onSubmit = async (value: ValueType) => {
+
+        const profile_id = uuidv4();
+        const card_id = uuidv4();
+
+        const createUser = await axios.post(`${BASE_URL}/users`, { username: username, email: value.email, password: value.password, profile_id: profile_id, card_id: card_id });
+        localStorage.setItem("profile_id", profile_id);
+        localStorage.setItem("card_id", card_id);
+
+        router.push('/create-profile')
+
     }
     return (
         <div className="w-1/2 space-y-6">
             <h1 className="text-2xl font-semibold">
-                Welcome, "USERNAME"
+                {` Welcome, ${username}`}
             </h1>
             <div>
                 <Form {...form}>
@@ -79,3 +98,5 @@ const TakeUserInfo = () => {
         </div>
     )
 }
+
+export { TakeUserInfo }

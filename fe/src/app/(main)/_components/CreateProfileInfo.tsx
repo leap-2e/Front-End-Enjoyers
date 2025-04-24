@@ -14,8 +14,19 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import axios from "axios"
+import { BASE_URL } from "@/constants"
 
-const CreateProfile = () => {
+// type ValueType = {
+//     id: string, 
+//     name: string, 
+//     about: string, 
+//     avatar_image: string, 
+//     photo: string,
+//     social_media: string,
+// }
+
+const CreateProfileInfo = ({ currentStep, setCurrentStep }) => {
     const formSchema = z.object({
         photo: z.string(),
         name: z.string().min(2, {
@@ -37,8 +48,10 @@ const CreateProfile = () => {
         },
     });
 
-    const onSubmit = () => {
-        console.log("onsubmit works")
+    const onSubmit = async (value) => {
+        const id = localStorage.getItem("profile_id");
+        const newProfile = await axios.post(`${BASE_URL}/profiles`, { id: id, name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media })
+        setCurrentStep(currentStep + 1)
     }
 
     return (
@@ -122,4 +135,4 @@ const CreateProfile = () => {
     )
 }
 
-export { CreateProfile }
+export { CreateProfileInfo }
