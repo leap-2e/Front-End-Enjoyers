@@ -1,17 +1,36 @@
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 export function SideBarComponent() {
     return (
         <div className="min-w-[260px] max-w-[300px] h-screen">
-            <div className="w-full h-[156px] justify-self-center pt-[100px] [&>*]:py-2 [&>*]:text-black [&>*]:px-3 [&>*]:rounded-sm">
-                <div className="bg-[#F4F4F5]">Home</div>
-                <div>Explore</div>
-                <div className="flex gap-1 items-center">
-                    <p>View page</p>
-                    <ExternalLink size={15} />
-                </div>
-                <div>Account settings</div>
-            </div>
+            <nav className="mt-[100px]">
+                <ul className="space-y-2">
+                    <li>
+                        <Link href="/">
+                            <span className="block p-2 rounded-md hover:bg-[#F4F4F5]">Home</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/explore">
+                            <span className="block p-2 rounded-md hover:bg-[#F4F4F5]">Explore</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/view">
+                            <span className="flex items-center gap-1 p-2 rounded-md hover:bg-[#F4F4F5]">
+                                View page
+                                <ExternalLink size={15} />
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/settings">
+                            <span className="block p-2 rounded hover:bg-[#F4F4F5]">Account settings</span>
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
         </div>
     )
 }

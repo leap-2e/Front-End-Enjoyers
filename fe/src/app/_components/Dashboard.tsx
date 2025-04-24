@@ -61,7 +61,7 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div className="w-3/4">
+    <div className="w-3/4 max-h-screen overflow-auto">
       <div className="w-full h-[257px] p-6 mt-[100px]">
         <Card>
           <CardHeader>
