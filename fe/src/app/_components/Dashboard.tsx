@@ -1,4 +1,8 @@
 "use client";
+
+import { Separator } from "@/components/ui/separator";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardDescription,
@@ -12,9 +16,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+const users = [
+  {
+    username: "Guest",
+    link: "instagram.com/welesey",
+    message: "Thank you for being so awesome everyday! You always manage to brighten up my day when I'm feeling down. Although $1 isn't that much money it's all I can contribute at the moment",
+    donation: 1,
+    time: "10 hours ago"
+  },
+  {
+    username: "John Doe",
+    link: "buymeacoffee.com/bdsadas",
+    message: "Thank you for being so awesome everyday!",
+    donation: 10,
+    time: "10 hours ago"
+  },
+  {
+    username: "John Doe",
+    link: "buymeacoffee.com/bdsadas",
+    donation: 2,
+    time: "10 hours ago"
+  },
+  {
+    username: "John Doe",
+    link: "buymeacoffee.com/bdsadas",
+    donation: 5,
+    time: "10 hours ago"
+  },
+  {
+    username: "John Doe",
+    link: "buymeacoffee.com/bdsadas",
+    message: "Thank you for being so awesome everyday! You always manage to brighten up my day when I'm feeling down. Although $1 isn't that much money it's all I can contribute at the moment. When I become success...",
+    donation: 10,
+    time: "10 hours ago"
+  },
+  {
+    username: "John Doe",
+    link: "buymeacoffee.com/bdsadas",
+    donation: 2,
+    time: "10 hours ago"
+  }
+];
 
 export const Dashboard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -68,7 +112,11 @@ export const Dashboard = () => {
             <div className="">
               <div className="flex justify-between">
                 <div className="flex  gap-1">
-                  <img className="w-12 h-12" src="AvatarImage.png" alt="" />
+                  <Avatar className="w-[48px] h-[48px]">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+
                   <div className="flex flex-col  ml-2 mt-2 gap-1">
                     <CardTitle>Jake </CardTitle>
                     <CardDescription>
@@ -118,7 +166,6 @@ export const Dashboard = () => {
               className="w-[109px] h-[36px] border px-4 py-2 text-left rounded-md bg-white shadow flex justify-center items-center gap-1"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {/* <img className="w-2 h-1 mt-2" src="Vector.png" alt="" /> */}
               <ChevronDown />
               {selected.length > 0
                 ? selected.map((val: any) => `$${val}`).join(", ")
@@ -154,8 +201,10 @@ export const Dashboard = () => {
               <div>
                 <div className="flex justify-between">
                   <div className="flex gap-1">
-                    <img className="w-10 h-10" src="Avatarcn.png" alt="" />
-                    <div className="flex flex-col  ml-1 mt-1 gap-1">
+                    <Avatar className="w-[40px] h-[40px]">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>                    <div className="flex flex-col  ml-1 mt-1 gap-1">
                       <CardTitle>Guest</CardTitle>
                       <CardDescription>
                         <p>instagram.com/welesey</p>
@@ -179,8 +228,10 @@ export const Dashboard = () => {
               <div>
                 <div className="flex justify-between">
                   <div className="flex gap-1">
-                    <img className="w-10 h-10" src="AvatarImage.png" alt="" />
-                    <div className="flex flex-col  ml-1 mt-1 gap-1">
+                    <Avatar className="w-[40px] h-[40px]">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>                    <div className="flex flex-col  ml-1 mt-1 gap-1">
                       <CardTitle>John Doe</CardTitle>
                       <CardDescription>
                         <p>buymeacoffee.com/bdsadas</p>
@@ -201,8 +252,10 @@ export const Dashboard = () => {
 
               <div className="flex justify-between">
                 <div className="flex gap-1">
-                  <img className="w-10 h-10" src="Avatarcn.png" alt="" />
-                  <div className="flex flex-col  ml-1 mt-1 gap-1">
+                  <Avatar className="w-[40px] h-[40px]">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>                  <div className="flex flex-col  ml-1 mt-1 gap-1">
                     <CardTitle>John Doe</CardTitle>
                     <CardDescription>
                       <p>buymeacoffee.com/bdsadas</p>
@@ -217,8 +270,10 @@ export const Dashboard = () => {
 
               <div className="flex justify-between">
                 <div className="flex gap-1">
-                  <img className="w-10 h-10" src="AvatarImage.png" alt="" />
-                  <div className="flex flex-col  ml-1 mt-1 gap-1">
+                  <Avatar className="w-[40px] h-[40px]">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>                  <div className="flex flex-col  ml-1 mt-1 gap-1">
                     <CardTitle>John Doe</CardTitle>
                     <CardDescription>
                       <p>buymeacoffee.com/bdsadas</p>
@@ -234,8 +289,10 @@ export const Dashboard = () => {
               <div>
                 <div className="flex justify-between">
                   <div className="flex gap-1">
-                    <img className="w-10 h-10" src="Avatar.png" alt="" />
-                    <div className="flex flex-col  ml-1 mt-1 gap-1">
+                    <Avatar className="w-[40px] h-[40px]">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>                    <div className="flex flex-col  ml-1 mt-1 gap-1">
                       <CardTitle>John Doe</CardTitle>
                       <CardDescription>
                         <p>buymeacoffee.com/bdsadas</p>
@@ -258,8 +315,10 @@ export const Dashboard = () => {
               </div>
               <div className="flex justify-between">
                 <div className="flex gap-1">
-                  <img className="w-10 h-10" src="Avatarcn.png" alt="" />
-                  <div className="flex flex-col  ml-1 mt-1 gap-1">
+                  <Avatar className="w-[40px] h-[40px]">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>                  <div className="flex flex-col  ml-1 mt-1 gap-1">
                     <CardTitle>John Doe</CardTitle>
                     <CardDescription>
                       <p>buymeacoffee.com/bdsadas</p>
