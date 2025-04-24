@@ -11,35 +11,35 @@ export function Explore() {
     {
       id: 1,
       name: 'Space ranger',
-      avatar: '/api/placeholder/50/50',
+      avatar: '',
       about: 'All day, every day, we\'re watching, listening to, reading and absorbing politics. It\'s exhausting. We then report on what we\'ve seen in a way that\'s as chill as possible. None of the sensationalism and division you\'ll find elsewhere. It\'s about clarity.',
       socialUrl: 'https://buymeacoffee.com/baconpancakes1'
     },
     {
       id: 2,
       name: 'Purple monster',
-      avatar: '/api/placeholder/50/50',
+      avatar: '',
       about: 'Purple monster is for everyone. It handles all the painful experiences and helps people.',
       socialUrl: 'https://buymeacoffee.com/ifmonster23'
     },
     {
       id: 3,
       name: 'Alien Conspiracy',
-      avatar: '/api/placeholder/50/50',
+      avatar: '',
       about: 'Show your support ❤️and buy me a coffee! & keep project a live!',
       socialUrl: 'https://buymeacoffee.com/roooaaaamm'
     },
     {
       id: 4,
       name: 'Teams',
-      avatar: '/api/placeholder/50/50',
+      avatar: '',
       about: 'Joel 1:14 "Sanctify a fast, call a solemn assembly, gather the elders and all the inhabitants of the land. Cry out to the LORD."My purpose is clear: To seek God\'s face, every Thursday for all my Subscribers to align with His will, and to step into the destiny He has for us.',
       socialUrl: 'https://buymeacoffee.com/kaka0'
     },
     {
       id: 5,
       name: 'Dragons1',
-      avatar: '/api/placeholder/50/50',
+      avatar: '',
       about: 'Hello',
       socialUrl: 'https://buymeacoffee.com/dragons1'
     }
@@ -48,7 +48,7 @@ export function Explore() {
     creator.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div className='w-3/4'>
+    <div className='w-3/4 max-h-screen overflow-auto'>
       <div className="max-w-4xl mx-auto p-6 pt-[100px]">
         <h1 className="text-2xl font-bold mb-6">Explore creators</h1>
         <div className="relative mb-6">
