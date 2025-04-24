@@ -2,6 +2,10 @@ import express from "express";
 import { sql } from "./db";
 import cors from "cors";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -22,15 +26,15 @@ app.get('/users', async (_req, res) => {
 app.post('/users', async (req, res) => {
     const { username, email, password, profile_id, card_id } = req.body;
 
-    // const SALT_ROUND = 12;
-    // const salt = bcrypt.genSaltSync(SALT_ROUND);
-    // const hash = bcrypt.hashSync(password, salt);
+    const SALT_ROUND = 12;
+    const salt = bcrypt.genSaltSync(SALT_ROUND);
+    const hash = bcrypt.hashSync(password, salt);
 
     const newUser = await sql`
     INSERT INTO users
     (username, email, password, profile_id, card_id)
     VALUES
-     (${username}, ${email}, ${password}, ${profile_id}, ${card_id})
+     (${username}, ${email}, ${hash}, ${profile_id}, ${card_id})
     `
     res.json({ success: true, newUser })
     console.log("success true")
@@ -38,20 +42,25 @@ app.post('/users', async (req, res) => {
 
 app.post('/check', async (req, res) => {
 
-    const { email, password } = req.body;
-    const user_email = await sql`
-    SELECT email FROM users
-    WHERE email = ${email}
+    try {
+        const { email, password } = req.body;
+        const [user] = await sql`
+        SELECT email, password FROM users
+        WHERE email = ${email}
     `
-    if (user_email) {
-        const hash: any = await sql`
-        SELECT password FROM users
-        WHERE email = ${user_email}
-        `
-        const isCompare = bcrypt.compareSync(password, hash);
-        if (!isCompare) {
-            res.status(401).json({ success: false, message: "User or password is wrong." })
+        if (user) {
+            const isCompare = bcrypt.compareSync(password, user.password);
+            if (!isCompare) {
+                res.status(401).json({ success: false, message: "User or password is wrong." })
+            }
         }
+
+        const KEY: any = process.env.ACCESS_TOKEN_SECRET_KEY;
+        const token = jwt.sign({ user }, KEY, { expiresIn: '1h' });
+        res.status(200).json({ message: "Amjilttai nevterlee", token })
+    } catch (error) {
+        console.log(error);
+
     }
 })
 
