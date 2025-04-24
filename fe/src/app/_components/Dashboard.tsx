@@ -18,28 +18,28 @@ import { useEffect, useRef, useState } from "react";
 
 export const Dashboard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const limit = 200;
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState<any>([]);
+  const dropdownRef: any = useRef(null);
 
-  const toggleExpand = () => {
-    setIsExpanded((prev) => !prev);
-  };
-  const text =
+  const limit = 200;
+  const longMessage =
     "Thank you for being so awesome everyday! You always manage to brighten up my day when I’m feeling down. Although $1 isn’t that much money it’s all I can contribute at the moment. When I become successful I will be sure to buy you more gifts and donations. Thank you again. ";
 
-  const isLongText = text.length > limit;
+  const isLongText = longMessage.length > limit;
   const displayText =
-    isExpanded || !isLongText ? text : text.slice(0, limit) + "...";
+    isExpanded || !isLongText
+      ? longMessage
+      : longMessage.slice(0, limit) + "...";
 
-  const options: any = [
+  const toggleExpand = () => setIsExpanded((prev) => !prev);
+
+  const options = [
     { label: "$1", value: "1" },
     { label: "$2", value: "2" },
     { label: "$5", value: "5" },
     { label: "$10", value: "10" },
   ];
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<any>([]);
-  const dropdownRef: any = useRef(null);
 
   const toggleOption = (value: any) => {
     setSelected((prev: any) =>
@@ -59,6 +59,56 @@ export const Dashboard = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const data = [
+    {
+      avatar: "Avatarcn.png",
+      name: "Guest",
+      profile: "instagram.com/welesey",
+      amount: "$1",
+      time: "10 hours ago",
+      message:
+        "Thank you for being so awesome everyday! You always manage to brighten up my day when I’m feeling down. Although $1 isn’t that much money it’s all I can contribute at the moment ",
+    },
+    {
+      avatar: "AvatarImage.png",
+      name: "John Doe",
+      profile: "buymeacoffee.com/bdsadas",
+      amount: "$10",
+      time: "10 hours ago",
+      message: "Thank you for being so awesome everyday!",
+    },
+    {
+      avatar: "Avatarcn.png",
+      name: "John Doe",
+      profile: "buymeacoffee.com/bdsadas",
+      amount: "$2",
+      time: "10 hours ago",
+    },
+    {
+      avatar: "AvatarImage.png",
+      name: "John Doe",
+      profile: "buymeacoffee.com/bdsadas",
+      amount: "$5",
+      time: "10 hours ago",
+    },
+    {
+      avatar: "Avatar.png",
+      name: "John Doe",
+      profile: "buymeacoffee.com/bdsadas",
+      amount: "$10",
+      time: "10 hours ago",
+      message: longMessage,
+      isExpandable: true,
+    },
+    {
+      avatar: "Avatarcn.png",
+      name: "John Doe",
+      profile: "buymeacoffee.com/bdsadas",
+      amount: "$2",
+      time: "10 hours ago",
+    },
+  ];
 
   return (
     <div className="w-3/4 max-h-screen overflow-auto">
@@ -93,24 +143,28 @@ export const Dashboard = () => {
                   </button>
                 </div>
               </div>
-              <Separator className="m-7" />
-              <div>
-                <div className="flex gap-4">
-                  <h4 className="mt-1">Earnings</h4>
-                  <Select>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Last 30 days" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="light">Last 30 days</SelectItem>
-                      <SelectItem value="dark">Last 90 days</SelectItem>
-                      <SelectItem value="system">All times</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <h1 className="font-bold text-4xl mt-4">$450</h1>
-              </div>
+              <button className="w-[159px] h-[40px] bg-black text-white rounded-lg">
+                <p>
+                  <img className="inline-block mr-3" src="copy.png" alt="" />
+                  Share page link
+                </p>
+              </button>
             </div>
+            <Separator className="m-7" />
+            <div className="flex gap-4">
+              <h4 className="mt-1">Earnings</h4>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Last 30 days" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="30">Last 30 days</SelectItem>
+                  <SelectItem value="90">Last 90 days</SelectItem>
+                  <SelectItem value="all">All time</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <h1 className="font-bold text-4xl mt-4">$450</h1>
           </CardHeader>
         </Card>
       </div>
@@ -128,20 +182,19 @@ export const Dashboard = () => {
                 ? selected.map((val: any) => `$${val}`).join(", ")
                 : "Amount"}
             </button>
-
             {isOpen && (
               <div
                 className="absolute z-10 mt-1 w-full border rounded bg-white shadow"
                 ref={dropdownRef}
               >
-                {options.map((option: any) => (
+                {options.map((option) => (
                   <label
                     key={option.value}
                     className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   >
                     <input
                       type="checkbox"
-                      checked={(selected || []).includes(option.value)}
+                      checked={selected.includes(option.value)}
                       onChange={() => toggleOption(option.value)}
                       className="mr-2"
                     />
@@ -152,6 +205,7 @@ export const Dashboard = () => {
             )}
           </div>
         </div>
+
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-[12px] p-3">
