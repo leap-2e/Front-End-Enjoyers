@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
+<<<<<<< HEAD
     "@radix-ui/react-avatar": "^1.1.6",
     "@radix-ui/react-dialog": "^1.1.10",
     "@radix-ui/react-label": "^2.1.4",
@@ -19,6 +20,14 @@
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
+=======
+    "@radix-ui/react-accordion": "^1.2.7",
+    "@radix-ui/react-avatar": "^1.1.6",
+    "@radix-ui/react-label": "^2.1.4",
+    "@radix-ui/react-select": "^2.2.2",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-tabs": "^1.1.8",
+>>>>>>> aa02d25 (account setting)
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.503.0",
