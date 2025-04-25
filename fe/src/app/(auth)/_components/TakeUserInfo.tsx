@@ -18,6 +18,7 @@ import { BASE_URL } from '@/constants'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid';
+import Link from 'next/link'
 
 type ValueType = {
     email: string,
@@ -25,7 +26,6 @@ type ValueType = {
 };
 
 const TakeUserInfo = () => {
-    const router = useRouter();
 
     const formSchema = z.object({
         email: z.string().email(),
@@ -43,17 +43,9 @@ const TakeUserInfo = () => {
     });
 
     const username = localStorage.getItem("username");
+    const id = uuidv4();
     const onSubmit = async (value: ValueType) => {
-
-        const profile_id = uuidv4();
-        const card_id = uuidv4();
-
-        const createUser = await axios.post(`${BASE_URL}/users`, { username: username, email: value.email, password: value.password, profile_id: profile_id, card_id: card_id });
-        localStorage.setItem("profile_id", profile_id);
-        localStorage.setItem("card_id", card_id);
-
-        router.push('/create-profile')
-
+        const user = await axios.post(`${BASE_URL}/users`, { id: id, username: username, email: value.email, password: value.password });
     }
     return (
         <div className="w-1/2 space-y-6">
@@ -91,7 +83,7 @@ const TakeUserInfo = () => {
 
                             )}
                         />
-                        <Button type="submit" className="w-full mt-3">Continue</Button>
+                        <Link href={`/create-profile/${id}`} ><Button type="submit" className="w-full mt-3">Continue</Button></Link>
                     </form>
                 </Form>
             </div>

@@ -24,7 +24,7 @@ app.get('/users', async (_req, res) => {
 })
 
 app.post('/users', async (req, res) => {
-    const { username, email, password, profile_id, card_id } = req.body;
+    const { id, username, email, password } = req.body;
 
     const SALT_ROUND = 12;
     const salt = bcrypt.genSaltSync(SALT_ROUND);
@@ -32,9 +32,9 @@ app.post('/users', async (req, res) => {
 
     const newUser = await sql`
     INSERT INTO users
-    (username, email, password, profile_id, card_id)
+    (id, username, email, password)
     VALUES
-     (${username}, ${email}, ${hash}, ${profile_id}, ${card_id})
+     (${id}, ${username}, ${email}, ${hash})
     `
     res.json({ success: true, newUser })
     console.log("success true")

@@ -31,7 +31,6 @@ const CreatePaymentInfo = () => {
 
     const router = useRouter();
     const params = useParams();
-    console.log(params)
 
     const formSchema = z.object({
         country: z.string(),
@@ -224,4 +223,4 @@ const CreatePaymentInfo = () => {
     )
 }
 
-export { CreatePaymentInfo }
+export default CreatePaymentInfo 
