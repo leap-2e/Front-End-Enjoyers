@@ -49,8 +49,7 @@ const TakeUserName = ({ currentStep, setCurrentStep }) => {
 
   const onSubmit = async (value: ValueType) => {
 
-    const getUsers = await axios.get(`${BASE_URL}/users`);
-    console.log()
+    const getUsers = await axios.get(`${BASE_URL}/users`);;
 
     const data = getUsers.data.users.map((d: UserType) => (d.username));
     if (data.includes(value.userName)) {
