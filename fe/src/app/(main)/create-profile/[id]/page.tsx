@@ -32,7 +32,7 @@ import Link from "next/link"
 const CreateProfileInfo = () => {
 
     const params = useParams();
-    const router = useRouter();
+    // const router = useRouter();
 
     const formSchema = z.object({
         photo: z.string(),
@@ -58,7 +58,7 @@ const CreateProfileInfo = () => {
     const onSubmit = async (value) => {
         const user_id = params.id;
         const profile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id });
-        router.push(`bank-card/${user_id}`)
+        // router.push(`bank-card/${user_id}`)
     }
 
     return (
@@ -131,8 +131,8 @@ const CreateProfileInfo = () => {
                             )}
                         />
                         <div className="w-full flex justify-end mt-5">
-                            {/* <Link href={`bank-card/${params.id}`}><Button type="submit" className="w-1/2">Continue</Button></Link> */}
-                            <Button type="submit" className="w-1/2">Continue</Button>
+                            <Link href={`/bank-card/${params.id}`}><Button type="submit" className="w-1/2">Continue</Button></Link>
+                            {/* <Button type="submit" className="w-1/2">Continue</Button> */}
                         </div>
                     </form>
                 </Form>
