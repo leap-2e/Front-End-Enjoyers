@@ -60,8 +60,7 @@ const CreatePaymentInfo = () => {
     });
 
     const onSubmit = async (value) => {
-        
-        const cardInfo = await axios.post(`${BASE_URL}/cards`, { id: uuidv4(), country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id });
+         const cardInfo = await axios.post(`${BASE_URL}/cards`, { id: uuidv4(), country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id });
         toast("Amjilttai burtgegdlee")
         router.push("/dashboard")
     }

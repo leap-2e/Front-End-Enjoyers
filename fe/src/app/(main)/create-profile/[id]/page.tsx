@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea"
 import axios from "axios"
 import { BASE_URL } from "@/constants"
 import { v4 as uuidv4 } from 'uuid';
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import Link from "next/link"
 
 // type ValueType = {
@@ -32,7 +32,6 @@ import Link from "next/link"
 const CreateProfileInfo = () => {
 
     const params = useParams();
-    // const router = useRouter();
 
     const formSchema = z.object({
         photo: z.string(),
@@ -58,7 +57,6 @@ const CreateProfileInfo = () => {
     const onSubmit = async (value) => {
         const user_id = params.id;
         const profile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id });
-        // router.push(`bank-card/${user_id}`)
     }
 
     return (
@@ -131,8 +129,7 @@ const CreateProfileInfo = () => {
                             )}
                         />
                         <div className="w-full flex justify-end mt-5">
-                            <Link href={`/bank-card/${params.id}`}><Button type="submit" className="w-1/2">Continue</Button></Link>
-                            {/* <Button type="submit" className="w-1/2">Continue</Button> */}
+                            <Link href={`/bank-card/${params.id}`} className="w-1/2"><Button type="submit" className="w-full">Continue</Button></Link>
                         </div>
                     </form>
                 </Form>
