@@ -31,7 +31,6 @@ const CreatePaymentInfo = () => {
 
     const router = useRouter();
     const params = useParams();
-    console.log(params)
 
     const formSchema = z.object({
         country: z.string(),
@@ -62,7 +61,7 @@ const CreatePaymentInfo = () => {
 
     const onSubmit = async (value) => {
         
-        const cardInfo = await axios.post(`${BASE_URL}/cards`, { id: uuidv4(), country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: });
+        const cardInfo = await axios.post(`${BASE_URL}/cards`, { id: uuidv4(), country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id });
         toast("Amjilttai burtgegdlee")
         router.push("/dashboard")
     }
@@ -224,4 +223,4 @@ const CreatePaymentInfo = () => {
     )
 }
 
-export { CreatePaymentInfo }
+export default CreatePaymentInfo 

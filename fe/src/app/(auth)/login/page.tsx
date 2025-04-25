@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Coffee } from 'lucide-react'
-import React from 'react'
+import React, { useReducer } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -20,8 +20,12 @@ import Link from 'next/link'
 import axios from 'axios'
 import { BASE_URL } from '@/constants'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const Login = () => {
+
+  const router = useRouter();
+
   const formSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8, {
@@ -39,9 +43,8 @@ const Login = () => {
 
   const onSubmit = async(value) => {
   const user = await axios.post(`${BASE_URL}/check`, {email: value.email, password: value.password}); 
-
   if(user) {
-    toast("User successfully login")
+    router.push("/dashboard")
   }
   }
 
