@@ -19,7 +19,7 @@ import { BASE_URL } from "@/constants"
 import { v4 as uuidv4 } from 'uuid';
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 // type ValueType = {
 //     id: string, 
@@ -30,10 +30,26 @@ import { useRouter } from "next/navigation"
 //     social_media: string,
 // }
 
-const CreateProfileInfo = () => {
+const UpdateProfileInfo = () => {
 
     const params = useParams();
-    const router = useRouter();
+    const [currentProfile, setCurrentProfile] = useState();
+    const [profileId, setProfileId] = useState("");
+
+    const getPrevInfo = async () => {
+        const prev = await axios.get(`${BASE_URL}/profiles`);
+        const profile = prev.data.profiles.map((profile) => profile).filter((pro) => {
+            if (pro.user_id === params.id) {
+                return pro
+            }
+        });
+        setCurrentProfile(profile[0]);
+        setProfileId(profile[0].id);
+    };
+
+    useEffect(() => {
+        getPrevInfo();
+    }, [params.id]);
 
     const formSchema = z.object({
         photo: z.string(),
@@ -45,27 +61,27 @@ const CreateProfileInfo = () => {
         }),
         social_media: z.string(),
     });
-
+   
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
+        values: {
             photo: "",
-            name: "",
-            about: "",
-            social_media: "",
-        },
+            name: `${currentProfile?.name ?? ""}`,
+            about: `${currentProfile?.about ?? ""}`,
+            social_media: `${currentProfile?.social_media_url ?? ""}`,
+        }
     });
 
-    const user_id = params.id;
     const onSubmit = async (value) => {
-        const profile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id: params.id });
-        router.push(`/bank-card/${user_id}`)
+        const profile = await axios.put(`${BASE_URL}/profiles`, { id: profileId, name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id: params.id });
     }
 
+
+
     return (
-        <div className="space-y-6 w-1/3  place-self-center my-70">
+        <div className="space-y-6">
             <h1 className="text-2xl font-semibold">
-                Complete your profile page
+                Personal info
             </h1>
             <div>
                 <Form {...form}>
@@ -132,15 +148,13 @@ const CreateProfileInfo = () => {
                             )}
                         />
                         <div className="w-full flex justify-end mt-5">
-                            <Button type="submit" className="w-full">Continue</Button>
+                            <Button type="submit" className="w-full">Save changes</Button>
                         </div>
                     </form>
                 </Form>
-
-
             </div>
         </div>
     )
 }
 
-export default CreateProfileInfo 
+export default UpdateProfileInfo 

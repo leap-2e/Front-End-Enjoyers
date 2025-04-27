@@ -50,13 +50,13 @@ const TakeUserName = ({ currentStep, setCurrentStep }) => {
   const onSubmit = async (value: ValueType) => {
 
     const getUsers = await axios.get(`${BASE_URL}/users`);
-    console.log()
 
     const data = getUsers.data.users.map((d: UserType) => (d.username));
     if (data.includes(value.userName)) {
-     console.log("Username taken")
+      toast("Username taken")
+     console.log("Username taken");
     } else {
-      console.log("Success");
+      console.log("Username success");
       localStorage.setItem("username", value.userName);
       setCurrentStep(currentStep + 1);
     }
