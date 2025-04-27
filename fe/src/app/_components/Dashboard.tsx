@@ -68,7 +68,7 @@ export const Dashboard = () => {
             <div className="">
               <div className="flex justify-between">
                 <div className="flex  gap-1">
-                  <img className="w-12 h-12" src="AvatarImage.png" alt="" />
+                  <img className="w-12 h-12" src="https://github.com/shadcn.png" alt="" />
                   <div className="flex flex-col  ml-2 mt-2 gap-1">
                     <CardTitle>Jake </CardTitle>
                     <CardDescription>
@@ -154,7 +154,7 @@ export const Dashboard = () => {
               <div>
                 <div className="flex justify-between">
                   <div className="flex gap-1">
-                    <img className="w-10 h-10" src="Avatarcn.png" alt="" />
+                    <img className="w-10 h-10" src="https://github.com/shadcn.png" alt="" />
                     <div className="flex flex-col  ml-1 mt-1 gap-1">
                       <CardTitle>Guest</CardTitle>
                       <CardDescription>
@@ -179,7 +179,7 @@ export const Dashboard = () => {
               <div>
                 <div className="flex justify-between">
                   <div className="flex gap-1">
-                    <img className="w-10 h-10" src="AvatarImage.png" alt="" />
+                    <img className="w-10 h-10" src="https://github.com/shadcn.png" alt="" />
                     <div className="flex flex-col  ml-1 mt-1 gap-1">
                       <CardTitle>John Doe</CardTitle>
                       <CardDescription>
@@ -201,7 +201,7 @@ export const Dashboard = () => {
 
               <div className="flex justify-between">
                 <div className="flex gap-1">
-                  <img className="w-10 h-10" src="Avatarcn.png" alt="" />
+                  <img className="w-10 h-10" src="https://github.com/shadcn.png" alt="" />
                   <div className="flex flex-col  ml-1 mt-1 gap-1">
                     <CardTitle>John Doe</CardTitle>
                     <CardDescription>
@@ -217,7 +217,7 @@ export const Dashboard = () => {
 
               <div className="flex justify-between">
                 <div className="flex gap-1">
-                  <img className="w-10 h-10" src="AvatarImage.png" alt="" />
+                  <img className="w-10 h-10" src="https://github.com/shadcn.png" alt="" />
                   <div className="flex flex-col  ml-1 mt-1 gap-1">
                     <CardTitle>John Doe</CardTitle>
                     <CardDescription>
@@ -234,7 +234,7 @@ export const Dashboard = () => {
               <div>
                 <div className="flex justify-between">
                   <div className="flex gap-1">
-                    <img className="w-10 h-10" src="Avatar.png" alt="" />
+                    <img className="w-10 h-10" src="https://github.com/shadcn.png" alt="" />
                     <div className="flex flex-col  ml-1 mt-1 gap-1">
                       <CardTitle>John Doe</CardTitle>
                       <CardDescription>
@@ -258,7 +258,7 @@ export const Dashboard = () => {
               </div>
               <div className="flex justify-between">
                 <div className="flex gap-1">
-                  <img className="w-10 h-10" src="Avatarcn.png" alt="" />
+                  <img className="w-10 h-10" src="https://github.com/shadcn.png" alt="" />
                   <div className="flex flex-col  ml-1 mt-1 gap-1">
                     <CardTitle>John Doe</CardTitle>
                     <CardDescription>

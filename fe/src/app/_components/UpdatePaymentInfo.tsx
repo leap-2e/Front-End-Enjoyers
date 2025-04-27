@@ -24,13 +24,28 @@ import { Input } from "@/components/ui/input"
 import { BASE_URL, countries, months, years } from "@/constants"
 import { v4 as uuidv4 } from 'uuid';
 import axios from "axios"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import { toast } from "sonner"
+import { useEffect, useState } from "react"
 
-const CreatePaymentInfo = () => {
+const UpdatePaymentInfo = () => {
 
-    const router = useRouter();
+    const [cardInfo, setCardInfo] = useState();
+    const [cardId, setCardId] = useState();
+
     const params = useParams();
+
+    const getCards = async () => {
+        const cards = await axios.get(`${BASE_URL}/cards`);
+        const card = cards.data.cards.filter((card) => (card.user_id === params.id))
+        setCardInfo(card[0]);
+        setCardId(card[0].id)
+    }
+    useEffect(() => {
+        getCards();
+    }, [params.id])
+    console.log(cardInfo, "cardInfo")
+
 
     const formSchema = z.object({
         country: z.string(),
@@ -48,29 +63,28 @@ const CreatePaymentInfo = () => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            country: "",
-            firstName: "",
-            lastName: "",
-            cardNumber: "",
-            expires: "",
-            year: "",
-            cvv: "",
+        values: {
+            country: `${cardInfo?.country ?? ""}`,
+            firstName: `${cardInfo?.first_name ?? ""}`,
+            lastName: `${cardInfo?.last_name ?? ""}`,
+            cardNumber: `${cardInfo?.card_number ?? ""}`,
+            expires: `${cardInfo?.expiry_month ?? ""}`,
+            year: `${cardInfo?.expiry_year ?? ""}`,
+            cvv: `${cardInfo?.cvv ?? ""}`,
         },
     });
 
     const onSubmit = async (value) => {
-         const cardInfo = await axios.post(`${BASE_URL}/cards`, { id: uuidv4(), country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id });
+         const cardInfo = await axios.put(`${BASE_URL}/cards`, { id: cardId, country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id});
          
-        toast("Amjilttai burtgegdlee")
-        router.push("/dashboard")
+        toast("Amjilttai shinechlegdlee")
     }
 
     return (
-        <div className="w-1/3 place-self-center my-70 space-y-6">
+        <div className="space-y-6">
             <div>
                 <h1 className="text-2xl font-semibold">
-                    How would you like to paid
+                    Payment details
                 </h1>
                 <p className="text-muted-foreground">
                     Enter your location and payment details
@@ -203,7 +217,7 @@ const CreatePaymentInfo = () => {
                                     <FormItem>
                                         <FormLabel>CVV</FormLabel>
                                         <FormControl>
-                                            <Input {...field} placeholder="CVV" type="number"/>
+                                            <Input {...field} placeholder="CVV" type="number" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -212,7 +226,7 @@ const CreatePaymentInfo = () => {
                             />
                         </div>
                         <div className="w-full flex justify-end mt-5">
-                            <Button type="submit" className="w-1/2">Continue</Button>
+                            <Button type="submit" className="w-full">Save changes</Button>
                         </div>
                     </form>
                 </Form>
@@ -223,4 +237,4 @@ const CreatePaymentInfo = () => {
     )
 }
 
-export default CreatePaymentInfo 
+export default UpdatePaymentInfo 

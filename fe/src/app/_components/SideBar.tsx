@@ -1,7 +1,30 @@
+"use client"
+
+import { BASE_URL } from "@/constants";
+import axios from "axios";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function SideBarComponent() {
+
+    const [userId, setUserId] =  useState();
+    const username = localStorage.getItem("username");
+
+    const getId = async () => {
+        const users = await axios.get(`${BASE_URL}/users`);
+        const user = users.data.users.filter((user) => {
+            if(username === user.username) {
+                return user
+            }
+        });   
+        setUserId(user[0].id)    ;
+    }
+
+    useEffect(() => {
+        getId();
+    }, []);
+
     return (
         <div className="min-w-[260px] max-w-[300px] h-screen">
             <nav className="mt-[100px]">
@@ -25,7 +48,7 @@ export function SideBarComponent() {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/settings">
+                        <Link href={`/settings/${userId}`}>
                             <span className="block p-2 rounded hover:bg-[#F4F4F5]">Account settings</span>
                         </Link>
                     </li>

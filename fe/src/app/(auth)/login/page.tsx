@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Coffee } from 'lucide-react'
-import React, { useReducer } from 'react'
+import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -41,11 +41,19 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async(value) => {
-  const user = await axios.post(`${BASE_URL}/check`, {email: value.email, password: value.password}); 
-  if(user) {
-    router.push("/dashboard")
-  }
+  const onSubmit = async (value) => {
+    const user = await axios.post(`${BASE_URL}/auth/check`, { email: value.email, password: value.password });
+    
+    if (!user) {
+      toast("Amjiltui oroldlogo")
+    }
+
+    const getUsers = await axios.get(`${BASE_URL}/users`);
+    const getUser = getUsers.data.users.filter((user) => (user.email === value.email));
+    localStorage.setItem("username", getUser[0].username);
+    
+    router.push("/dashboard");
+
   }
 
   return (
@@ -57,7 +65,7 @@ const Login = () => {
             <p className="text-black font-bold">Buy Me Coffee</p>
           </div>
           <div>
-           <Link href="signup"><Button variant="secondary" className='bg-secondary'>Sign up</Button></Link>
+            <Link href="signup"><Button variant="secondary" className='bg-secondary'>Sign up</Button></Link>
           </div>
         </div>
       </div>
@@ -66,7 +74,7 @@ const Login = () => {
         <div className="w-1/2 h-screen flex items-center justify-center">
           <div className="w-1/2 space-y-6">
             <h1 className="text-2xl font-semibold">
-             Welcome back
+              Welcome back
             </h1>
             <div>
               <Form {...form}>
@@ -99,7 +107,7 @@ const Login = () => {
 
                     )}
                   />
-                    <Button type="submit" className="w-full mt-3">Continue</Button>
+                  <Button type="submit" className="w-full mt-3">Continue</Button>
                 </form>
               </Form>
             </div>

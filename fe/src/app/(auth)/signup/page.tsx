@@ -7,7 +7,6 @@ import { RightSide } from '../_components/RightSide'
 import Link from 'next/link'
 import { TakeUserName } from '../_components/TakeUserName'
 import { TakeUserInfo } from '../_components/TakeUserInfo'
-import { set } from 'react-hook-form'
 
 const SignUp = () => {
   const [currentStep, setCurrentStep] = useState(0);
