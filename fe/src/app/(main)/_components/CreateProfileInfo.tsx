@@ -17,19 +17,20 @@ import { Textarea } from "@/components/ui/textarea"
 import axios from "axios"
 import { BASE_URL } from "@/constants"
 import { v4 as uuidv4 } from 'uuid';
+import { useParams } from "next/navigation"
 
-// type ValueType = {
-//     id: string, 
-//     name: string, 
-//     about: string, 
-//     avatar_image: string, 
-//     photo: string,
-//     social_media: string,
-// }
+type ValueType = {
+    name: string,
+    about: string,
+    avatar_image: string,
+    social_media: string,
+}
 
-const CreateProfileInfo = ({ currentStep, setCurrentStep }: {currentStep: number, setCurrentStep: (val: number) => void}) => {
+const CreateProfileInfo = ({ currentStep, setCurrentStep }: { currentStep: number, setCurrentStep: (val: number) => void }) => {
+    const params = useParams();
+
     const formSchema = z.object({
-        photo: z.string(),
+        avatar_image: z.string(),
         name: z.string().min(2, {
             message: "Name must be at least 2 characters.",
         }),
@@ -42,16 +43,15 @@ const CreateProfileInfo = ({ currentStep, setCurrentStep }: {currentStep: number
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            photo: "",
+            avatar_image: "",
             name: "",
             about: "",
             social_media: "",
         },
     });
 
-    const onSubmit = async (value) => {
-        const user_id = params;
-        const newProfile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id })
+    const onSubmit = async (value: ValueType) => {
+        const newProfile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: value.avatar_image, social_media_url: value.social_media, user_id: params.id })
         setCurrentStep(currentStep + 1)
     }
 
@@ -65,17 +65,17 @@ const CreateProfileInfo = ({ currentStep, setCurrentStep }: {currentStep: number
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                         <FormField
                             control={form.control}
-                            name="photo"
+                            name="avatar_image"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel htmlFor="photo">
+                                    <FormLabel htmlFor="avatar_image">
                                         <div className="flex flex-col space-y-3">
                                             <p>Add photo</p>
                                             <div className="border border-dashed rounded-full w-40 h-40"></div>
                                         </div>
                                     </FormLabel>
                                     <FormControl className="hidden">
-                                        <Input id="photo" type="file" placeholder="shadcn" {...field} />
+                                        <Input id="avatar_image" type="file" placeholder="shadcn" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

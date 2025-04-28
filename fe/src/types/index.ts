@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export type UserType = {
+    username: string,
     email: string,
     password: string,
 }

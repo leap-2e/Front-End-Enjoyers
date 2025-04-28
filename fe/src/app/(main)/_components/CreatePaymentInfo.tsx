@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -26,22 +25,22 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from "axios"
 import { useParams, useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { CardType } from "@/types"
 
 const CreatePaymentInfo = () => {
 
     const router = useRouter();
     const params = useParams();
-    console.log(params)
 
     const formSchema = z.object({
         country: z.string(),
-        firstName: z.string(),
-        lastName: z.string(),
-        cardNumber: z.string().length(12, {
+        first_name: z.string(),
+        last_name: z.string(),
+        card_number: z.string().length(12, {
             message: "Card number must be exactly 12 characters long"
         }),
-        expires: z.string(),
-        year: z.string(),
+        expiry_month: z.string(),
+        expiry_year: z.string(),
         cvv: z.string().length(3, {
             message: "CVV must be exactly 3 characters long"
         }),
@@ -51,18 +50,18 @@ const CreatePaymentInfo = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             country: "",
-            firstName: "",
-            lastName: "",
-            cardNumber: "",
-            expires: "",
-            year: "",
+            first_name: "",
+            last_name: "",
+            card_number: "",
+            expiry_month: "",
+            expiry_year: "",
             cvv: "",
         },
     });
 
-    const onSubmit = async (value) => {
+    const onSubmit = async (value: CardType) => {
         
-        const cardInfo = await axios.post(`${BASE_URL}/cards`, { id: uuidv4(), country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: });
+        const cardInfo = await axios.post(`${BASE_URL}/cards`, { id: uuidv4(), country: value.country, first_name: value.first_name, last_name: value.last_name, card_number: value.card_number, expiry_year: value.expiry_year, expiry_month: value.expiry_month, cvv: value.cvv, user_id: params.id});
         toast("Amjilttai burtgegdlee")
         router.push("/dashboard")
     }
@@ -107,7 +106,7 @@ const CreatePaymentInfo = () => {
                         <div className="grid grid-cols-2 gap-3">
                             <FormField
                                 control={form.control}
-                                name="firstName"
+                                name="first_name"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>First name</FormLabel>
@@ -121,7 +120,7 @@ const CreatePaymentInfo = () => {
                             />
                             <FormField
                                 control={form.control}
-                                name="lastName"
+                                name="last_name"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Last name</FormLabel>
@@ -136,7 +135,7 @@ const CreatePaymentInfo = () => {
                         </div>
                         <FormField
                             control={form.control}
-                            name="cardNumber"
+                            name="card_number"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Enter your card number</FormLabel>
@@ -151,7 +150,7 @@ const CreatePaymentInfo = () => {
                         <div className="grid grid-cols-3 gap-3">
                             <FormField
                                 control={form.control}
-                                name="expires"
+                                name="expiry_month"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Expires</FormLabel>
@@ -175,7 +174,7 @@ const CreatePaymentInfo = () => {
                             />
                             <FormField
                                 control={form.control}
-                                name="year"
+                                name="expiry_year"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Year</FormLabel>

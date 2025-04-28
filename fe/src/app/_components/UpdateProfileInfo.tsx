@@ -28,6 +28,9 @@ type ValueType = {
     social_media: string,
 }
 
+type ProfileType = {
+    user_id: string,
+}
 const UpdateProfileInfo = () => {
 
     const params = useParams();
@@ -36,7 +39,7 @@ const UpdateProfileInfo = () => {
 
     const getPrevInfo = async () => {
         const prev = await axios.get(`${BASE_URL}/profiles`);
-        const profile = prev.data.profiles.map((profile) => profile).filter((pro) => {
+        const profile = prev.data.profiles.map((profile) => profile).filter((pro:  ProfileType) => {
             if (pro.user_id === params.id) {
                 return pro
             }
