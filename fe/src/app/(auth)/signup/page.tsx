@@ -9,7 +9,7 @@ import { TakeUserName } from '../_components/TakeUserName'
 import { TakeUserInfo } from '../_components/TakeUserInfo'
 
 const SignUp = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const steps = [TakeUserName, TakeUserInfo];
   const Components = steps[currentStep];
 

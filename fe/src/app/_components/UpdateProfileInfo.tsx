@@ -20,15 +20,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { Label } from "@radix-ui/react-label"
 
-// type ValueType = {
-//     id: string, 
-//     name: string, 
-//     about: string, 
-//     avatar_image: string, 
-//     photo: string,
-//     social_media: string,
-// }
+type ValueType = {
+    name: string, 
+    about: string, 
+    social_media: string,
+}
 
 const UpdateProfileInfo = () => {
 
@@ -70,7 +68,11 @@ const UpdateProfileInfo = () => {
         }
     });
 
-    const onSubmit = async (value) => {
+    const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value)
+    }
+
+    const onSubmit = async (value: ValueType) => {
         const profile = await axios.put(`${BASE_URL}/profiles`, { id: profileId, name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id: params.id });
     }
 
@@ -82,6 +84,14 @@ const UpdateProfileInfo = () => {
                 Personal info
             </h1>
             <div>
+                <div>
+                    <Label htmlFor="avatar_image">
+                        <p>Add photo</p>
+                        {currentProfile?.avatar_image ? <img src={currentProfile?.avatar_image} className="w-40 h-40 rounded-full" />
+                        : <div className="w-40 h-40 rounded-full border border-dashed"></div>}
+                    </Label>
+                    <input id="avatar_image" className="hidden" type="file" onChange={handleImage}></input>
+                </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                         {/* <FormField

@@ -33,7 +33,7 @@ type UserType = {
   username: string,
 }
 
-const TakeUserName = ({ currentStep, setCurrentStep }) => {
+const TakeUserName = ({ currentStep, setCurrentStep }: {currentStep: number; setCurrentStep: (val: number) => void}) => {
   const formSchema = z.object({
     userName: z.string().min(6, {
       message: "User name must be at least 6 characters.",

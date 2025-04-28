@@ -26,9 +26,38 @@ import { useParams } from "next/navigation"
 import { toast } from "sonner"
 import { useEffect, useState } from "react"
 
+const bankCardSchema = z.object({
+    country: z.string(),
+    first_name: z.string(),
+    last_name: z.string(),
+    card_number: z.string().length(12, {
+        message: "Card number must be exactly 12 characters long"
+    }),
+    expiry_month: z.string(),
+    expiry_year: z.string(),
+    cvv: z.string().length(3, {
+        message: "CVV must be exactly 3 characters long"
+    }),
+});
+
+type BankCard = z.infer<typeof bankCardSchema>;
+
+const bankCardUpdateSchema = bankCardSchema.pick({
+    country: true,
+    first_name: true,
+    last_name: true,
+    card_number: true,
+    expiry_month: true,
+    expiry_year: true,
+    cvv: true,
+})
+
+type BankCardUpdate = z.infer<typeof bankCardUpdateSchema>;
+
+
 const UpdatePaymentInfo = () => {
 
-    const [cardInfo, setCardInfo] = useState();
+    const [cardInfo, setCardInfo] = useState<BankCardUpdate>();
     const [cardId, setCardId] = useState();
 
     const params = useParams();
@@ -73,8 +102,8 @@ const UpdatePaymentInfo = () => {
     });
 
     const onSubmit = async (value) => {
-         const cardInfo = await axios.put(`${BASE_URL}/cards`, { id: cardId, country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id});
-         
+        const cardInfo = await axios.put(`${BASE_URL}/cards`, { id: cardId, country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id });
+
         toast("Amjilttai shinechlegdlee")
     }
 
