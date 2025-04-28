@@ -18,13 +18,13 @@ export const register = async (req: Request, res: Response) => {
      (${id}, ${username}, ${email}, ${hash})
     `
     res.status(200).json({ success: true, newUser })
-    console.log("User successfully registered")
+    // console.log("User successfully registered")
 }
 
 export const login = async (req: Request, res: Response) => {
 
     try {
-        console.log(req.body)
+        // console.log(req.body)
         const { email, password } = req.body;
         const [user] = await sql`
         SELECT username, email, password FROM users
@@ -33,7 +33,8 @@ export const login = async (req: Request, res: Response) => {
         if (user) {
             const isCompare = bcrypt.compareSync(password, user.password);
             if (!isCompare) {
-                res.status(401).json({ success: false, message: "User or password is wrong." })
+                res.status(401).json({ success: false, message: "User or password is wrong." });
+                console.log("User or password is wrong")
             }
         } else {
             res.status(404).json({ success: false, message: "User not found" })
