@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -18,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import axios from "axios"
 import { BASE_URL } from "@/constants"
+import { NewPasswordType, UserType } from "@/types"
 
 const UpdatePassword = () => {
 
@@ -38,13 +38,13 @@ const UpdatePassword = () => {
         },
     });
 
-    const onSubmit = async (value) => {
+    const onSubmit = async (value: NewPasswordType) => {
         if(value.confirmPassword !== value.newPassword) {
             console.log("Password not match")
         } else {
             const username = localStorage.getItem("username");
             const getUsers = await axios.get(`${BASE_URL}/users`);
-            const getEmail = getUsers.data.users.filter((user) => (user.username === username));
+            const getEmail = getUsers.data.users.filter((user: UserType) => (user.username === username));
             const email = getEmail[0].email;
 
             const setNewPassword = await axios.put(`${BASE_URL}/users/new-password`, { email: email, password: value.newPassword});

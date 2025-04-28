@@ -1,6 +1,7 @@
 "use client"
 
 import { BASE_URL } from "@/constants";
+import { UserType } from "@/types";
 import axios from "axios";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
@@ -11,9 +12,11 @@ export function SideBarComponent() {
     const [userId, setUserId] =  useState();
     const username = localStorage.getItem("username");
 
+    
+
     const getId = async () => {
         const users = await axios.get(`${BASE_URL}/users`);
-        const user = users.data.users.filter((user) => {
+        const user = users.data.users.filter((user: UserType) => {
             if(username === user.username) {
                 return user
             }
