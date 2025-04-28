@@ -52,7 +52,6 @@ const UpdateProfileInfo = () => {
     }, [params.id]);
 
     const formSchema = z.object({
-        photo: z.string(),
         name: z.string().min(2, {
             message: "Name must be at least 2 characters.",
         }),
@@ -65,7 +64,6 @@ const UpdateProfileInfo = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         values: {
-            photo: "",
             name: `${currentProfile?.name ?? ""}`,
             about: `${currentProfile?.about ?? ""}`,
             social_media: `${currentProfile?.social_media_url ?? ""}`,
@@ -86,7 +84,7 @@ const UpdateProfileInfo = () => {
             <div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="photo"
                             render={({ field }) => (
@@ -104,7 +102,7 @@ const UpdateProfileInfo = () => {
                                 </FormItem>
 
                             )}
-                        />
+                        /> */}
                         <FormField
                             control={form.control}
                             name="name"

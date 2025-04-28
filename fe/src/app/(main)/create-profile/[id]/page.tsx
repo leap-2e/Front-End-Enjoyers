@@ -20,6 +20,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Label } from "@radix-ui/react-label"
+import { useState } from "react"
 
 // type ValueType = {
 //     id: string, 
@@ -35,8 +37,10 @@ const CreateProfileInfo = () => {
     const params = useParams();
     const router = useRouter();
 
+    const [file, setFile] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+
     const formSchema = z.object({
-        photo: z.string(),
         name: z.string().min(2, {
             message: "Name must be at least 2 characters.",
         }),
@@ -49,16 +53,39 @@ const CreateProfileInfo = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            photo: "",
             name: "",
             about: "",
             social_media: "",
         },
     });
 
+    const handleImage = (event) => {
+        setImageUrl(window.URL.createObjectURL(event.target.files[0]));
+        setFile(event.target.files[0]);
+    }
+
+    const UPLOAD_PRESET = "ml_default";
+    const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
     const user_id = params.id;
     const onSubmit = async (value) => {
-        const profile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id: params.id });
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            {
+                method: "POST",
+                body: formData,
+            }
+        );
+
+        const { url } = await response.json();
+        console.log(url, "this is image url")
+
+        const profile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: url, social_media_url: value.social_media, user_id: params.id });
         router.push(`/bank-card/${user_id}`)
     }
 
@@ -68,9 +95,19 @@ const CreateProfileInfo = () => {
                 Complete your profile page
             </h1>
             <div>
+                <div>
+                    <Label htmlFor="avatar_image">
+                        <p> Add photo</p>
+                        <div>
+                            {imageUrl ? <img src={imageUrl} className="w-40 h-40 rounded-full" />
+                                : <div className="w-40 h-40 rounded-full border border-dashde"></div>}
+                        </div>
+                    </Label>
+                    <input className="hidden" type="file" id="avatar_image" onChange={handleImage}></input>
+                </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="photo"
                             render={({ field }) => (
@@ -88,7 +125,7 @@ const CreateProfileInfo = () => {
                                 </FormItem>
 
                             )}
-                        />
+                        /> */}
                         <FormField
                             control={form.control}
                             name="name"
