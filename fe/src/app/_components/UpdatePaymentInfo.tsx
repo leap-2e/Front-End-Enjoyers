@@ -98,7 +98,7 @@ const UpdatePaymentInfo = () => {
             expires: `${cardInfo?.expiry_month ?? ""}`,
             year: `${cardInfo?.expiry_year ?? ""}`,
             cvv: `${cardInfo?.cvv ?? ""}`,
-        },
+        }, ///error type nice
     });
 
     const onSubmit = async (value) => {
