@@ -27,7 +27,7 @@ import { v4 as uuidv4 } from 'uuid';
 //     social_media: string,
 // }
 
-const CreateProfileInfo = ({ currentStep, setCurrentStep }) => {
+const CreateProfileInfo = ({ currentStep, setCurrentStep }: {currentStep: number, setCurrentStep: (val: number) => void}) => {
     const formSchema = z.object({
         photo: z.string(),
         name: z.string().min(2, {
@@ -50,7 +50,7 @@ const CreateProfileInfo = ({ currentStep, setCurrentStep }) => {
     });
 
     const onSubmit = async (value) => {
-        const user_id = ;
+        const user_id = params;
         const newProfile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id })
         setCurrentStep(currentStep + 1)
     }

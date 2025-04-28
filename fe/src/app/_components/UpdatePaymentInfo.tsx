@@ -15,6 +15,7 @@ import {
     Form,
     FormField,
     FormItem,
+    FormControl,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
@@ -25,34 +26,7 @@ import axios from "axios"
 import { useParams } from "next/navigation"
 import { toast } from "sonner"
 import { useEffect, useState } from "react"
-
-const bankCardSchema = z.object({
-    country: z.string(),
-    first_name: z.string(),
-    last_name: z.string(),
-    card_number: z.string().length(12, {
-        message: "Card number must be exactly 12 characters long"
-    }),
-    expiry_month: z.string(),
-    expiry_year: z.string(),
-    cvv: z.string().length(3, {
-        message: "CVV must be exactly 3 characters long"
-    }),
-});
-
-type BankCard = z.infer<typeof bankCardSchema>;
-
-const bankCardUpdateSchema = bankCardSchema.pick({
-    country: true,
-    first_name: true,
-    last_name: true,
-    card_number: true,
-    expiry_month: true,
-    expiry_year: true,
-    cvv: true,
-})
-
-type BankCardUpdate = z.infer<typeof bankCardUpdateSchema>;
+import { BankCard, BankCardUpdate, CardType } from "@/types"
 
 
 const UpdatePaymentInfo = () => {
@@ -64,7 +38,7 @@ const UpdatePaymentInfo = () => {
 
     const getCards = async () => {
         const cards = await axios.get(`${BASE_URL}/cards`);
-        const card = cards.data.cards.filter((card) => (card.user_id === params.id))
+        const card = cards.data.cards.filter((card: BankCard) => (card.user_id === params.id))
         setCardInfo(card[0]);
         setCardId(card[0].id)
     }
@@ -76,13 +50,13 @@ const UpdatePaymentInfo = () => {
 
     const formSchema = z.object({
         country: z.string(),
-        firstName: z.string(),
-        lastName: z.string(),
-        cardNumber: z.string().length(12, {
+        first_name: z.string(),
+        last_name: z.string(),
+        card_number: z.string().length(12, {
             message: "Card number must be exactly 12 characters long"
         }),
-        expires: z.string(),
-        year: z.string(),
+        expiry_month: z.string(),
+        expiry_year: z.string(),
         cvv: z.string().length(3, {
             message: "CVV must be exactly 3 characters long"
         }),
@@ -92,17 +66,19 @@ const UpdatePaymentInfo = () => {
         resolver: zodResolver(formSchema),
         values: {
             country: `${cardInfo?.country ?? ""}`,
-            firstName: `${cardInfo?.first_name ?? ""}`,
-            lastName: `${cardInfo?.last_name ?? ""}`,
-            cardNumber: `${cardInfo?.card_number ?? ""}`,
-            expires: `${cardInfo?.expiry_month ?? ""}`,
-            year: `${cardInfo?.expiry_year ?? ""}`,
+            first_name: `${cardInfo?.first_name ?? ""}`,
+            last_name: `${cardInfo?.last_name ?? ""}`,
+            card_number: `${cardInfo?.card_number ?? ""}`,
+            expiry_month: `${cardInfo?.expiry_month ?? ""}`,
+            expiry_year: `${cardInfo?.expiry_year ?? ""}`,
             cvv: `${cardInfo?.cvv ?? ""}`,
-        }, ///error type nice
+        }, 
     });
 
-    const onSubmit = async (value) => {
-        const cardInfo = await axios.put(`${BASE_URL}/cards`, { id: cardId, country: value.country, first_name: value.firstName, last_name: value.lastName, card_number: value.cardNumber, expiry_year: value.year, expiry_month: value.expires, cvv: value.cvv, user_id: params.id });
+const userId = params.id;
+
+    const onSubmit = async (value: CardType) => {
+        const cardInfo = await axios.put(`${BASE_URL}/cards`, { id: cardId, country: value.country, first_name: value.first_name, last_name: value.last_name, card_number: value.card_number, expiry_year: value.expiry_year, expiry_month: value.expiry_month, cvv: value.cvv, user_id: userId });
 
         toast("Amjilttai shinechlegdlee")
     }
@@ -147,7 +123,7 @@ const UpdatePaymentInfo = () => {
                         <div className="grid grid-cols-2 gap-3">
                             <FormField
                                 control={form.control}
-                                name="firstName"
+                                name="first_name"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>First name</FormLabel>
@@ -161,7 +137,7 @@ const UpdatePaymentInfo = () => {
                             />
                             <FormField
                                 control={form.control}
-                                name="lastName"
+                                name="last_name"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Last name</FormLabel>
@@ -176,7 +152,7 @@ const UpdatePaymentInfo = () => {
                         </div>
                         <FormField
                             control={form.control}
-                            name="cardNumber"
+                            name="card_number"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Enter your card number</FormLabel>
@@ -191,7 +167,7 @@ const UpdatePaymentInfo = () => {
                         <div className="grid grid-cols-3 gap-3">
                             <FormField
                                 control={form.control}
-                                name="expires"
+                                name="expiry_month"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Expires</FormLabel>
@@ -215,7 +191,7 @@ const UpdatePaymentInfo = () => {
                             />
                             <FormField
                                 control={form.control}
-                                name="year"
+                                name="expiry_year"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Year</FormLabel>

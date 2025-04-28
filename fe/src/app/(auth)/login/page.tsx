@@ -21,6 +21,7 @@ import axios from 'axios'
 import { BASE_URL } from '@/constants'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { UserType } from '@/types'
 
 const Login = () => {
 
@@ -41,7 +42,7 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async (value) => {
+  const onSubmit = async (value: UserType) => {
     const user = await axios.post(`${BASE_URL}/auth/check`, { email: value.email, password: value.password });
     
     if (!user) {
@@ -49,7 +50,7 @@ const Login = () => {
     }
 
     const getUsers = await axios.get(`${BASE_URL}/users`);
-    const getUser = getUsers.data.users.filter((user) => (user.email === value.email));
+    const getUser = getUsers.data.users.filter((user: UserType) => (user.email === value.email));
     localStorage.setItem("username", getUser[0].username);
     
     router.push("/dashboard");
