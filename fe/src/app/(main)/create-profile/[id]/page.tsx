@@ -64,7 +64,7 @@ const CreateProfileInfo = () => {
         setFile(event.target.files[0]);
     }
 
-    const UPLOAD_PRESET = "ml_default";
+    const UPLOAD_PRESET = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
     const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
     const user_id = params.id;

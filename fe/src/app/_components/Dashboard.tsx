@@ -79,11 +79,11 @@ export const Dashboard = () => {
                 <div>
                   <button className="w-[159px] h-[40px] bg-black text-white rounded-lg ">
                     <p>
-                      <img
+                      {/* <img
                         className="inline-block mr-3"
                         src="copy.png"
                         alt=""
-                      />
+                      /> */}
                       Share page link
                     </p>
                   </button>
