@@ -1,4 +1,3 @@
-import postgres from "postgres";
 import dotenv from "dotenv"
 import { neon } from '@neondatabase/serverless'
 
