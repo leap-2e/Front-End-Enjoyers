@@ -18,28 +18,41 @@ import axios from "axios"
 import { BASE_URL } from "@/constants"
 import { v4 as uuidv4 } from 'uuid';
 import { useParams } from "next/navigation"
-import Link from "next/link"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { Label } from "@radix-ui/react-label"
 
 type ValueType = {
-    name: string, 
-    about: string, 
+    name: string,
+    about: string,
     social_media: string,
 }
 
 type ProfileType = {
+    profiles: UserType[]
+}
+
+type UserType = {
     user_id: string,
 }
+
+type CurrentProfileType = {
+    name: string,
+    about: string,
+    social_media_url: string,
+    avatar_image: string
+}
+
 const UpdateProfileInfo = () => {
 
     const params = useParams();
-    const [currentProfile, setCurrentProfile] = useState();
+    const [currentProfile, setCurrentProfile] = useState<CurrentProfileType>();
     const [profileId, setProfileId] = useState("");
+    const [file, setFile] = useState<File | string>("");
+    const [imageUrl, setImageUrl] = useState(currentProfile?.avatar_image)
 
     const getPrevInfo = async () => {
         const prev = await axios.get(`${BASE_URL}/profiles`);
-        const profile = prev.data.profiles.map((profile) => profile).filter((pro:  ProfileType) => {
+        const profile = prev.data.profiles.map((profile: ProfileType) => profile).filter((pro: UserType) => {
             if (pro.user_id === params.id) {
                 return pro
             }
@@ -61,7 +74,7 @@ const UpdateProfileInfo = () => {
         }),
         social_media: z.string(),
     });
-   
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         values: {
@@ -71,15 +84,31 @@ const UpdateProfileInfo = () => {
         }
     });
 
-    const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
+    const handleImage = (event: ChangeEvent) => {
+        const file = ((event.target as HTMLInputElement).files as FileList)[0]
+        setImageUrl(window.URL.createObjectURL(file));
+        setFile(file)
     }
+
+    const UPLOAD_PRESET = "ml_default";
+    const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+    const formData = new FormData();
+    formData.append("file", file as File);
+    formData.append("upload_preset", UPLOAD_PRESET);
 
     const onSubmit = async (value: ValueType) => {
-        const profile = await axios.put(`${BASE_URL}/profiles`, { id: profileId, name: value.name, about: value.about, avatar_image: value.photo, social_media_url: value.social_media, user_id: params.id });
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            {
+                method: "POST",
+                body: formData
+            }
+        )
+
+        const { url } = await response.json();
+
+        const profile = await axios.put(`${BASE_URL}/profiles`, { id: profileId, name: value.name, about: value.about, avatar_image: url, social_media_url: value.social_media, user_id: params.id });
     }
-
-
 
     return (
         <div className="space-y-6">
@@ -90,32 +119,13 @@ const UpdateProfileInfo = () => {
                 <div>
                     <Label htmlFor="avatar_image">
                         <p>Add photo</p>
-                        {currentProfile?.avatar_image ? <img src={currentProfile?.avatar_image} className="w-40 h-40 rounded-full" />
-                        : <div className="w-40 h-40 rounded-full border border-dashed"></div>}
+                        {imageUrl ? <img src={imageUrl} className="w-40 h-40 rounded-full" />
+                            : <div className="w-40 h-40 rounded-full border border-dashed"></div>}
                     </Label>
                     <input id="avatar_image" className="hidden" type="file" onChange={handleImage}></input>
                 </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-                        {/* <FormField
-                            control={form.control}
-                            name="photo"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel htmlFor="photo">
-                                        <div className="flex flex-col space-y-3">
-                                            <p>Add photo</p>
-                                            <div className="border border-dashed rounded-full w-40 h-40"></div>
-                                        </div>
-                                    </FormLabel>
-                                    <FormControl className="hidden">
-                                        <Input id="photo" type="file" placeholder="shadcn" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-
-                            )}
-                        /> */}
                         <FormField
                             control={form.control}
                             name="name"
