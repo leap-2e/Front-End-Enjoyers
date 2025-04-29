@@ -19,7 +19,8 @@ export function SideBarComponent() {
    useEffect(() => {
     const username = localStorage.getItem("username") as string;
     setUserName(username)
-   }, [])
+   }, []);
+   
     const getId = async () => {
         const users = await axios.get(`${BASE_URL}/users`);
         const user = users.data.users.filter((user: UserType) => {
