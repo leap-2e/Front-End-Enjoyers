@@ -26,24 +26,39 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { BankCard, BankCardUpdate, CardType } from "@/types";
+
+export type CardType = {
+  country: string,
+  first_name: string,
+  last_name: string,
+  card_number: string,
+  expiry_month: string,
+  expiry_year: string,
+  cvv: string,
+}
+
+export type BankCardType = {
+  id: string,
+  country: string,
+  first_name: string,
+  last_name: string,
+  card_number: string,
+  expiry_month: string,
+  expiry_year: string,
+  cvv: string,
+}
 
 const UpdatePaymentInfo = () => {
-  const [cardInfo, setCardInfo] = useState<BankCardUpdate>();
-  const [cardId, setCardId] = useState();
+  const [bankCardInfo, setBankCardInfo] = useState<BankCardType>();
 
   const params = useParams();
 
-  const getCards = async () => {
-    const cards = await axios.get(`${BASE_URL}/cards`);
-    const card = cards.data.cards.filter(
-      (card: BankCard) => card.user_id === params.id
-    );
-    setCardInfo(card[0]);
-    setCardId(card[0].id);
+  const getCardInfo = async () => {
+    const response = await axios.get(`${BASE_URL}/cards?user_id=${params.id}`);
+    setBankCardInfo(response.data.card[0])
   };
   useEffect(() => {
-    getCards();
+    getCardInfo();
   }, [params.id]);
 
   const formSchema = z.object({
@@ -63,21 +78,19 @@ const UpdatePaymentInfo = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     values: {
-      country: `${cardInfo?.country ?? ""}`,
-      first_name: `${cardInfo?.first_name ?? ""}`,
-      last_name: `${cardInfo?.last_name ?? ""}`,
-      card_number: `${cardInfo?.card_number ?? ""}`,
-      expiry_month: `${cardInfo?.expiry_month ?? ""}`,
-      expiry_year: `${cardInfo?.expiry_year ?? ""}`,
-      cvv: `${cardInfo?.cvv ?? ""}`,
+      country: `${bankCardInfo?.country ?? ""}`,
+      first_name: `${bankCardInfo?.first_name ?? ""}`,
+      last_name: `${bankCardInfo?.last_name ?? ""}`,
+      card_number: `${bankCardInfo?.card_number ?? ""}`,
+      expiry_month: `${bankCardInfo?.expiry_month ?? ""}`,
+      expiry_year: `${bankCardInfo?.expiry_year ?? ""}`,
+      cvv: `${bankCardInfo?.cvv ?? ""}`,
     },
   });
 
-  const userId = params.id;
-
   const onSubmit = async (value: CardType) => {
-    const cardInfo = await axios.put(`${BASE_URL}/cards`, {
-      id: cardId,
+    const res = await axios.put(`${BASE_URL}/cards`, {
+      id: bankCardInfo?.id,
       country: value.country,
       first_name: value.first_name,
       last_name: value.last_name,
@@ -85,7 +98,7 @@ const UpdatePaymentInfo = () => {
       expiry_year: value.expiry_year,
       expiry_month: value.expiry_month,
       cvv: value.cvv,
-      user_id: userId,
+      user_id: params.id,
     });
 
     toast("Amjilttai shinechlegdlee");

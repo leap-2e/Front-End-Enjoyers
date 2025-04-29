@@ -19,29 +19,13 @@ import { BASE_URL } from "@/constants";
 import { toast } from "sonner";
 
 type ValueType = {
-  userName: string;
-};
-
-type UserType = {
-  card_id: string;
-  created_at: Date;
-  email: string;
-  id: number;
-  password: string;
-  profile_id: string;
-  updated_at: Date;
   username: string;
 };
 
-const TakeUserName = ({
-  currentStep,
-  setCurrentStep,
-}: {
-  currentStep: number;
-  setCurrentStep: (val: number) => void;
-}) => {
+const TakeUserName = ({ currentStep, setCurrentStep, }: { currentStep: number; setCurrentStep: (val: number) => void; }) => {
+
   const formSchema = z.object({
-    userName: z.string().min(6, {
+    username: z.string().min(6, {
       message: "User name must be at least 6 characters.",
     }),
   });
@@ -49,23 +33,21 @@ const TakeUserName = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      userName: "",
+      username: "",
     },
   });
 
   const onSubmit = async (value: ValueType) => {
-    const getUsers = await axios.get(`${BASE_URL}/users`);
-
-    const data = getUsers.data.users.map((d: UserType) => d.username);
-    if (data.includes(value.userName)) {
-      toast("Username taken");
-      console.log("Username taken");
-    } else {
-      console.log("Username success");
-      localStorage.setItem("username", value.userName);
+    const response = await axios.get(`${BASE_URL}/users?username=${value.username}`);
+    // console.log(response.data.users.length)
+    if (response.data.users.length === 0) {
+      localStorage.setItem("username", value.username)
       setCurrentStep(currentStep + 1);
+    } else {
+      toast("Username taken");
     }
   };
+
   return (
     <div className="w-1/2 space-y-6">
       <div>
@@ -79,7 +61,7 @@ const TakeUserName = ({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             <FormField
               control={form.control}
-              name="userName"
+              name="username"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>

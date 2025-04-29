@@ -17,7 +17,17 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import axios from "axios";
 import { BASE_URL } from "@/constants";
-import { NewPasswordType, UserType } from "@/types";
+
+export type NewPasswordType = {
+  confirmPassword: string,
+  newPassword: string
+}
+
+export type UserType = {
+  username: string,
+  email: string,
+  password: string,
+}
 
 const UpdatePassword = () => {
   const formSchema = z.object({

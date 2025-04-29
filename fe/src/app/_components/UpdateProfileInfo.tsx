@@ -16,10 +16,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { BASE_URL } from "@/constants";
-import { v4 as uuidv4 } from "uuid";
 import { useParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Label } from "@radix-ui/react-label";
+import { toast } from "sonner";
 
 type ValueType = {
   name: string;
@@ -27,15 +27,8 @@ type ValueType = {
   social_media: string;
 };
 
-type ProfileType = {
-  profiles: UserType[];
-};
-
-type UserType = {
-  user_id: string;
-};
-
 type CurrentProfileType = {
+  id: string,
   name: string;
   about: string;
   social_media_url: string;
@@ -45,30 +38,18 @@ type CurrentProfileType = {
 const UpdateProfileInfo = () => {
   const params = useParams();
   const [currentProfile, setCurrentProfile] = useState<CurrentProfileType>();
-  const [profileId, setProfileId] = useState("");
   const [file, setFile] = useState<File | string>("");
-  const [imageUrl, setImageUrl] = useState(currentProfile?.avatar_image);
+  const [imageUrl, setImageUrl] = useState("");
 
   const getPrevInfo = async () => {
-    const prev = await axios.get(`${BASE_URL}/profiles`);
-    const profile = prev.data.profiles
-      .map((profile: ProfileType) => profile)
-      .filter((pro: UserType) => {
-        if (pro.user_id === params.id) {
-          return pro;
-        }
-      });
-    setCurrentProfile(profile[0]);
-    setProfileId(profile[0].id);
+    const response = await axios.get(`${BASE_URL}/profiles?user_id=${params.id}`);
+    setCurrentProfile(response.data.profile[0]);
+    setImageUrl(response.data.profile[0].avatar_image)
   };
 
   useEffect(() => {
     getPrevInfo();
   }, [params.id]);
-
-  useEffect(() => {
-    setImageUrl(currentProfile?.avatar_image);
-  }, [currentProfile]);
 
   const formSchema = z.object({
     name: z.string().min(2, {
@@ -113,14 +94,16 @@ const UpdateProfileInfo = () => {
 
     const { url } = await response.json();
 
-    const profile = await axios.put(`${BASE_URL}/profiles`, {
-      id: profileId,
+    const res = await axios.put(`${BASE_URL}/profiles`, {
+      id: currentProfile?.id,
       name: value.name,
       about: value.about,
       avatar_image: url,
       social_media_url: value.social_media,
       user_id: params.id,
     });
+
+    toast(`${res.data.message}`)
   };
 
   return (

@@ -43,17 +43,11 @@ const TakeUserInfo = () => {
     },
   });
 
-  const [storedValue, setStoredValue] = useState<string | null>(null);
-
   useEffect(() => {
     const username = localStorage.getItem("username") as string;
     setUserName(username);
   }, []);
 
-  //    if(typeof window !== "undefined") {
-  //     const username = localStorage.getItem("username") ? JSON.parse(localStorage.getItem("username") as string) : null;
-  //     setUserName(username)
-  //    }
   const user_id = uuidv4();
   localStorage.setItem("user_id", user_id);
 
