@@ -6,28 +6,30 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+type UserType = {
+    username: string,
+}
+
 export function SideBarComponent() {
 
     const [userId, setUserId] =  useState();
-    const username = localStorage.getItem("username");
-
-    type UserType = {
-        username: string,
-    }
-
-    const getId = async () => {
-        const users = await axios.get(`${BASE_URL}/users`);
-        const user = users.data.users.filter((user: UserType) => {
-            if(username === user.username) {
-                return user
-            }
-        });   
-        setUserId(user[0].id)    ;
-    }
-
-    useEffect(() => {
-        getId();
-    }, []);
+    if (typeof window !== 'undefined') {
+        const username = localStorage.getItem("username") ? JSON.parse(localStorage.getItem("username") as string) : null;
+        const getId = async () => {
+            const users = await axios.get(`${BASE_URL}/users`);
+            const user = users.data.users.filter((user: UserType) => {
+                if(username === user.username) {
+                    return user
+                }
+            });   
+            setUserId(user[0].id)    ;
+        }
+    
+        useEffect(() => {
+            getId();
+        }, []);
+      }
+    // const username = localStorage.getItem("username");
 
     return (
         <div className="min-w-[260px] max-w-[300px] h-screen">
