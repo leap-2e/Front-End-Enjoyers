@@ -6,15 +6,16 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+type UserType = {
+    username: string,
+}
+
+
 export function SideBarComponent() {
 
     const [userId, setUserId] =  useState();
-    const username = localStorage.getItem("username");
-
-    type UserType = {
-        username: string,
-    }
-
+   if(typeof window !== "undefined") {
+    const username = localStorage.getItem("username") ? JSON.parse(localStorage.getItem("username")as string) : null;
     const getId = async () => {
         const users = await axios.get(`${BASE_URL}/users`);
         const user = users.data.users.filter((user: UserType) => {
@@ -28,6 +29,7 @@ export function SideBarComponent() {
     useEffect(() => {
         getId();
     }, []);
+   }
 
     return (
         <div className="min-w-[260px] max-w-[300px] h-screen">
