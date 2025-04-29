@@ -1,54 +1,57 @@
-'use client';
-import { useState } from 'react';
-import { Search, ExternalLink } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+"use client";
+import { useState } from "react";
+import { Search, ExternalLink } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 export function Explore() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const creators = [
     {
       id: 1,
-      name: 'Space ranger',
-      avatar: '',
-      about: 'All day, every day, we\'re watching, listening to, reading and absorbing politics. It\'s exhausting. We then report on what we\'ve seen in a way that\'s as chill as possible. None of the sensationalism and division you\'ll find elsewhere. It\'s about clarity.',
-      socialUrl: 'https://buymeacoffee.com/baconpancakes1'
+      name: "Space ranger",
+      avatar: "",
+      about:
+        "All day, every day, we're watching, listening to, reading and absorbing politics. It's exhausting. We then report on what we've seen in a way that's as chill as possible. None of the sensationalism and division you'll find elsewhere. It's about clarity.",
+      socialUrl: "https://buymeacoffee.com/baconpancakes1",
     },
     {
       id: 2,
-      name: 'Purple monster',
-      avatar: '',
-      about: 'Purple monster is for everyone. It handles all the painful experiences and helps people.',
-      socialUrl: 'https://buymeacoffee.com/ifmonster23'
+      name: "Purple monster",
+      avatar: "",
+      about:
+        "Purple monster is for everyone. It handles all the painful experiences and helps people.",
+      socialUrl: "https://buymeacoffee.com/ifmonster23",
     },
     {
       id: 3,
-      name: 'Alien Conspiracy',
-      avatar: '',
-      about: 'Show your support ❤️and buy me a coffee! & keep project a live!',
-      socialUrl: 'https://buymeacoffee.com/roooaaaamm'
+      name: "Alien Conspiracy",
+      avatar: "",
+      about: "Show your support ❤️and buy me a coffee! & keep project a live!",
+      socialUrl: "https://buymeacoffee.com/roooaaaamm",
     },
     {
       id: 4,
-      name: 'Teams',
-      avatar: '',
-      about: 'Joel 1:14 "Sanctify a fast, call a solemn assembly, gather the elders and all the inhabitants of the land. Cry out to the LORD."My purpose is clear: To seek God\'s face, every Thursday for all my Subscribers to align with His will, and to step into the destiny He has for us.',
-      socialUrl: 'https://buymeacoffee.com/kaka0'
+      name: "Teams",
+      avatar: "",
+      about:
+        'Joel 1:14 "Sanctify a fast, call a solemn assembly, gather the elders and all the inhabitants of the land. Cry out to the LORD."My purpose is clear: To seek God\'s face, every Thursday for all my Subscribers to align with His will, and to step into the destiny He has for us.',
+      socialUrl: "https://buymeacoffee.com/kaka0",
     },
     {
       id: 5,
-      name: 'Dragons1',
-      avatar: '',
-      about: 'Hello',
-      socialUrl: 'https://buymeacoffee.com/dragons1'
-    }
+      name: "Dragons1",
+      avatar: "",
+      about: "Hello",
+      socialUrl: "https://buymeacoffee.com/dragons1",
+    },
   ];
-  const filteredCreators = creators.filter(creator =>
+  const filteredCreators = creators.filter((creator) =>
     creator.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div className='w-3/4 max-h-screen overflow-auto'>
+    <div className="w-3/4 max-h-screen overflow-auto">
       <div className="max-w-4xl mx-auto p-6 pt-[100px]">
         <h1 className="text-2xl font-bold mb-6">Explore creators</h1>
         <div className="relative mb-6">
@@ -61,7 +64,7 @@ export function Explore() {
           />
         </div>
         <div className="space-y-4">
-          {filteredCreators.map(creator => (
+          {filteredCreators.map((creator) => (
             <Card key={creator.id} className="overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-start justify-between">
@@ -74,7 +77,11 @@ export function Explore() {
                       <h3 className="text-lg font-semibold">{creator.name}</h3>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
                     View profile <ExternalLink className="h-4 w-4" />
                   </Button>
                 </div>
@@ -85,7 +92,10 @@ export function Explore() {
                   </div>
                   <div>
                     <h4 className="font-medium mb-2">Social media URL</h4>
-                    <a href={creator.socialUrl} className="text-sm text-blue-600 break-all hover:underline">
+                    <a
+                      href={creator.socialUrl}
+                      className="text-sm text-blue-600 break-all hover:underline"
+                    >
                       {creator.socialUrl}
                     </a>
                   </div>
@@ -98,4 +108,3 @@ export function Explore() {
     </div>
   );
 }
-

@@ -1,5 +1,5 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,24 +7,23 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+
 import {
-  Tabs,
-  TabsContent,
-} from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
-
-
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const AccountSetting = () => {
   return (
     <div className="w-[650px] mx-auto">
-
-
       <div>
         <p className="font-bold text-[24px mb-[40px]">My Account</p>
         <Tabs defaultValue="account">
@@ -37,8 +36,10 @@ const AccountSetting = () => {
                 </CardDescription>
                 <div className="">
                   <Avatar className="w-[160px] h-[160px]">
-                    <AvatarImage src="https://s3-alpha-sig.figma.com/img/a8aa/a0a8/9e2cb6e8ec344dea3ade469a624a90ef?Expires=1746403200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=IlePVJEwwkw5qq~ooB~u~Nm8o9S74OpqhC02jqpInVOEB-2YGBFS3K76c-4iPOYv6HzLg5TQJdoxGgXkESIMurWsKyyAQu0JktYNpoOxmbRBq5XxaFtfBhdhIM4Z-p4xM7WtbBTmPGMaesFvy2Yo-nOAmgkjmBwkxCn2IAFvopBwKcEcxLIYsiN-DlqVWNOSlzZa1js0mG9JV12QTQxLhhfjy6WQjqblgozGNciHmEmivO-z7rhfgFrVP6p3Ze~oGkhgGFjxryqA83OrHoIW7OHTcu3b~7Bzn380a3EB8LW9o5XUhsiAE4aXdolCORY2BtGNUUok9Rlw4MoSh3Eeng__" alt="@shadcn" />
-
+                    <AvatarImage
+                      src="https://s3-alpha-sig.figma.com/img/a8aa/a0a8/9e2cb6e8ec344dea3ade469a624a90ef?Expires=1746403200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=IlePVJEwwkw5qq~ooB~u~Nm8o9S74OpqhC02jqpInVOEB-2YGBFS3K76c-4iPOYv6HzLg5TQJdoxGgXkESIMurWsKyyAQu0JktYNpoOxmbRBq5XxaFtfBhdhIM4Z-p4xM7WtbBTmPGMaesFvy2Yo-nOAmgkjmBwkxCn2IAFvopBwKcEcxLIYsiN-DlqVWNOSlzZa1js0mG9JV12QTQxLhhfjy6WQjqblgozGNciHmEmivO-z7rhfgFrVP6p3Ze~oGkhgGFjxryqA83OrHoIW7OHTcu3b~7Bzn380a3EB8LW9o5XUhsiAE4aXdolCORY2BtGNUUok9Rlw4MoSh3Eeng__"
+                      alt="@shadcn"
+                    />
                   </Avatar>
                 </div>
               </CardHeader>
@@ -64,7 +65,6 @@ const AccountSetting = () => {
               </CardFooter>
             </Card>
           </TabsContent>
-
         </Tabs>
 
         <div className="mt-[50px]">
@@ -75,11 +75,19 @@ const AccountSetting = () => {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="password">New Password</Label>
-                <Input id="password" type="password" placeholder="Enter your new password" />
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your new password"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirm">Confirm Password</Label>
-                <Input id="confirm" type="password" placeholder="Confirm your password" />
+                <Input
+                  id="confirm"
+                  type="password"
+                  placeholder="Confirm your password"
+                />
               </div>
             </CardContent>
             <CardFooter>
@@ -88,7 +96,6 @@ const AccountSetting = () => {
           </Card>
         </div>
         <div className="mt-[50px]">
-
           <Card>
             <CardHeader>
               <CardTitle>Payment details</CardTitle>
@@ -154,7 +161,6 @@ const AccountSetting = () => {
               <Button className="w-full">Save changes</Button>
             </CardFooter>
           </Card>
-
         </div>
         <div className="mt-[50px]">
           <Card>
@@ -177,11 +183,9 @@ const AccountSetting = () => {
               <Button className="w-full">Save changes</Button>
             </CardFooter>
           </Card>
-
         </div>
       </div>
     </div>
-  )
-
-}
+  );
+};
 export default AccountSetting;

@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { Button } from '@/components/ui/button'
-import { Coffee } from 'lucide-react'
-import React, { useState } from 'react'
-import { RightSide } from '../_components/RightSide'
-import Link from 'next/link'
-import { TakeUserName } from '../_components/TakeUserName'
-import { TakeUserInfo } from '../_components/TakeUserInfo'
+import { Button } from "@/components/ui/button";
+import { Coffee } from "lucide-react";
+import React, { useState } from "react";
+import { RightSide } from "../_components/RightSide";
+import Link from "next/link";
+import { TakeUserName } from "../_components/TakeUserName";
+import { TakeUserInfo } from "../_components/TakeUserInfo";
 
 const SignUp = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -22,18 +22,25 @@ const SignUp = () => {
             <p className="text-black font-bold">Buy Me Coffee</p>
           </div>
           <div>
-            <Link href="/login"><Button variant="secondary" className='bg-secondary'>Login</Button></Link>
+            <Link href="/login">
+              <Button variant="secondary" className="bg-secondary">
+                Login
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
       <div className="flex">
         <RightSide />
         <div className="w-1/2 h-screen flex items-center justify-center">
-          <Components currentStep={currentStep} setCurrentStep={setCurrentStep} />
+          <Components
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+          />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;

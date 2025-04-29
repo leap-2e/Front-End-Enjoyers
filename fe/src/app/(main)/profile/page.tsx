@@ -5,25 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
 
 export default function DonationScreenCreator() {
-    return (
-        <div className="w-full h-screen">
+  return (
+    <div className="w-full h-screen">
+      <Header />
 
-            <Header />
+      <div className="w-full h-[319px] bg-[#F4F4F5] flex justify-center items-center">
+        <Button>
+          <Camera />
+          Add a cover image
+        </Button>
+      </div>
 
-            <div className="w-full h-[319px] bg-[#F4F4F5] flex justify-center items-center">
-                <Button>
-                    <Camera />
-                    Add a cover image
-                </Button>
-            </div>
+      <div className="w-[90%] gap-5 mt-[-100px] mx-auto flex">
+        <EditProfile />
 
-            <div className="w-[90%] gap-5 mt-[-100px] mx-auto flex">
-
-                <EditProfile />
-
-                <BuyCoffee />
-
-            </div>
-        </div>
-    )
-};
+        <BuyCoffee />
+      </div>
+    </div>
+  );
+}

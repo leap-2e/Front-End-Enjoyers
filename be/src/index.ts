@@ -1,7 +1,7 @@
 import express from "express";
 import { sql } from "./db";
 import cors from "cors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/users";
 import { profileRouter } from "./routes/profiles";
@@ -18,11 +18,11 @@ app.use(cors());
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/profiles", profileRouter);
-app.use("/cards", cardRouter)
+app.use("/cards", cardRouter);
 
-app.get('/', async (_req, res) => {
-    const result = await sql`SELECT NOW() AS time`;
-    res.send(`Hello from Naraa! Server time: ${result[0].time}`);
+app.get("/", async (_req, res) => {
+  const result = await sql`SELECT NOW() AS time`;
+  res.send(`Hello from Naraa! Server time: ${result[0].time}`);
 });
 
 // app.get('/users', async (_req, res) => {
@@ -86,9 +86,9 @@ app.get('/', async (_req, res) => {
 //     const { id, name, about, avatar_image, social_media_url, user_id } = req.body;
 
 //     const newProfile = await sql`
-//     INSERT INTO profiles 
+//     INSERT INTO profiles
 //     (id, name, about, avatar_image, social_media_url, user_id)
-//     VALUES 
+//     VALUES
 //     (${id}, ${name}, ${about}, ${avatar_image}, ${social_media_url}, ${user_id})
 //     `
 
@@ -99,14 +99,14 @@ app.get('/', async (_req, res) => {
 // app.post('/cards', async (req, res) => {
 //     const { id, country, first_name, last_name, card_number, expiry_year, expiry_month, cvv, user_id } = req.body
 //     const cardInfo = await sql`
-//     INSERT INTO cards 
+//     INSERT INTO cards
 //     (id, country, first_name, last_name, card_number, expiry_year, expiry_month, cvv)
-//     VALUES 
+//     VALUES
 //     (${id}, ${country}, ${first_name}, ${last_name}, ${card_number}, ${expiry_year}, ${expiry_month}, ${cvv}, ${user_id})
 //     `
 //     res.json({ success: true })
 // })
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-})
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
