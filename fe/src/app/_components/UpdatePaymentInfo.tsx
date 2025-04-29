@@ -45,9 +45,7 @@ const UpdatePaymentInfo = () => {
     useEffect(() => {
         getCards();
     }, [params.id])
-    console.log(cardInfo, "cardInfo")
-
-
+   
     const formSchema = z.object({
         country: z.string(),
         first_name: z.string(),
@@ -72,10 +70,10 @@ const UpdatePaymentInfo = () => {
             expiry_month: `${cardInfo?.expiry_month ?? ""}`,
             expiry_year: `${cardInfo?.expiry_year ?? ""}`,
             cvv: `${cardInfo?.cvv ?? ""}`,
-        }, 
+        },
     });
 
-const userId = params.id;
+    const userId = params.id;
 
     const onSubmit = async (value: CardType) => {
         const cardInfo = await axios.put(`${BASE_URL}/cards`, { id: cardId, country: value.country, first_name: value.first_name, last_name: value.last_name, card_number: value.card_number, expiry_year: value.expiry_year, expiry_month: value.expiry_month, cvv: value.cvv, user_id: userId });

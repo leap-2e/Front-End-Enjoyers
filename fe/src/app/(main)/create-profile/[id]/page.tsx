@@ -21,23 +21,20 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Label } from "@radix-ui/react-label"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 
-// type ValueType = {
-//     id: string, 
-//     name: string, 
-//     about: string, 
-//     avatar_image: string, 
-//     photo: string,
-//     social_media: string,
-// }
+type ValueType = {
+    name: string,
+    about: string,
+    social_media: string,
+}
 
 const CreateProfileInfo = () => {
 
     const params = useParams();
     const router = useRouter();
 
-    const [file, setFile] = useState("");
+    const [file, setFile] = useState<File | string>("");
     const [imageUrl, setImageUrl] = useState("");
 
     const formSchema = z.object({
@@ -59,16 +56,20 @@ const CreateProfileInfo = () => {
         },
     });
 
-    const handleImage = (event) => {
-        setImageUrl(window.URL.createObjectURL(event.target.files[0]));
-        setFile(event.target.files[0]);
-    }
+    const handleImage = (event: ChangeEvent) => {
+        const file = ((event.target as HTMLInputElement).files as FileList)[0];
+        // console.log(file, "this is my image file")
+        setImageUrl(window.URL.createObjectURL(file));
+        setFile(file);
+    };
+    console.log(file, "this is file")
 
-    const UPLOAD_PRESET = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
+    // const UPLOAD_PRESET = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
+    const UPLOAD_PRESET = "ml_default"
     const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
     const user_id = params.id;
-    const onSubmit = async (value) => {
+    const onSubmit = async (value: ValueType) => {
 
         const formData = new FormData();
         formData.append("file", file);
@@ -81,11 +82,10 @@ const CreateProfileInfo = () => {
                 body: formData,
             }
         );
-
         const { url } = await response.json();
-        console.log(url, "this is image url")
 
         const profile = await axios.post(`${BASE_URL}/profiles`, { id: uuidv4(), name: value.name, about: value.about, avatar_image: url, social_media_url: value.social_media, user_id: params.id });
+        
         router.push(`/bank-card/${user_id}`)
     }
 
@@ -107,25 +107,6 @@ const CreateProfileInfo = () => {
                 </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-                        {/* <FormField
-                            control={form.control}
-                            name="photo"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel htmlFor="photo">
-                                        <div className="flex flex-col space-y-3">
-                                            <p>Add photo</p>
-                                            <div className="border border-dashed rounded-full w-40 h-40"></div>
-                                        </div>
-                                    </FormLabel>
-                                    <FormControl className="hidden">
-                                        <Input id="photo" type="file" placeholder="shadcn" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-
-                            )}
-                        /> */}
                         <FormField
                             control={form.control}
                             name="name"
