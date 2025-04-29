@@ -11,8 +11,6 @@ type UserType = {
     id: string,
 }
 
-
-
 export function SideBarComponent() {
 
     const [userId, setUserId] = useState("");
@@ -24,16 +22,16 @@ export function SideBarComponent() {
     }, []);
 
     const getId = async () => {
-        const {data: users} = await axios.get(`${BASE_URL}/users`);
+        const { data: users } = await axios.get(`${BASE_URL}/users`);
         // const {data: users} = await axios.get(`${BASE_URL}/users?userName=${userName}`); // search query
-       
+
         const filteredUsers: UserType[] = users.filter((user: UserType) => {
             if (userName === user.username) {
                 return user
             }
         });
 
-        if (filteredUsers.length){
+        if (filteredUsers.length) {
             setUserId(filteredUsers[0].id);
         }
 
@@ -41,7 +39,7 @@ export function SideBarComponent() {
     console.log(userId, "userId")
 
     useEffect(() => {
-        if (userName){
+        if (userName) {
             getId();
         }
     }, [userName]);
@@ -70,9 +68,9 @@ export function SideBarComponent() {
                         </Link>
                     </li>
                     <li>
-                        <Link href={`/settings/${userId}`}>
+                        {userId && <Link href={`/settings/${userId}`}>
                             <span className="block p-2 rounded hover:bg-[#F4F4F5]">Account settings</span>
-                        </Link>
+                        </Link>}
                     </li>
                 </ul>
             </nav>
