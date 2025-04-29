@@ -8,33 +8,44 @@ import { useEffect, useState } from "react";
 
 type UserType = {
     username: string,
+    id: string,
 }
+
 
 
 export function SideBarComponent() {
 
-    const [userId, setUserId] =  useState("");
-    const [userName, setUserName] = useState("");
-   
-   useEffect(() => {
-    const username = localStorage.getItem("username") as string;
-    setUserName(username)
-   }, []);
-   
-    const getId = async () => {
-        const users = await axios.get(`${BASE_URL}/users`);
-        const user = users.data.users.filter((user: UserType) => {
-            if(userName === user.username) {
-                return user
-            }
-        });   
-        setUserId(user[0].id)    ;
-    }
+    const [userId, setUserId] = useState("");
+    const [userName, setUserName] = useState<string>("");
 
     useEffect(() => {
-        getId();
+        const username = localStorage.getItem("username") as string;
+        setUserName(username)
     }, []);
-   
+
+    const getId = async () => {
+        const {data: users} = await axios.get(`${BASE_URL}/users`);
+        // const {data: users} = await axios.get(`${BASE_URL}/users?userName=${userName}`); // search query
+       
+        const filteredUsers: UserType[] = users.filter((user: UserType) => {
+            if (userName === user.username) {
+                return user
+            }
+        });
+
+        if (filteredUsers.length){
+            setUserId(filteredUsers[0].id);
+        }
+
+    }
+    console.log(userId, "userId")
+
+    useEffect(() => {
+        if (userName){
+            getId();
+        }
+    }, [userName]);
+
 
     return (
         <div className="min-w-[260px] max-w-[300px] h-screen">
