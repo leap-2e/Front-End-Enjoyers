@@ -48,7 +48,7 @@ const UpdateProfileInfo = () => {
     const [currentProfile, setCurrentProfile] = useState<CurrentProfileType>();
     const [profileId, setProfileId] = useState("");
     const [file, setFile] = useState<File | string>("");
-    const [imageUrl, setImageUrl] = useState(currentProfile?.avatar_image)
+    const [imageUrl, setImageUrl] = useState(currentProfile?.avatar_image);
 
     const getPrevInfo = async () => {
         const prev = await axios.get(`${BASE_URL}/profiles`);
@@ -64,6 +64,10 @@ const UpdateProfileInfo = () => {
     useEffect(() => {
         getPrevInfo();
     }, [params.id]);
+
+    useEffect(() => {
+        setImageUrl(currentProfile?.avatar_image)
+    }, [currentProfile]);
 
     const formSchema = z.object({
         name: z.string().min(2, {
