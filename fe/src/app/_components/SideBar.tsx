@@ -13,13 +13,18 @@ type UserType = {
 
 export function SideBarComponent() {
 
-    const [userId, setUserId] =  useState();
-   if(typeof window !== "undefined") {
-    const username = localStorage.getItem("username") ? JSON.parse(localStorage.getItem("username")as string) : null;
+    const [userId, setUserId] =  useState("");
+    const [userName, setUserName] = useState("");
+   
+   useEffect(() => {
+    const username = localStorage.getItem("username") as string;
+    setUserName(username)
+   }, []);
+   
     const getId = async () => {
         const users = await axios.get(`${BASE_URL}/users`);
         const user = users.data.users.filter((user: UserType) => {
-            if(username === user.username) {
+            if(userName === user.username) {
                 return user
             }
         });   
@@ -29,7 +34,7 @@ export function SideBarComponent() {
     useEffect(() => {
         getId();
     }, []);
-   }
+   
 
     return (
         <div className="min-w-[260px] max-w-[300px] h-screen">

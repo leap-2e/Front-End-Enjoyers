@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -44,10 +44,17 @@ const TakeUserInfo = () => {
         },
     });
 
-   if(typeof window !== "undefined") {
-    const username = localStorage.getItem("username") ? JSON.parse(localStorage.getItem("username") as string) : null;
-    setUserName(username)
-   }
+    const [storedValue, setStoredValue] = useState<string | null>(null);
+
+    useEffect(() => {
+      const username = localStorage.getItem('username') as string;
+      setUserName(username);
+    }, []);
+
+//    if(typeof window !== "undefined") {
+//     const username = localStorage.getItem("username") ? JSON.parse(localStorage.getItem("username") as string) : null;
+//     setUserName(username)
+//    }
     const user_id = uuidv4();
     localStorage.setItem('user_id', user_id);
 
