@@ -1,10 +1,13 @@
 import { sql } from "../db";
 import { Response, Request } from "express";
 
-export const getProfiles = async (_req: Request, res: Response) => {
-  const profiles = await sql`
-    SELECT * FROM profiles`;
-  res.json({ success: true, profiles });
+export const getProfiles = async (req: Request, res: Response) => {
+  const { user_id } = req.query;
+  const profile = await sql`
+    SELECT * FROM profiles
+    WHERE user_id = ${user_id}
+    `;
+  res.json({ success: true, profile });
 };
 
 export const createProfile = async (req: Request, res: Response) => {
@@ -18,7 +21,7 @@ export const createProfile = async (req: Request, res: Response) => {
     `;
 
   console.log(newProfile);
-  res.json({ success: true });
+  res.status(200).json({ message: "Profile created successfully" });
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
@@ -33,6 +36,6 @@ export const updateProfile = async (req: Request, res: Response) => {
     avatar_image = ${avatar_image}
     WHERE user_id = ${user_id}
     `;
-  console.log(updateProfile);
-  res.json({ success: true });
+
+  res.status(200).json({ message: "Profile updated successfully." });
 };

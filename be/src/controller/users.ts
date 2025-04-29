@@ -2,10 +2,12 @@ import { sql } from "../db";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
-export const getUsers = async (_req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
+  const { username } = req.query;
   const users = await sql`
     SELECT * FROM users
-    `;
+    WHERE username = ${username}
+    `
   res.json({ success: true, users });
 };
 
@@ -21,5 +23,6 @@ export const updatePassword = async (req: Request, res: Response) => {
     SET password = ${hash}
     WHERE email = ${email}
     `;
-  res.json({ success: true });
+
+  res.json({ message: "Password updated successfully" });
 };
