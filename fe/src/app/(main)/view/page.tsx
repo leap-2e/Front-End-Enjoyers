@@ -9,7 +9,7 @@ import { ChangeEvent, useState } from "react";
 
 export default function ViewPage() {
     const [imageUrl, setImageUrl] = useState("");
-    const [file, setFile] = useState< string | File >("");
+    const [file, setFile] = useState<string | File>("");
 
     const UPLOAD_PRESET = 'ml_default';
     const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -28,13 +28,11 @@ export default function ViewPage() {
 
             <Header />
 
-            <div className="w-full h-[319px] bg-[#F4F4F5] flex justify-center items-center">
-                {imageUrl
-                    ? <img src={imageUrl} className="object-none" />
-                    : <div className="bg-black rounded-2xl">
-                        <Label htmlFor="background" className="py-3 px-5 bg-transparent text-white flex gap-3"><Camera />Add image</Label>
-                        <input id="background" type="file" className="hidden" onChange={handleImage} />
-                    </div>}
+            <div className="w-full h-[319px] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: `url('${imageUrl ? imageUrl : "bg-[#F4F4F5]"}')` }}>
+                <div className="bg-black rounded-2xl">
+                    <Label htmlFor="background" className="py-3 px-5 bg-transparent text-white flex gap-3"><Camera />Add image</Label>
+                    <input id="background" type="file" className="hidden" onChange={handleImage} />
+                </div>
             </div>
 
             <div className="w-[90%] flex gap-5 mt-[-100px] mx-auto">
