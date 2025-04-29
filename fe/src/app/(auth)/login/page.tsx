@@ -21,7 +21,11 @@ import axios from 'axios'
 import { BASE_URL } from '@/constants'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import { UserType } from '@/types'
+
+type UserType = {
+email: string,
+password: string
+}
 
 const Login = () => {
 
