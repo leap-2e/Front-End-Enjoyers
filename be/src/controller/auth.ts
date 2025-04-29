@@ -42,11 +42,11 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
-    const KEY: any = process.env.ACCESS_TOKEN_SECRET_KEY;
+    const KEY: any = process.env.JWT_SECRET;
     const token = jwt.sign({ email: user.email, username: user.username, id: user.id }, KEY, { expiresIn: "1h" });
     res.status(200).json({ message: "Amjilttai nevterlee", token });
     
   } catch (error) {
-   res.json({message: (error as Error).message})
+   res.status(400).json({message: (error as Error).message})
   }
 };

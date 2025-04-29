@@ -1,22 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-export const verifyToken = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const verifyToken = ( req: Request, res: Response, next: NextFunction) => {
+  console.log(req.headers)
   try {
     if (!req.headers["authorization"]) {
       res.status(401).json({ success: false, message: "Unaurozation" });
       return;
     }
 
-    const [_, token] = req.headers["authorization"].split("");
-    const KEY = process.env.ACCESS_TOKEN_SECRET_KEY;
+    const token = req.headers["authorization"].split(" ")[1];
+    console.log(token)
+    const KEY = process.env.JWT_SECRET;
     const decode = jwt.verify(token, KEY!);
 
     next();
   } catch (error: unknown) {
-    res.json({ success: false });
+    console.log(error, "error")
+    res.status(401).json({ success: false, message: "Unauthorized" });
   }
 };

@@ -40,6 +40,12 @@ const UpdateProfileInfo = () => {
   const [currentProfile, setCurrentProfile] = useState<CurrentProfileType>();
   const [file, setFile] = useState<File | string>("");
   const [imageUrl, setImageUrl] = useState("");
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token as string)
+  }, [])
 
   const getPrevInfo = async () => {
     const response = await axios.get(`${BASE_URL}/profiles?user_id=${params.id}`);
@@ -101,6 +107,11 @@ const UpdateProfileInfo = () => {
       avatar_image: url,
       social_media_url: value.social_media,
       user_id: params.id,
+
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
     toast(`${res.data.message}`)

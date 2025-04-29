@@ -1,13 +1,18 @@
 import { sql } from "../db";
 import { Response, Request } from "express";
 
-export const getProfiles = async (req: Request, res: Response) => {
+export const getProfile = async (req: Request, res: Response) => {
   const { user_id } = req.query;
   const profile = await sql`
     SELECT * FROM profiles
     WHERE user_id = ${user_id}
     `;
   res.json({ success: true, profile });
+};
+
+export const getProfiles = async (_req: Request, res: Response) => {
+  const profiles = await sql`SELECT * FROM profiles`;
+  res.json({ success: true, profiles });
 };
 
 export const createProfile = async (req: Request, res: Response) => {
