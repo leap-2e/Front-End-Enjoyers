@@ -5,52 +5,24 @@ import axios from "axios";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {jwtDecode} from "jwt-decode";
 
-type UserType = {
-    username: string;
-    id: string;
-};
+type DecodeType = {
+    email: string,
+    id: string,
+    username: string
+}
 
 export function SideBarComponent() {
     const [userId, setUserId] = useState("");
-    const [userName, setUserName] = useState<string>("");
 
     useEffect(() => {
-        const username = localStorage.getItem("username") as string;
-        setUserName(username);
-    }, []);
-
-    const getId = async () => {
-        const { data: users } = await axios.get(`${BASE_URL}/users`);
-        // const {data: users} = await axios.get(`${BASE_URL}/users?userName=${userName}`); // search query
-
-        const getId = async () => {
-            const { data: users } = await axios.get(`${BASE_URL}/users`);
-            // const {data: users} = await axios.get(`${BASE_URL}/users?userName=${userName}`); // search query
-
-            const filteredUsers: UserType[] = users.users.filter((user: UserType) => {
-                if (userName === user.username) {
-                    return user
-                }
-            });
-
-            if (filteredUsers.length) {
-                setUserId(filteredUsers[0].id);
-            }
-
-            if (filteredUsers.length) {
-                setUserId(filteredUsers[0].id);
-            }
-        };
-    }
-    console.log(userId, "userId");
-
-    useEffect(() => {
-        if (userName) {
-            getId();
+        const token = localStorage.getItem("token");
+        if (token) {
+            const decode: DecodeType = jwtDecode(token);
+            setUserId(decode.id)
         }
-    }, [userName]);
-
+    }, []);
 
     return (
         <div className="min-w-[260px] max-w-[300px] h-screen">

@@ -25,7 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { CardType } from "@/types";
+import { CardType } from "@/app/_components/UpdatePaymentInfo";
 
 const CreatePaymentInfo = () => {
   const router = useRouter();
@@ -59,7 +59,7 @@ const CreatePaymentInfo = () => {
   });
 
   const onSubmit = async (value: CardType) => {
-    const cardInfo = await axios.post(`${BASE_URL}/cards`, {
+    const response = await axios.post(`${BASE_URL}/cards`, {
       id: uuidv4(),
       country: value.country,
       first_name: value.first_name,
@@ -71,8 +71,8 @@ const CreatePaymentInfo = () => {
       user_id: params.id,
     });
 
-    toast("Amjilttai burtgegdlee");
-    router.push("/dashboard");
+    toast(`${response.data.message}`);
+    router.push("/login");
   };
 
   return (

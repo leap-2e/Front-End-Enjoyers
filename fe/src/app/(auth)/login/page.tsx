@@ -46,22 +46,19 @@ const Login = () => {
   });
 
   const onSubmit = async (value: UserType) => {
-    const user = await axios.post(`${BASE_URL}/auth/check`, {
-      email: value.email,
-      password: value.password,
-    });
 
-    if (!user) {
-      toast("Amjiltui oroldlogo");
+    try {
+      const res = await axios.post<{ message: string, token: string }>(`${BASE_URL}/auth/login`, {
+        email: value.email,
+        password: value.password,
+      });
+      localStorage.setItem('token', res.data.token)
+      router.push("/dashboard");
+
+    } catch (error) {
+      toast((error as Error).message);
     }
 
-    const getUsers = await axios.get(`${BASE_URL}/users`);
-    const getUser = getUsers.data.users.filter(
-      (user: UserType) => user.email === value.email
-    );
-    localStorage.setItem("username", getUser[0].username);
-
-    router.push("/dashboard");
   };
 
   return (

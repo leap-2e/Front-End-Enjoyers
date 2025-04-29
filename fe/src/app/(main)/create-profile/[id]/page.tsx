@@ -22,6 +22,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Label } from "@radix-ui/react-label";
 import { ChangeEvent, useState } from "react";
+import { toast } from "sonner";
 
 type ValueType = {
   name: string;
@@ -57,11 +58,10 @@ const CreateProfileInfo = () => {
 
   const handleImage = (event: ChangeEvent) => {
     const file = ((event.target as HTMLInputElement).files as FileList)[0];
-    // console.log(file, "this is my image file")
     setImageUrl(window.URL.createObjectURL(file));
     setFile(file);
   };
-  console.log(file, "this is file");
+ 
 
   // const UPLOAD_PRESET = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
   const UPLOAD_PRESET = "ml_default";
@@ -82,7 +82,7 @@ const CreateProfileInfo = () => {
     );
     const { url } = await response.json();
 
-    const profile = await axios.post(`${BASE_URL}/profiles`, {
+    const profileResponse = await axios.post(`${BASE_URL}/profiles`, {
       id: uuidv4(),
       name: value.name,
       about: value.about,
@@ -90,6 +90,8 @@ const CreateProfileInfo = () => {
       social_media_url: value.social_media,
       user_id: params.id,
     });
+
+    toast(`${profileResponse.data.message}`)
 
     router.push(`/bank-card/${user_id}`);
   };
