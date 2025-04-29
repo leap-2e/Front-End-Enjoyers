@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import React from 'react'
+import React, { useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -27,6 +27,7 @@ type ValueType = {
 const TakeUserInfo = () => {
 
     const router = useRouter();
+    const [userName, setUserName] = useState("");
 
     const formSchema = z.object({
         email: z.string().email(),
@@ -43,19 +44,21 @@ const TakeUserInfo = () => {
         },
     });
 
-    const username = localStorage.getItem("username");
-    const user_id = uuidv4();
-    localStorage.setItem('user_id', user_id);
+    if(typeof window !== undefined) {
+        const username = localStorage.getItem("username") ? JSON.parse(localStorage.getItem("username") as string) : null;
+        setUserName(username)
+    }
 
+    const user_id = uuidv4();
     const onSubmit = async (value: ValueType) => {
-        const user = await axios.post(`${BASE_URL}/auth/register`, { id: user_id, username: username, email: value.email, password: value.password });
+        const user = await axios.post(`${BASE_URL}/auth/register`, { id: user_id, username: userName, email: value.email, password: value.password });
         router.push(`/create-profile/${user_id}`)
     }
     
     return (
         <div className="w-1/2 space-y-6">
             <h1 className="text-2xl font-semibold">
-                {` Welcome, ${username}`}
+                {` Welcome, ${userName}`}
             </h1>
             <div>
                 <Form {...form}>
