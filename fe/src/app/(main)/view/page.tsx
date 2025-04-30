@@ -21,7 +21,7 @@ export default function ViewPage() {
     const [imageUrl, setImageUrl] = useState("");
     const [file, setFile] = useState<string | File>("");
     const [userId, setUserId] = useState("");
-    const [currentProfile, setCurrentProfile] = useState<CreatorType | undefined>();
+    const [currentProfile, setCurrentProfile] = useState<CreatorType>();
 
     const handleImage = (event: ChangeEvent) => {
         const file = ((event.target as HTMLInputElement).files as FileList)[0]
