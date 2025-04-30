@@ -21,8 +21,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { CreatorType } from "./Explore";
 
-export function EditProfile() {
+export function EditProfile({ currentProfile}: {currentProfile: CreatorType}) {
   const form = useForm();
 
   return (
@@ -34,7 +35,7 @@ export function EditProfile() {
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <p className="w-[83px] h-[20px] font-bold">Jake</p>
+            <p className="w-[83px] h-[20px] font-bold">{currentProfile?.name}</p>
           </div>
 
           <Dialog>
@@ -131,11 +132,10 @@ export function EditProfile() {
 
         <div className="w-full h-[88px]">
           <h6 className="w-full h-[36px] self-center text-black font-semibold">
-            About Jake
+            {`About ${currentProfile?.name}`}
           </h6>
           <p className="w-full h-fit">
-            I’m a typical person who enjoys exploring different things. I also
-            make music art as a hobby. Follow me along.
+           {currentProfile?.about}
           </p>
         </div>
       </div>
@@ -144,7 +144,7 @@ export function EditProfile() {
         <h6 className="w-full h-[36px] self-center text-black font-semibold">
           Social media URL
         </h6>
-        <p>https://buymeacoffee.com/spacerulz44</p>
+        <p>{currentProfile?.social_media_url}</p>
       </div>
 
       <div className="w-full min-h-[116px] p-6 gap-2 border border-[#F4F4F5] rounded-md">
@@ -157,7 +157,7 @@ export function EditProfile() {
               <Heart fill="black" />
             </p>
             <h6 className="text-black font-semibold">
-              Be the first one to support Jake
+              {`Be the first one to support ${currentProfile?.name}`}
             </h6>
           </div>
         </div>
