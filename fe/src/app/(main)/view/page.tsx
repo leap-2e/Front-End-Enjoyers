@@ -22,12 +22,8 @@ export default function ViewPage() {
     const [imageUrl, setImageUrl] = useState("");
     const [userId, setUserId] = useState("");
     const [file, setFile] = useState<string | File>("");
-<<<<<<< HEAD
-    const [userId, setUserId] = useState("");
     const [currentProfile, setCurrentProfile] = useState<CreatorType>();
-=======
     const [coverButton, setCoverButton] = useState(false);
->>>>>>> 9a37180 (up)
 
     const handleImage = (event: ChangeEvent) => {
         const file = ((event.target as HTMLInputElement).files as FileList)[0]
