@@ -33,15 +33,19 @@ create table users (
     updated_at timestamp default current_timestamp
  ),
 
- -- create table donations (
---     id varchar(36) primary key,
---     amount integer not null,
---     special_message varchar(255) not null,
---     social_url varchar(255) not null,
---     donor_id varchar(36) references users(id),
---     recipient_id varchar(36) references users(id),
---     created_at timestamp default current_timestamp
---  ),
+ create table donations (
+    id varchar(36) primary key,
+    amount integer not null,
+    special_message varchar(255) not null,
+    social_media_url varchar(255) not null,
+    donor_id varchar(36) references users(id),
+    recipient_id varchar(36) references users(id),
+    created_at timestamp default current_timestamp
+ ),
+
+SELECT users.id, users.username, profile.id, profiles.name, profiles.avatar_image, profiles.social_media_url , profiles.background_image
+FROM users
+FULL JOIN profiles ON profiles.user_id = users.id;
 
 --  create table users (
 --     id varchar(36) primary key,
