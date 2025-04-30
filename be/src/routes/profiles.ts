@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  addCover,
   createProfile,
   getProfile,
   getProfiles,
@@ -12,6 +13,7 @@ profileRouter
   .get("/all", getProfiles)
   .get("/", getProfile)
   .post("/", createProfile)
+  .post("/image", addCover)
   .put("/", verifyToken, updateProfile);
 
 export { profileRouter };
