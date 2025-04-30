@@ -6,6 +6,7 @@ import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/users";
 import { profileRouter } from "./routes/profiles";
 import { cardRouter } from "./routes/cards";
+import { donationRouter } from "./routes/donations";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/profiles", profileRouter);
 app.use("/cards", cardRouter);
+app.use("/donations", donationRouter);
 
 app.get("/", async (_req, res) => {
   const result = await sql`SELECT NOW() AS time`;

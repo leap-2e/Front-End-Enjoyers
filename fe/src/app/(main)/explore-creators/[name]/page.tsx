@@ -1,7 +1,5 @@
 "use client"
 
-import { BuyCoffee } from "@/app/_components/BuyCoffee";
-import { EditProfile } from "@/app/_components/EditProfile";
 import { Header } from "@/app/_components/Header";
 import { BASE_URL } from "@/constants";
 import axios from "axios";
@@ -11,11 +9,30 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Heart } from "lucide-react";
 import { CreatorType } from "@/app/_components/Explore";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Coffee } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "@/components/ui/textarea";
+import { v4 as uuidv4 } from 'uuid';
+import { jwtDecode } from "jwt-decode";
+import { DecodeType } from "../../view/page";
+import { toast } from "sonner";
+
+type ValueType = {
+    social_media_url: string,
+    special_message: string,
+}
 
 export default function ExploreOthers() {
     const params = useParams();
     const [userId, setUserId] = useState("");
-    const [creator, setCreator] = useState<CreatorType>()
+    const [creator, setCreator] = useState<CreatorType>();
+    const [buttonValue, setButtonValue] = useState<number>();
+    const [donorId, setDonorId] = useState("")
 
     useEffect(() => {
         const getUserId = async () => {
@@ -33,7 +50,40 @@ export default function ExploreOthers() {
         getCreatorInfo()
     }, [userId])
 
-    console.log(creator)
+    // console.log(creator);
+
+    const formSchema = z.object({
+        social_media_url: z.string(),
+        special_message: z.string()
+    });
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            social_media_url: "",
+            special_message: "",
+        },
+    });
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if(token) {
+            const decode: DecodeType = jwtDecode(token)
+            setDonorId(decode.id)
+        }
+    }, [])
+
+    const onSubmit = async (value: ValueType) => {
+        const response = await axios.post(`${BASE_URL}/donations`, {
+            id: uuidv4(),
+            amount: buttonValue,
+            special_message: value.special_message,
+            social_media_url: value.social_media_url,
+            donor_id: donorId,
+            recipient_id: userId,
+        })
+        toast(`${response.data.message}`)
+    }
 
     return (
         <div className="w-full h-screen">
@@ -94,7 +144,68 @@ export default function ExploreOthers() {
                     </div>
                 </div>
 
-                <BuyCoffee />
+                <div className="w-1/2 h-fit rounded-lg bg-white flex flex-col gap-8 border border-[#F4F4F5] p-6">
+                    <div className="w-full h-[122px]">
+                        <h1 className="w-[full] h-[36px] text-black font-bold mb-6">
+                            Buy Jake a Coffee
+                        </h1>
+                        <div className="w-full h-[62px]">
+                            <p>Select amount:</p>
+                            <div className="h-[40px] flex gap-3">
+                                <button onClick={() => setButtonValue(1)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                                    <Coffee /> $1
+                                </button>
+                                <button onClick={() => setButtonValue(2)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                                    <Coffee /> $2
+                                </button>
+                                <button onClick={() => setButtonValue(5)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                                    <Coffee /> $5
+                                </button>
+                                <button onClick={() => setButtonValue(10)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                                    <Coffee /> $10
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+                            <FormField
+                                control={form.control}
+                                name="social_media_url"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Enter buy coffee or social media URL</FormLabel>
+                                        <FormControl>
+                                            <Input type="url" placeholder="buymecoffee.com/" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="special_message"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>About</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="Please write your message here"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <Button type="submit" className="w-full">
+                                Support
+                            </Button>
+
+                        </form>
+                    </Form>
+                </div>
             </div>
         </div>
     );

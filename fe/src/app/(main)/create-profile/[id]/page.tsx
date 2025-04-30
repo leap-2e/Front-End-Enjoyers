@@ -18,7 +18,6 @@ import axios from "axios";
 import { BASE_URL } from "@/constants";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Label } from "@radix-ui/react-label";
 import { ChangeEvent, useState } from "react";
