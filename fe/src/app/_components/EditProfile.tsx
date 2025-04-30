@@ -23,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CreatorType } from "./Explore";
 
-export function EditProfile({ currentProfile}: {currentProfile: CreatorType}) {
+export function EditProfile({ currentProfile}: {currentProfile: CreatorType | undefined}) {
   const form = useForm();
 
   return (
