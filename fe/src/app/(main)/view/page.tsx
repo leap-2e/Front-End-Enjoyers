@@ -10,7 +10,7 @@ import { Camera } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
-type DecodeType = {
+export type DecodeType = {
     email: string,
     id: string,
     username: string

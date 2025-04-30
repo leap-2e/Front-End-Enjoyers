@@ -19,7 +19,7 @@ export function BuyCoffee() {
   return (
     <div className="w-1/2 h-fit rounded-lg bg-white flex flex-col gap-8 border border-[#F4F4F5] p-6">
       <Form {...form}>
-        <form className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8">
           <div className="w-full h-[122px]">
             <h1 className="w-[full] h-[36px] text-black font-bold mb-6">
               Buy Jake a Coffee
@@ -75,7 +75,7 @@ export function BuyCoffee() {
           />
 
           <Button>Support</Button>
-        </form>
+        </div>
       </Form>
     </div>
   );
