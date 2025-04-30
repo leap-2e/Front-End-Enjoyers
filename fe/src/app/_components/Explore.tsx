@@ -16,6 +16,8 @@ export type CreatorType = {
   name: string,
   social_media_url: string,
   user_id: string,
+  username: string,
+  background_image? : string
 }
 
 export function Explore() {
@@ -28,11 +30,12 @@ export function Explore() {
       setCreators(response.data.profiles)
     }
     getCreators();
-  }, [])
+  }, []);
 
   const filteredCreators = creators.filter((creator: CreatorType) =>
-    creator.name.toLowerCase().includes(searchTerm.toLowerCase())
+    creator?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   return (
     <div className="w-3/4 max-h-screen overflow-auto">
       <div className="max-w-4xl mx-auto p-6 pt-[100px]">
@@ -60,7 +63,7 @@ export function Explore() {
                       <h3 className="text-lg font-semibold">{creator.name}</h3>
                     </div>
                   </div>
-                  <Link href={`/explore-creators/${creator.user_id}`}>
+                  <Link href={`/explore-creators/${creator.username}`}>
                     <Button
                       variant="outline"
                       size="sm"

@@ -11,7 +11,11 @@ export const getProfile = async (req: Request, res: Response) => {
 };
 
 export const getProfiles = async (_req: Request, res: Response) => {
-  const profiles = await sql`SELECT * FROM profiles`;
+  const profiles = await sql`
+    SELECT users.username as username, profiles.id, profiles.name, profiles.avatar_image, profiles.social_media_url , profiles.background_image, profiles.user_id
+    FROM users
+    FULL JOIN profiles ON profiles.user_id = users.id 
+  `;
   res.json({ success: true, profiles });
 };
 
@@ -29,15 +33,15 @@ export const createProfile = async (req: Request, res: Response) => {
   res.status(200).json({ message: "Profile created successfully" });
 };
 
-export const addCover = async (req: Request , res: Response)  => {
+export const addCover = async (req: Request, res: Response) => {
   const { background_image, user_id } = req.body;
   const cover = await sql`
   UPDATE profiles
   SET background_image = ${background_image}
   WHERE user_id = ${user_id}
   `
-res.json({success: true, cover})
-} 
+  res.json({ success: true, cover })
+}
 
 export const updateProfile = async (req: Request, res: Response) => {
   const { id, name, about, social_media_url, avatar_image, user_id } = req.body;
