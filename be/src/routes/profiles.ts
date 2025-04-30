@@ -9,7 +9,7 @@ import { verifyToken } from "../middleware/verify-token";
 
 const profileRouter = Router();
 profileRouter
-  .get("/", getProfiles)
+  .get("/all", getProfiles)
   .get("/", getProfile)
   .post("/", createProfile)
   .put("/", verifyToken, updateProfile);

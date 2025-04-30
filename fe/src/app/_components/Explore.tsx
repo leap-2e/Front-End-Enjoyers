@@ -7,13 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import axios from "axios";
 import { BASE_URL } from "@/constants";
+import Link from "next/link";
 
-type CreatorType = {
+export type CreatorType = {
   id: string,
   about: string,
   avatar_image: string,
   name: string,
   social_media_url: string,
+  user_id: string,
 }
 
 export function Explore() {
@@ -22,13 +24,11 @@ export function Explore() {
 
   useEffect(() => {
     const getCreators = async () => {
-      const response = await axios.get(`${BASE_URL}/profiles`);
+      const response = await axios.get(`${BASE_URL}/profiles/all`);
       setCreators(response.data.profiles)
     }
     getCreators();
   }, [])
-
-  console.log(creators, "creators")
 
   const filteredCreators = creators.filter((creator: CreatorType) =>
     creator.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -60,13 +60,16 @@ export function Explore() {
                       <h3 className="text-lg font-semibold">{creator.name}</h3>
                     </div>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    View profile <ExternalLink className="h-4 w-4" />
-                  </Button>
+                  <Link href={`/explore-creators/${creator.user_id}`}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2"
+                    >
+                      View profile
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                   <div>
