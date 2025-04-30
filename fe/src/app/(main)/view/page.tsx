@@ -9,6 +9,7 @@ import axios from "axios";
 import { Camera } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { CreatorType } from "@/app/_components/Explore";
 
 export type DecodeType = {
     email: string,
@@ -19,7 +20,8 @@ export type DecodeType = {
 export default function ViewPage() {
     const [imageUrl, setImageUrl] = useState("");
     const [file, setFile] = useState<string | File>("");
-    const [userId, setUserId] = useState("")
+    const [userId, setUserId] = useState("");
+    const [currentProfile, setCurrentProfile] = useState<CreatorType>();
 
     const handleImage = (event: ChangeEvent) => {
         const file = ((event.target as HTMLInputElement).files as FileList)[0]
@@ -38,6 +40,14 @@ export default function ViewPage() {
             setUserId(decode.id)
         }
     }, [])
+
+    useEffect(() => {
+        const getProfileInfo = async () => {
+            const response = await axios.get(`${BASE_URL}/profiles?user_id=${userId}`)
+            setCurrentProfile(response.data.profile[0])
+        }
+        getProfileInfo()
+    }, [userId])
 
     const UPLOAD_PRESET = 'ml_default';
     const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -77,7 +87,7 @@ export default function ViewPage() {
 
             <div className="w-[90%] flex gap-5 mt-[-100px] mx-auto relative">
 
-                <EditProfile />
+                <EditProfile currentProfile={currentProfile} />
 
                 <BuyCoffee />
 
