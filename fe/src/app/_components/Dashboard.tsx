@@ -18,38 +18,20 @@ import { useEffect, useRef, useState } from "react";
 import { DonationType } from "../(main)/page";
 import { nanoid } from "nanoid"
 import { CreatorType } from "./Explore";
+import { BASE_URL } from "@/constants";
+import axios from "axios";
 
 export const Dashboard = ({ donations, currentProfile }: { donations: DonationType[] | undefined, currentProfile: CreatorType | undefined }) => {
-console.log(currentProfile, "profile")
-  const options: any = [
-    { label: "$1", value: "1" },
-    { label: "$2", value: "2" },
-    { label: "$5", value: "5" },
-    { label: "$10", value: "10" },
-  ];
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<any>([]);
-  const dropdownRef: any = useRef(null);
-
-  const toggleOption = (value: any) => {
-    setSelected((prev: any) =>
-      prev.includes(value)
-        ? prev.filter((v: any) => v !== value)
-        : [...prev, value]
-    );
-  };
+    const [totalAmount, setTotalAmount] = useState("");
 
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    const getTotalAmount = async () => {
+      const response = await axios.get(`${BASE_URL}/donations/total?user_id=${currentProfile?.user_id}`);
+      setTotalAmount(response.data.total[0].sum)
+    }
+    getTotalAmount()
+  }, [currentProfile?.user_id])
 
   return (
     <div className="w-3/4 max-h-screen overflow-auto">
@@ -60,7 +42,7 @@ console.log(currentProfile, "profile")
               <div className="flex justify-between">
                 <div className="flex  gap-1">
                   <img
-                    className="w-12 h-12"
+                    className="w-12 h-12 rounded-full"
                     src={currentProfile?.avatar_image}
                     alt=""
                   />
@@ -88,13 +70,13 @@ console.log(currentProfile, "profile")
                       <SelectValue placeholder="Last 30 days" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="light">Last 30 days</SelectItem>
-                      <SelectItem value="dark">Last 90 days</SelectItem>
-                      <SelectItem value="system">All times</SelectItem>
+                      <SelectItem value="30">Last 30 days</SelectItem>
+                      <SelectItem value="90">Last 90 days</SelectItem>
+                      <SelectItem value="all">All times</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <h1 className="font-bold text-4xl mt-4">$450</h1>
+                <h1 className="font-bold text-4xl mt-4">{`$${totalAmount}`}</h1>
               </div>
             </div>
           </CardHeader>
@@ -104,38 +86,19 @@ console.log(currentProfile, "profile")
         <div className="flex justify-between pt-4  pb-1">
           <h1 className="font-semibold text-base">Recent transactions</h1>
           <div className="relative mb-2">
-            <button
-              className="w-[109px] h-[36px] border px-4 py-2 text-left rounded-md bg-white shadow flex justify-center items-center gap-1"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {/* <img className="w-2 h-1 mt-2" src="Vector.png" alt="" /> */}
-              <ChevronDown />
-              {selected.length > 0
-                ? selected.map((val: any) => `$${val}`).join(", ")
-                : "Amount"}
-            </button>
-
-            {isOpen && (
-              <div
-                className="absolute z-10 mt-1 w-full border rounded bg-white shadow"
-                ref={dropdownRef}
-              >
-                {options.map((option: any) => (
-                  <label
-                    key={option.value}
-                    className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={(selected || []).includes(option.value)}
-                      onChange={() => toggleOption(option.value)}
-                      className="mr-2"
-                    />
-                    {option.label}
-                  </label>
-                ))}
-              </div>
-            )}
+          <div className="flex gap-4">
+                  <Select>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Amount" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">$1</SelectItem>
+                      <SelectItem value="2">$2</SelectItem>
+                      <SelectItem value="5">$5</SelectItem>
+                      <SelectItem value="10">$10</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div> 
           </div>
         </div>
         <Card>
@@ -166,7 +129,7 @@ console.log(currentProfile, "profile")
                       </div>
                       <div>
                         <p className="text-sm">
-                         {donation.message}
+                          {donation.message}
                         </p>
                       </div>
                     </div>

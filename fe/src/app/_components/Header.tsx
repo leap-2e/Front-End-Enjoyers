@@ -33,7 +33,7 @@ export function Header() {
   return (
     <div className="fixed top-0 bg-white flex w-full h-[56px] items-center justify-center z-10 pt-4">
       <div className="w-[90%] h-[40px] flex justify-between items-center">
-        <Link href="/">
+        <Link href={`/?user_id=${userId}`}>
           <div className="w-[151px] h-[24px] flex gap-2 items-center">
             <Coffee />
             <p className="text-black font-bold">Buy Me Coffee</p>
