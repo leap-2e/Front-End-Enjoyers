@@ -11,10 +11,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Coffee } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export function BuyCoffee() {
+  const [border, setBorder] = useState(0);
   const form = useForm();
+
+  const buttonOne = () => {
+    setBorder(1)
+  };
+  const buttonTwo = () => {
+    setBorder(2)
+  };
+  const buttonFive = () => {
+    setBorder(5)
+  };
+  const buttonTen = () => {
+    setBorder(10)
+  };
 
   return (
     <div className="w-1/2 h-fit rounded-lg bg-white flex flex-col gap-8 border border-[#F4F4F5] p-6">
@@ -26,17 +41,17 @@ export function BuyCoffee() {
             </h1>
             <div className="w-full h-[62px]">
               <p>Select amount:</p>
-              <div className="h-[40px] flex gap-3">
-                <button className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+              <div className="h-[40px] flex gap-3 [&>*]:bg-[#F4F4F5] [&>*]:rounded-md [&>*]:flex [&>*]:gap-2 [&>*]:items-center [&>*]:py-2 [&>*]:px-4 [&>*]:border-2">
+                <button onClick={buttonOne} className={`${border === 1 ? "border-black" : "border-transparent"}`}>
                   <Coffee /> $1
                 </button>
-                <button className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                <button onClick={buttonTwo} className={`${border === 2 ? "border-black" : "border-transparent"}`}>
                   <Coffee /> $2
                 </button>
-                <button className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                <button onClick={buttonFive} className={`${border === 5 ? "border-black" : "border-transparent"}`}>
                   <Coffee /> $5
                 </button>
-                <button className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                <button onClick={buttonTen} className={`${border === 10 ? "border-black" : "border-transparent"}`}>
                   <Coffee /> $10
                 </button>
               </div>
@@ -79,4 +94,4 @@ export function BuyCoffee() {
       </Form>
     </div>
   );
-}
+};

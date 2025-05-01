@@ -124,11 +124,8 @@ const UpdateProfileInfo = () => {
         <div>
           <Label htmlFor="avatar_image">
             <p>Add photo</p>
-            {imageUrl ? (
-              <img src={imageUrl} className="w-40 h-40 rounded-full" />
-            ) : (
-              <div className="w-40 h-40 rounded-full border border-dashed"></div>
-            )}
+            <div className="w-40 h-40 rounded-full border bg-cover bg-center mt-3 mb-3" style={{ backgroundImage: `url('${imageUrl ? imageUrl : ""}')` }}>
+            </div>
           </Label>
           <input
             id="avatar_image"
