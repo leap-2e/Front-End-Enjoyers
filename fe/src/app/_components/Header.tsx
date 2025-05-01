@@ -48,7 +48,7 @@ export function Header() {
           <Link href="/profile">
             <Avatar>
               <AvatarImage className="object-cover object-center" src={currentUser?.avatar_image} />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>{currentUser?.name.slice(0, 2)}</AvatarFallback>
             </Avatar>
           </Link>
           {currentUser && <p className="w-fit h-[20px] font-[500]">{currentUser?.name}</p>}
