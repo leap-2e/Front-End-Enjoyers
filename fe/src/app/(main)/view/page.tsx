@@ -1,4 +1,5 @@
 "use client"
+
 import { BuyCoffee } from "@/app/_components/BuyCoffee";
 import { EditProfile } from "@/app/_components/EditProfile";
 import { Header } from "@/app/_components/Header";
@@ -15,23 +16,31 @@ export type DecodeType = {
     email: string,
     id: string,
     username: string
-}
+};
 
 export default function ViewPage() {
     const [imageUrl, setImageUrl] = useState("");
+    const [userId, setUserId] = useState("");
     const [file, setFile] = useState<string | File>("");
+<<<<<<< HEAD
     const [userId, setUserId] = useState("");
     const [currentProfile, setCurrentProfile] = useState<CreatorType>();
+=======
+    const [coverButton, setCoverButton] = useState(false);
+>>>>>>> 9a37180 (up)
 
     const handleImage = (event: ChangeEvent) => {
         const file = ((event.target as HTMLInputElement).files as FileList)[0]
         setImageUrl(window.URL.createObjectURL(file))
         setFile(file);
     };
+    console.log(imageUrl, "imageURL")
+    console.log(file, "file")
 
     const cancelButton = () => {
         setImageUrl("");
-    }
+        setFile("");
+    };
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -39,7 +48,7 @@ export default function ViewPage() {
             const decode: DecodeType = jwtDecode(token);
             setUserId(decode.id)
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         const getProfileInfo = async () => {
@@ -64,9 +73,14 @@ export default function ViewPage() {
             });
         const { url } = await response.json();
 
-        const res = await axios.post(`${BASE_URL}/profiles/image`, { background_image: url, user_id: userId })
-        console.log(res, "res")
-    }
+        const res = await axios.post(`${BASE_URL}/profiles/image`, { background_image: url, user_id: userId });
+
+        setCoverButton(true);
+    };
+
+    const changeCoverOnclick = () => {
+        setCoverButton(false)
+    };
 
     return (
         <div className="w-full h-screen">
@@ -75,13 +89,20 @@ export default function ViewPage() {
 
             <div className="w-full h-[319px] flex justify-center items-center bg-cover bg-center mt-[56px] relative" style={{ backgroundImage: `url('${imageUrl ? imageUrl : "bg-[#F4F4F5]"}')` }}>
                 <div className={`bg-black rounded-md ${imageUrl ? "hidden" : "block"}`}>
-                    <Label htmlFor="background" className="py-2 px-5 bg-transparent text-white flex gap-3"><Camera />Add image</Label>
+                    <Label htmlFor="background" className="py-2 px-4 bg-transparent text-white flex gap-3 cursor-pointer"><Camera />Add image</Label>
                     <input id="background" type="file" className="hidden" onChange={handleImage} />
                 </div>
 
-                <div className={`absolute top-2 right-10 flex gap-3 ${imageUrl ? "block" : "hidden"}`}>
+                <div className={`absolute top-2 right-10 flex gap-3 ${imageUrl ? "block" : "hidden"} ${coverButton ? "hidden" : "flex"}`}>
                     <Button onClick={saveChanges} className="bg-black text-white hover:bg-[#F4F4F5] hover:text-black">Save changes</Button>
                     <Button onClick={cancelButton} className="bg-[#F4F4F5] text-black hover:text-white hover:bg-black">Cancel</Button>
+                </div>
+
+                {/* <Button className={`flex absolute top-2 right-10 bg-[#F4F4F5] text-black hover:bg-black hover:text-white ${coverButton ? "flex" : "hidden"}`}><Camera />Change cover</Button> */}
+
+                <div onClick={changeCoverOnclick} className={`flex absolute top-2 right-10 bg-[#F4F4F5] text-black hover:bg-black hover:text-white rounded-md ${coverButton ? "flex" : "hidden"}`}>
+                    <Label htmlFor="cover" className="py-2 px-3 flex gap-2"><Camera />Change cover</Label>
+                    <input id="cover" type="file" className="hidden" onChange={handleImage} />
                 </div>
             </div>
 
@@ -94,4 +115,4 @@ export default function ViewPage() {
             </div>
         </div>
     )
-}
+};
