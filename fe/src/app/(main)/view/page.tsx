@@ -43,7 +43,7 @@ export default function ViewPage() {
         setIsEditingCover(false);
     };
 
-    const searchParams = useSearchParams()
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         const getProfileInfo = async () => {
