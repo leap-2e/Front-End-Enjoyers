@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { donation } from "../controller/donations";
+import { donation, getDonataionInfo } from "../controller/donations";
 
 const donationRouter = Router();
-donationRouter.post("/", donation)
+donationRouter.post("/", donation).get("/", getDonataionInfo)
 
 export { donationRouter }

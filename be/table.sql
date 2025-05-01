@@ -76,3 +76,8 @@ INSERT INTO cards
 (id, country, first_name, last_name, card_number, expiry_month, expiry_year, cvv)
 VALUES
 (gen_random_uuid(), 'narangerel', 'narangerel', 'narangerel', '123456789012', '12', '1234', '123')
+
+
+    SELECT profiles.name, donations.amount, donations.created_at, donations.social_media_url 
+    FROM donations
+    FULL JOIN profiles ON profiles.user_id = donations.donor_id 

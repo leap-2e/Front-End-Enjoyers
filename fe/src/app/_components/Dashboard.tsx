@@ -15,21 +15,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { DonationType } from "../(main)/page";
+import { nanoid } from "nanoid"
+import { CreatorType } from "./Explore";
 
-export const Dashboard = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const limit = 200;
-
-  const toggleExpand = () => {
-    setIsExpanded((prev) => !prev);
-  };
-  const text =
-    "Thank you for being so awesome everyday! You always manage to brighten up my day when I’m feeling down. Although $1 isn’t that much money it’s all I can contribute at the moment. When I become successful I will be sure to buy you more gifts and donations. Thank you again. ";
-
-  const isLongText = text.length > limit;
-  const displayText =
-    isExpanded || !isLongText ? text : text.slice(0, limit) + "...";
-
+export const Dashboard = ({ donations, currentProfile }: { donations: DonationType[] | undefined, currentProfile: CreatorType | undefined }) => {
+console.log(currentProfile, "profile")
   const options: any = [
     { label: "$1", value: "1" },
     { label: "$2", value: "2" },
@@ -70,24 +61,19 @@ export const Dashboard = () => {
                 <div className="flex  gap-1">
                   <img
                     className="w-12 h-12"
-                    src="https://github.com/shadcn.png"
+                    src={currentProfile?.avatar_image}
                     alt=""
                   />
                   <div className="flex flex-col  ml-2 mt-2 gap-1">
-                    <CardTitle>Jake </CardTitle>
+                    <CardTitle>{currentProfile?.name}</CardTitle>
                     <CardDescription>
-                      <p>buymeacoffee.com/baconpancakes1</p>
+                      <p>{currentProfile?.social_media_url}</p>
                     </CardDescription>
                   </div>
                 </div>
                 <div>
                   <button className="w-[159px] h-[40px] bg-black text-white rounded-lg ">
                     <p>
-                      {/* <img
-                        className="inline-block mr-3"
-                        src="copy.png"
-                        alt=""
-                      /> */}
                       Share page link
                     </p>
                   </button>
@@ -155,150 +141,38 @@ export const Dashboard = () => {
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-[12px] p-3">
-              <div>
-                <div className="flex justify-between">
-                  <div className="flex gap-1">
-                    <img
-                      className="w-10 h-10"
-                      src="https://github.com/shadcn.png"
-                      alt=""
-                    />
-                    <div className="flex flex-col  ml-1 mt-1 gap-1">
-                      <CardTitle>Guest</CardTitle>
-                      <CardDescription>
-                        <p>instagram.com/welesey</p>
-                      </CardDescription>
+              {
+                donations?.map((donation: DonationType) => {
+                  return (
+                    <div key={nanoid()}>
+                      <div className="flex justify-between">
+                        <div className="flex gap-1">
+                          <img
+                            className="w-10 h-10 rounded-full"
+                            src={donation.avatar}
+                            alt=""
+                          />
+                          <div className="flex flex-col  ml-1 mt-1 gap-1">
+                            <CardTitle>{donation.name}</CardTitle>
+                            <CardDescription>
+                              <p>{donation.url}</p>
+                            </CardDescription>
+                          </div>
+                        </div>
+                        <div>
+                          <span className="font-semibold text-base ">{`+$${donation.amount}`}</span>
+                          <p className="text-[#71717A]">{`${donation.date.slice(0, 10)}`}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-sm">
+                         {donation.message}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-base ">+$1</span>
-                    <p className="text-[#71717A]">10 hours ago</p>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-sm">
-                    Thank you for being so awesome everyday! You always manage
-                    to brighten up my day when I’m feeling down. Although $1
-                    isn’t that much money it’s all I can contribute at the
-                    moment{" "}
-                  </p>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between">
-                  <div className="flex gap-1">
-                    <img
-                      className="w-10 h-10"
-                      src="https://github.com/shadcn.png"
-                      alt=""
-                    />
-                    <div className="flex flex-col  ml-1 mt-1 gap-1">
-                      <CardTitle>John Doe</CardTitle>
-                      <CardDescription>
-                        <p>buymeacoffee.com/bdsadas</p>
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-base ">+$10</span>
-                    <p className="text-[#71717A]">10 hours ago</p>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-sm">
-                    Thank you for being so awesome everyday!
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-between">
-                <div className="flex gap-1">
-                  <img
-                    className="w-10 h-10"
-                    src="https://github.com/shadcn.png"
-                    alt=""
-                  />
-                  <div className="flex flex-col  ml-1 mt-1 gap-1">
-                    <CardTitle>John Doe</CardTitle>
-                    <CardDescription>
-                      <p>buymeacoffee.com/bdsadas</p>
-                    </CardDescription>
-                  </div>
-                </div>
-                <div>
-                  <span className="font-semibold text-base ">+$2</span>
-                  <p className="text-[#71717A]">10 hours ago</p>
-                </div>
-              </div>
-
-              <div className="flex justify-between">
-                <div className="flex gap-1">
-                  <img
-                    className="w-10 h-10"
-                    src="https://github.com/shadcn.png"
-                    alt=""
-                  />
-                  <div className="flex flex-col  ml-1 mt-1 gap-1">
-                    <CardTitle>John Doe</CardTitle>
-                    <CardDescription>
-                      <p>buymeacoffee.com/bdsadas</p>
-                    </CardDescription>
-                  </div>
-                </div>
-                <div>
-                  <span className="font-semibold text-base ">+$5</span>
-                  <p className="text-[#71717A]">10 hours ago</p>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between">
-                  <div className="flex gap-1">
-                    <img
-                      className="w-10 h-10"
-                      src="https://github.com/shadcn.png"
-                      alt=""
-                    />
-                    <div className="flex flex-col  ml-1 mt-1 gap-1">
-                      <CardTitle>John Doe</CardTitle>
-                      <CardDescription>
-                        <p>buymeacoffee.com/bdsadas</p>
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-base ">+$10</span>
-                    <p className="text-[#71717A]">10 hours ago</p>
-                  </div>
-                </div>
-                <div className="text-sm ">
-                  <p>{displayText}</p>
-                  {isLongText && (
-                    <button className="underline" onClick={toggleExpand}>
-                      {isExpanded ? "Show less" : "Show more"}
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex gap-1">
-                  <img
-                    className="w-10 h-10"
-                    src="https://github.com/shadcn.png"
-                    alt=""
-                  />
-                  <div className="flex flex-col  ml-1 mt-1 gap-1">
-                    <CardTitle>John Doe</CardTitle>
-                    <CardDescription>
-                      <p>buymeacoffee.com/bdsadas</p>
-                    </CardDescription>
-                  </div>
-                </div>
-                <div>
-                  <span className="font-semibold text-base ">+$2</span>
-                  <p className="text-[#71717A]">10 hours ago</p>
-                </div>
-              </div>
+                  )
+                })
+              }
             </div>
           </CardHeader>
         </Card>

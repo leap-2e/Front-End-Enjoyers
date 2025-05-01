@@ -29,7 +29,7 @@ export function SideBarComponent() {
             <nav className="mt-[100px]">
                 <ul className="space-y-2">
                     <li>
-                        <Link href="/">
+                        <Link href={`/?user_id=${userId}`}>
                             <span className="block p-2 rounded-md hover:bg-[#F4F4F5]">Home</span>
                         </Link>
                     </li>

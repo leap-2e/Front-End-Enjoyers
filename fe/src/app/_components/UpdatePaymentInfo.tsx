@@ -65,8 +65,8 @@ const UpdatePaymentInfo = () => {
     country: z.string(),
     first_name: z.string(),
     last_name: z.string(),
-    card_number: z.string().length(12, {
-      message: "Card number must be exactly 12 characters long",
+    card_number: z.string().length(16, {
+      message: "Card number must be exactly 16 characters long",
     }),
     expiry_month: z.string(),
     expiry_year: z.string(),

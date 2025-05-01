@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
 
 export default function DonationScreenCreator() {
+
   return (
     <div className="w-full h-screen">
       <Header />
