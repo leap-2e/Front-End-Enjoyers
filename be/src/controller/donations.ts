@@ -17,7 +17,7 @@ export const totalAmount = async (req: Request, res: Response) => {
   const total = await sql`
     SELECT SUM(amount)
     FROM donations
-    WHERE user_id = ${user_id}
+    WHERE recipient_id = ${user_id}
   `
   res.json({success: true, total})
 }
@@ -32,5 +32,3 @@ export const donation = async (req: Request, res: Response) => {
     `;
   res.json({ message: "Amjiltai handivlalaa", donation })
 }
-
-

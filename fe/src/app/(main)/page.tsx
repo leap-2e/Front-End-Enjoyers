@@ -21,7 +21,7 @@ export default function Home() {
   const [currentProfile, setCurrentProfile] = useState();
   const searchParams = useSearchParams();
   const userId = searchParams.get("user_id");
-
+  
   useEffect(() => {
     const getDonationInfo = async () => {
       const response = await axios.get(`${BASE_URL}/donations?user_id=${userId}`);
