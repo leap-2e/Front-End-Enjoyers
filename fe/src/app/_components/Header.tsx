@@ -5,10 +5,15 @@ import { jwtDecode } from "jwt-decode";
 import { ChevronDown, Coffee } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { DecodeType } from "../(main)/view/page";
 import axios from "axios";
 import { BASE_URL } from "@/constants";
 import { CreatorType } from "./Explore";
+
+export type DecodeType = {
+  email: string,
+  id: string,
+  username: string
+};
 
 export function Header() {
   const [userId, setUserId] = useState("");

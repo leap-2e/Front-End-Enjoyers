@@ -13,13 +13,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { DonationType } from "../(main)/page";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid"
 import { CreatorType } from "./Explore";
 import { BASE_URL } from "@/constants";
 import axios from "axios";
+import { DonationType } from "./HomeContent";
 
 export const Dashboard = ({ donations, currentProfile }: { donations: DonationType[] | undefined, currentProfile: CreatorType | undefined }) => {
 
