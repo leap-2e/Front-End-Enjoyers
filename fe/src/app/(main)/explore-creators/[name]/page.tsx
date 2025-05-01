@@ -1,6 +1,6 @@
 "use client"
 
-import { Header } from "@/app/_components/Header";
+import { DecodeType, Header } from "@/app/_components/Header";
 import { BASE_URL } from "@/constants";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -19,7 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { v4 as uuidv4 } from 'uuid';
 import { jwtDecode } from "jwt-decode";
-import { DecodeType } from "../../view/page";
 import { toast } from "sonner";
 
 type ValueType = {
