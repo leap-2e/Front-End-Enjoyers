@@ -8,9 +8,9 @@ import { BASE_URL } from "@/constants";
 import { Label } from "@radix-ui/react-label";
 import { Camera } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { CreatorType } from "@/app/_components/Explore";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 export type DecodeType = {
     email: string,
@@ -43,21 +43,17 @@ export default function ViewPage() {
         setIsEditingCover(false);
     };
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            const decode: DecodeType = jwtDecode(token);
-            setUserId(decode.id)
-        }
-    }, []);
+    const searchParams = useSearchParams()
 
     useEffect(() => {
         const getProfileInfo = async () => {
+            const userId = searchParams.get('user_id');
+            setUserId(userId as string)
             const response = await axios.get(`${BASE_URL}/profiles?user_id=${userId}`)
             setCurrentProfile(response.data.profile[0])
         }
         getProfileInfo()
-    }, [userId])
+    }, [])
 
     const UPLOAD_PRESET = 'ml_default';
     const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
