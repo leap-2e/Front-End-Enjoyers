@@ -28,7 +28,7 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
 
   return (
     <div className="w-1/2 h-fit rounded-lg bg-white flex flex-col gap-5 justify-self-center">
-      {currentProfile && <div>
+      <div>
         <div className="w-full h-[233px] p-6 gap-2 border border-[#F4F4F5] rounded-md">
           <div className="w-full h-[48px] flex justify-between">
             <div className="w-[107px] h-[48px] flex gap-3 items-center">
@@ -36,7 +36,7 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
                 <AvatarImage src={currentProfile.avatar_image} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <p className="w-[83px] h-[20px] font-bold">{currentProfile.name}</p>
+              <p className="w-[83px] h-[20px] font-bold">{currentProfile?.name}</p>
             </div>
 
             <Dialog>
@@ -133,10 +133,10 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
 
           <div className="w-full h-[88px]">
             <h6 className="w-full h-[36px] self-center text-black font-semibold">
-              {`About ${currentProfile.name}`}
+              {`About ${currentProfile?.name}`}
             </h6>
             <p className="w-full h-fit">
-              {currentProfile.about}
+              {currentProfile?.about}
             </p>
           </div>
         </div>
@@ -145,7 +145,7 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
           <h6 className="w-full h-[36px] self-center text-black font-semibold">
             Social media URL
           </h6>
-          <p>{currentProfile.social_media_url}</p>
+          <p>{currentProfile?.social_media_url}</p>
         </div>
 
         <div className="w-full min-h-[116px] p-6 gap-2 border border-[#F4F4F5] rounded-md">
@@ -158,11 +158,11 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
                 <Heart fill="black" />
               </p>
               <h6 className="text-black font-semibold">
-                {`Be the first one to support ${currentProfile.name}`}
+                {`Be the first one to support ${currentProfile?.name}`}
               </h6>
             </div>
           </div>
-        </div></div>}
+        </div></div>
     </div>
   );
 }

@@ -39,14 +39,14 @@ export function Header() {
             <p className="text-black font-bold">Buy Me Coffee</p>
           </div>
         </Link>
-        <div className="w-[182px] h-[40px] flex gap-2 items-center">
+        <div className="w-fit h-[40px] flex gap-2 items-center">
           <Link href="/profile">
             <Avatar>
-              <AvatarImage src={currentUser?.avatar_image} />
+              <AvatarImage className="object-cover object-center" src={currentUser?.avatar_image} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </Link>
-          {currentUser && <p className="w-[83px] h-[20px] font-[500]">{currentUser?.name}</p>}
+          {currentUser && <p className="w-fit h-[20px] font-[500]">{currentUser?.name}</p>}
           <ChevronDown size={20} />
         </div>
       </div>
