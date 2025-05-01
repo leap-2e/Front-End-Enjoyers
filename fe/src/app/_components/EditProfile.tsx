@@ -34,7 +34,7 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
             <div className="w-[107px] h-[48px] flex gap-3 items-center">
               <Avatar>
                 <AvatarImage src={currentProfile?.avatar_image} />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{currentProfile?.name.slice(0, 2)}</AvatarFallback>
               </Avatar>
               <p className="w-[83px] h-[20px] font-bold">{currentProfile?.name}</p>
             </div>

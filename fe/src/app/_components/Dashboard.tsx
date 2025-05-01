@@ -19,10 +19,23 @@ import { CreatorType } from "./Explore";
 import { BASE_URL } from "@/constants";
 import axios from "axios";
 import { DonationType } from "./HomeContent";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Heart } from "lucide-react";
 
 export const Dashboard = ({ donations, currentProfile }: { donations: DonationType[] | undefined, currentProfile: CreatorType | undefined }) => {
 
-    const [totalAmount, setTotalAmount] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
+  const [amount, setAmount] = useState<String>("all");
+
+  const filteredAmount = donations?.filter((donation) => {
+    if (amount === "all") {
+      return donation
+    } else {
+      if (donation.amount === Number(amount)) {
+        return donation
+      }
+    }
+  })
 
   useEffect(() => {
     const getTotalAmount = async () => {
@@ -40,11 +53,12 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
             <div className="">
               <div className="flex justify-between">
                 <div className="flex  gap-1">
-                  <img
-                    className="w-12 h-12 rounded-full"
-                    src={currentProfile?.avatar_image}
-                    alt=""
-                  />
+                  <Avatar className="w-12 h-12 rounded-full">
+                    <AvatarImage
+                      src={currentProfile?.avatar_image}
+                      alt="avatar_image" />
+                    <AvatarFallback>{currentProfile?.name.slice(0, 2)}</AvatarFallback>
+                  </Avatar>
                   <div className="flex flex-col  ml-2 mt-2 gap-1">
                     <CardTitle>{currentProfile?.name}</CardTitle>
                     <CardDescription>
@@ -85,35 +99,37 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
         <div className="flex justify-between pt-4  pb-1">
           <h1 className="font-semibold text-base">Recent transactions</h1>
           <div className="relative mb-2">
-          <div className="flex gap-4">
-                  <Select>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Amount" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">$1</SelectItem>
-                      <SelectItem value="2">$2</SelectItem>
-                      <SelectItem value="5">$5</SelectItem>
-                      <SelectItem value="10">$10</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div> 
+            <div className="flex gap-4">
+              <Select onValueChange={(event) => setAmount(event)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Amount" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all" >All</SelectItem>
+                  <SelectItem value="1" >$1</SelectItem>
+                  <SelectItem value="2" >$2</SelectItem>
+                  <SelectItem value="5" >$5</SelectItem>
+                  <SelectItem value="10" >$10</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-[12px] p-3">
-              {
-                donations?.map((donation: DonationType) => {
+              {filteredAmount && filteredAmount.length > 0 ?
+                filteredAmount?.map((donation: DonationType) => {
                   return (
                     <div key={nanoid()}>
                       <div className="flex justify-between">
                         <div className="flex gap-1">
-                          <img
-                            className="w-10 h-10 rounded-full"
-                            src={donation.avatar}
-                            alt=""
-                          />
+                          <Avatar>
+                            <AvatarImage className="w-12 h-12 rounded-full"
+                              src={donation.avatar}
+                              alt="avatar_image" />
+                            <AvatarFallback>{currentProfile?.name.slice(0, 2)}</AvatarFallback>
+                          </Avatar>
                           <div className="flex flex-col  ml-1 mt-1 gap-1">
                             <CardTitle>{donation.name}</CardTitle>
                             <CardDescription>
@@ -134,6 +150,17 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
                     </div>
                   )
                 })
+                :
+                <div className="place-self-center">
+                  <p>{`You have not recieved any $${amount} donation yet.`}</p>
+                </div>
+              }
+              {amount === "all" && filteredAmount?.length === 0 &&
+                <div className="place-self-center">
+                  <div className="w-12 h-12 rounded-full bg-[#F4F4F5] flex justify-center items-center"><Heart /></div>
+                  <p>You don't have any supporters yet.</p>
+                  <p>Share your page with your audience to get started.</p>
+                </div>
               }
             </div>
           </CardHeader>
