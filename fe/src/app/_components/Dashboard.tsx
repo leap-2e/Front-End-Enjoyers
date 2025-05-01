@@ -14,13 +14,23 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { DonationType } from "../(main)/page";
 import { nanoid } from "nanoid"
 import { CreatorType } from "./Explore";
+import { BASE_URL } from "@/constants";
+import axios from "axios";
 
 export const Dashboard = ({ donations, currentProfile }: { donations: DonationType[] | undefined, currentProfile: CreatorType | undefined }) => {
-console.log(currentProfile, "profile")
+
+  useEffect(() => {
+    const getTotalAmount = async () => {
+      const response = await axios.get(`${BASE_URL}/donations/total?user_id=${currentProfile?.user_id}`);
+      console.log(response.data)
+    }
+    getTotalAmount()
+  }, [currentProfile?.user_id])
+
   const options: any = [
     { label: "$1", value: "1" },
     { label: "$2", value: "2" },
@@ -60,7 +70,7 @@ console.log(currentProfile, "profile")
               <div className="flex justify-between">
                 <div className="flex  gap-1">
                   <img
-                    className="w-12 h-12"
+                    className="w-12 h-12 rounded-full"
                     src={currentProfile?.avatar_image}
                     alt=""
                   />
@@ -166,7 +176,7 @@ console.log(currentProfile, "profile")
                       </div>
                       <div>
                         <p className="text-sm">
-                         {donation.message}
+                          {donation.message}
                         </p>
                       </div>
                     </div>
