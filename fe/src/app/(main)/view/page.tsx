@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { BuyCoffee } from "@/app/_components/BuyCoffee";
 import { EditProfile } from "@/app/_components/EditProfile";
@@ -6,11 +6,11 @@ import { Header } from "@/app/_components/Header";
 import { Button } from "@/components/ui/button";
 import { BASE_URL } from "@/constants";
 import { Label } from "@radix-ui/react-label";
-import axios from "axios";
 import { Camera } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { CreatorType } from "@/app/_components/Explore";
+import axios from "axios";
 
 export type DecodeType = {
     email: string,
@@ -92,21 +92,21 @@ export default function ViewPage() {
                         <Label htmlFor="background" className="py-2 px-4 bg-transparent text-white flex gap-3 cursor-pointer"><Camera />Add image</Label>
                         <input id="background" type="file" className="hidden" onChange={handleImage} />
                     </div>
-                )};
+                )}
 
                 {isEditingCover && (
                     <div className="absolute top-2 right-10 flex gap-3">
                         <Button onClick={saveChanges} className="bg-black text-white hover:bg-[#F4F4F5] hover:text-black">Save changes</Button>
                         <Button onClick={cancelButton} className="bg-[#F4F4F5] text-black hover:text-white hover:bg-black">Cancel</Button>
                     </div>
-                )};
+                )}
 
                 {hasCover && !isEditingCover && (
                     <div className="flex absolute top-2 right-10 bg-[#F4F4F5] text-black hover:bg-black hover:text-white rounded-md">
                         <Label htmlFor="cover" className="py-2 px-3 flex gap-2"><Camera />Change cover</Label>
                         <input id="cover" type="file" className="hidden" onChange={handleChangeImage} />
                     </div>
-                )};
+                )}
 
             </div>
 
