@@ -53,7 +53,7 @@ const Login = () => {
         password: value.password,
       });
       localStorage.setItem('token', res.data.token)
-      router.push("/dashboard");
+      router.push("/");
 
     } catch (error) {
       toast((error as Error).message);
