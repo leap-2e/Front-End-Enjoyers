@@ -65,7 +65,7 @@ export function BuyCoffee() {
               <FormItem>
                 <FormLabel>Enter BuyMeCoffee or social acount URL:</FormLabel>
                 <FormControl>
-                  <Input placeholder="buymeacoffee.com/" {...field} />
+                  <Input disabled placeholder="buymeacoffee.com/" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -79,7 +79,7 @@ export function BuyCoffee() {
               <FormItem>
                 <FormLabel>Special message:</FormLabel>
                 <FormControl>
-                  <textarea
+                  <textarea disabled
                     placeholder="Please write your message here"
                     className="h-[131px] border rounded-md py-2 px-3"
                   ></textarea>
