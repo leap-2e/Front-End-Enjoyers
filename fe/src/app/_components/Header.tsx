@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { jwtDecode } from "jwt-decode";
-import { ChevronDown, Coffee } from "lucide-react";
+import { ChevronDown, Coffee, Router } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -10,6 +10,7 @@ import { BASE_URL } from "@/constants";
 import { CreatorType } from "./Explore";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export type DecodeType = {
   email: string;
@@ -20,6 +21,7 @@ export type DecodeType = {
 export function Header() {
   const [userId, setUserId] = useState<string | null>(null);
   const [currentUser, setCurrentUser] = useState<CreatorType>();
+  const router = useRouter()
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,6 +43,8 @@ export function Header() {
     const handleLogout = () => {
       localStorage.removeItem("token");
       setUserId(null);
+      router.push("/login")
+
     };
   
 
