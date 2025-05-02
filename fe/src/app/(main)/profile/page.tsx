@@ -18,9 +18,11 @@ export default function DonationScreenCreator() {
       </div>
 
       <div className="w-[90%] gap-5 mt-[-100px] mx-auto flex">
+
         <EditProfile />
 
         <BuyCoffee />
+
       </div>
     </div>
   );

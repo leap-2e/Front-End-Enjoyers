@@ -2,7 +2,6 @@
 
 import { DecodeType, Header } from "@/app/_components/Header";
 import { BASE_URL } from "@/constants";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { Heart } from "lucide-react";
 import { CreatorType } from "@/app/_components/Explore";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Coffee } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -20,6 +18,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { v4 as uuidv4 } from 'uuid';
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import axios from "axios";
 
 type ValueType = {
     social_media_url: string,
@@ -30,8 +30,8 @@ export default function ExploreOthers() {
     const params = useParams();
     const [userId, setUserId] = useState("");
     const [creator, setCreator] = useState<CreatorType>();
-    const [buttonValue, setButtonValue] = useState<number>();
-    const [donorId, setDonorId] = useState("")
+    const [buttonValue, setButtonValue] = useState<number>(0);
+    const [donorId, setDonorId] = useState("");
 
     useEffect(() => {
         const getUserId = async () => {
@@ -39,7 +39,7 @@ export default function ExploreOthers() {
             setUserId(response.data.users[0].id)
         }
         getUserId();
-    }, [params.name])
+    }, [params.name]);
 
     useEffect(() => {
         const getCreatorInfo = async () => {
@@ -47,7 +47,7 @@ export default function ExploreOthers() {
             setCreator(response.data.profile[0])
         }
         getCreatorInfo()
-    }, [userId])
+    }, [userId]);
 
     // console.log(creator);
 
@@ -66,7 +66,7 @@ export default function ExploreOthers() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if(token) {
+        if (token) {
             const decode: DecodeType = jwtDecode(token)
             setDonorId(decode.id)
         }
@@ -86,8 +86,8 @@ export default function ExploreOthers() {
 
     return (
         <div className="w-full h-screen">
-            <Header />
 
+            <Header />
 
             <div className="w-full h-[319px] bg-[#F4F4F5] flex justify-center items-center bg-cover bg-center" style={{ backgroundImage: `url(${creator?.background_image ? creator?.background_image : ""})` }}>
             </div>
@@ -150,17 +150,17 @@ export default function ExploreOthers() {
                         </h1>
                         <div className="w-full h-[62px]">
                             <p>Select amount:</p>
-                            <div className="h-[40px] flex gap-3">
-                                <button onClick={() => setButtonValue(1)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                            <div className="h-[40px] flex gap-3 [&>*]:bg-[#F4F4F5] [&>*]:rounded-md [&>*]:flex [&>*]:gap-2 [&>*]:items-center [&>*]:py-2 [&>*]:px-4 [&>*]:border-2">
+                                <button onClick={() => setButtonValue(1)} className={`${buttonValue === 1 ? "border-black" : "border-transparent"}`}>
                                     <Coffee /> $1
                                 </button>
-                                <button onClick={() => setButtonValue(2)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                                <button onClick={() => setButtonValue(2)} className={`${buttonValue === 2 ? "border-black" : "border-transparent"}`}>
                                     <Coffee /> $2
                                 </button>
-                                <button onClick={() => setButtonValue(5)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                                <button onClick={() => setButtonValue(5)} className={`${buttonValue === 5 ? "border-black" : "border-transparent"}`}>
                                     <Coffee /> $5
                                 </button>
-                                <button onClick={() => setButtonValue(10)} className="bg-[#F4F4F5] rounded-md flex gap-2 items-center py-2 px-4">
+                                <button onClick={() => setButtonValue(10)} className={`${buttonValue === 10 ? "border-black" : "border-transparent"}`}>
                                     <Coffee /> $10
                                 </button>
                             </div>
@@ -208,4 +208,4 @@ export default function ExploreOthers() {
             </div>
         </div>
     );
-}
+};
