@@ -91,14 +91,14 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
                     </SelectContent>
                   </Select>
                 </div>
-               {
-                totalAmount === null &&
-                <h1 className="font-bold text-4xl mt-4">$0</h1>
-               }
-               {
-                totalAmount !== null &&
-                <h1 className="font-bold text-4xl mt-4">{`$${totalAmount}`}</h1>
-               }
+                {
+                  totalAmount === null &&
+                  <h1 className="font-bold text-4xl mt-4">$0</h1>
+                }
+                {
+                  totalAmount !== null &&
+                  <h1 className="font-bold text-4xl mt-4">{`$${totalAmount}`}</h1>
+                }
               </div>
             </div>
           </CardHeader>
@@ -161,7 +161,7 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
                 })
               }
               {isEmpty(filteredAmount) && amount === "all" &&
-                <div className="place-self-center">
+                <div className="flex gap-1 flex-col items-center">
                   <div className="w-12 h-12 rounded-full bg-[#F4F4F5] flex justify-center items-center"><Heart /></div>
                   <p>You don't have any supporters yet.</p>
                   <p>Share your page with your audience to get started.</p>

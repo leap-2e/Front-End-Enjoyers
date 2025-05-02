@@ -29,6 +29,7 @@ export function ViewPageContent() {
 
       const response = await axios.get(`${BASE_URL}/profiles?user_id=${userId}`);
       setCurrentProfile(response.data.profile[0]);
+      setImageUrl(response.data.profile[0].background_image);
     };
 
     getProfileInfo();
@@ -78,13 +79,19 @@ export function ViewPageContent() {
     });
   };
 
+  useEffect(() => {
+    if (imageUrl) {
+      setHasCover(true)
+    }
+  }, [imageUrl])
+
   return (
     <>
       <div
         className="w-full h-[319px] flex justify-center items-center bg-cover bg-center mt-[56px] relative"
         style={{ backgroundImage: `url('${imageUrl || "bg-[#F4F4F5]"}')` }}
       >
-        {!hasCover && !isEditingCover && (
+        {!hasCover && !currentProfile?.background_image && !isEditingCover && (
           <div className="bg-black rounded-md">
             <Label htmlFor="background" className="py-2 px-4 bg-transparent text-white flex gap-3 cursor-pointer">
               <Camera />
@@ -114,7 +121,7 @@ export function ViewPageContent() {
             <input id="cover" type="file" className="hidden" onChange={handleChangeImage} />
           </div>
         )}
-      </div>
+      </div >
 
       <div className="w-[90%] flex gap-5 mt-[-100px] mx-auto relative">
         <EditProfile currentProfile={currentProfile} />
