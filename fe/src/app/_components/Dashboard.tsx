@@ -1,4 +1,6 @@
 "use client";
+
+import isEmpty from 'lodash/isEmpty'
 import {
   Card,
   CardDescription,
@@ -151,7 +153,7 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
                   )
                 })
               }
-              {amount === "all" && filteredAmount?.length === 0 &&
+              {isEmpty(filteredAmount) && amount === "all" &&
                 <div className="place-self-center">
                   <div className="w-12 h-12 rounded-full bg-[#F4F4F5] flex justify-center items-center"><Heart /></div>
                   <p>You don't have any supporters yet.</p>
