@@ -152,7 +152,7 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
                 })
               }
               {amount === "all" && filteredAmount?.length === 0 &&
-                <div className="place-self-center">
+                <div className="flex flex-col justify-center items-center">
                   <div className="w-12 h-12 rounded-full bg-[#F4F4F5] flex justify-center items-center"><Heart /></div>
                   <p>You don't have any supporters yet.</p>
                   <p>Share your page with your audience to get started.</p>

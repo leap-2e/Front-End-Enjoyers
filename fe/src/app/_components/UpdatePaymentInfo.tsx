@@ -105,7 +105,7 @@ const UpdatePaymentInfo = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 border p-6 rounded-2xl">
       <div>
         <h1 className="text-2xl font-semibold">Payment details</h1>
         <p className="text-muted-foreground">
