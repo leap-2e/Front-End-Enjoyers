@@ -45,7 +45,7 @@ const UpdateProfileInfo = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token as string)
-  }, [])
+  }, []);
 
   const getPrevInfo = async () => {
     const response = await axios.get(`${BASE_URL}/profiles?user_id=${params.id}`);
@@ -118,13 +118,13 @@ const UpdateProfileInfo = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 border p-6 rounded-2xl">
       <h1 className="text-2xl font-semibold">Personal info</h1>
       <div>
         <div>
           <Label htmlFor="avatar_image">
-            <p>Add photo</p>
-            <div className="w-40 h-40 rounded-full border bg-cover bg-center mt-3 mb-3" style={{ backgroundImage: `url('${imageUrl ? imageUrl : ""}')` }}>
+            <p className="font-[500] text-sm">Add photo</p>
+            <div className="w-40 h-40 rounded-full border bg-cover bg-center mt-3 mb-3" style={{ backgroundImage: `url('${imageUrl ? imageUrl : "../assets/user.jpg"}')` }}>
             </div>
           </Label>
           <input

@@ -67,7 +67,7 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div>
+    <div className="border p-6 rounded-2xl">
       <h1 className="text-2xl font-semibold mb-6">Set a new password</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
