@@ -17,7 +17,7 @@ export type CreatorType = {
   social_media_url: string,
   user_id: string,
   username: string,
-  background_image? : string
+  background_image?: string
 }
 
 export function Explore() {
@@ -56,8 +56,8 @@ export function Explore() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 border">
-                      <AvatarImage src={creator.avatar_image} alt={creator.name} />
-                      <AvatarFallback>{creator.name[0]}</AvatarFallback>
+                      <AvatarImage className="object-cover object-center" src={creator.avatar_image} alt={creator.name} />
+                      <AvatarFallback>{creator.name.slice(0, 2)}</AvatarFallback>
                     </Avatar>
                     <div>
                       <h3 className="text-lg font-semibold">{creator.name}</h3>

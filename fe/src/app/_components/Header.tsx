@@ -51,7 +51,7 @@ export function Header() {
               <AvatarFallback>{currentUser?.name.slice(0, 2)}</AvatarFallback>
             </Avatar>
           </Link>
-          {currentUser && <p className="w-fit h-[20px] font-[500]">{currentUser?.name}</p>}
+          <p className="w-fit h-[20px] font-[500] mb-1">{currentUser?.name}</p>
           <ChevronDown size={20} />
         </div>
       </div>

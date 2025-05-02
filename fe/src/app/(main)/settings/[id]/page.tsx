@@ -12,7 +12,7 @@ export default function SettingsPage() {
       <div className="w-full flex gap-4 px-[80px]">
         <SideBarComponent />
         {/* <AccountSetting /> */}
-        <div className="w-2/5 my-20 flex flex-col space-y-16 justify-self-center">
+        <div className="w-3/5 my-20 flex flex-col space-y-16 justify-self-center">
           <UpdateProfileInfo />
           <UpdatePassword />
           <UpdatePaymentInfo />

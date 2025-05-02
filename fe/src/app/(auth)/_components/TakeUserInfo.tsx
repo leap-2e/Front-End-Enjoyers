@@ -87,7 +87,7 @@ const TakeUserInfo = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter password here" {...field} />
+                    <Input type="password" placeholder="Enter password here" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
