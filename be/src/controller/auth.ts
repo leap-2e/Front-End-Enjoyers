@@ -2,6 +2,7 @@ import { sql } from "../db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
+import path from "path";
 
 export const register = async (req: Request, res: Response) => {
   console.log(req.body);
@@ -22,7 +23,6 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
-
     const { email, password } = req.body;
     const [user] = await sql`
         SELECT id, username, email, password FROM users
@@ -43,10 +43,18 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const KEY: any = process.env.JWT_SECRET;
-    const token = jwt.sign({ email: user.email, username: user.username, id: user.id }, KEY, { expiresIn: "1h" });
+    const token = jwt.sign(
+      { email: user.email, username: user.username, id: user.id },
+      KEY,
+      { expiresIn: "1h" }
+    );
     res.status(200).json({ message: "Amjilttai nevterlee", token });
-    
   } catch (error) {
-   res.status(400).json({message: (error as Error).message})
+    res.status(400).json({ message: (error as Error).message });
   }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  res.clearCookie("token", {path: '/login'});
+  res.status(200).json({ message: "Logged out" });
 };
