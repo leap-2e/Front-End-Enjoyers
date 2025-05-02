@@ -118,7 +118,7 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-[12px] p-3">
-              {filteredAmount && filteredAmount.length > 0 ?
+              {filteredAmount && filteredAmount.length > 0 &&
                 filteredAmount?.map((donation: DonationType) => {
                   return (
                     <div key={nanoid()}>
@@ -150,16 +150,18 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
                     </div>
                   )
                 })
-                :
-                <div className="place-self-center">
-                  <p>{`You have not recieved any $${amount} donation yet.`}</p>
-                </div>
               }
               {amount === "all" && filteredAmount?.length === 0 &&
                 <div className="place-self-center">
                   <div className="w-12 h-12 rounded-full bg-[#F4F4F5] flex justify-center items-center"><Heart /></div>
                   <p>You don't have any supporters yet.</p>
                   <p>Share your page with your audience to get started.</p>
+                </div>
+              }
+              {
+                amount !== "all" && filteredAmount?.length === 0 &&
+                <div className="place-self-center">
+                  <p>{`You have not recieved any $${amount} donation yet.`}</p>
                 </div>
               }
             </div>
