@@ -99,7 +99,7 @@ export default function ExploreOthers() {
                             <div className="w-[107px] h-[48px] flex gap-3 items-center">
                                 <Avatar>
                                     <AvatarImage src={`${creator?.avatar_image}`} />
-                                    <AvatarFallback>CN</AvatarFallback>
+                                    <AvatarFallback>{creator?.name.slice(0, 2)}</AvatarFallback>
                                 </Avatar>
                                 <p className="w-[83px] h-[20px] font-bold">{`${creator?.name}`}</p>
                             </div>
