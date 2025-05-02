@@ -89,7 +89,14 @@ export const Dashboard = ({ donations, currentProfile }: { donations: DonationTy
                     </SelectContent>
                   </Select>
                 </div>
+               {
+                totalAmount === null &&
+                <h1 className="font-bold text-4xl mt-4">$0</h1>
+               }
+               {
+                totalAmount !== null &&
                 <h1 className="font-bold text-4xl mt-4">{`$${totalAmount}`}</h1>
+               }
               </div>
             </div>
           </CardHeader>
