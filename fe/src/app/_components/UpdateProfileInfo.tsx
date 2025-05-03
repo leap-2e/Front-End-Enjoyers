@@ -21,7 +21,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Label } from "@radix-ui/react-label";
 import { toast } from "sonner";
 
-type ValueType = {
+export type ValueType = {
   name: string;
   about: string;
   social_media: string;

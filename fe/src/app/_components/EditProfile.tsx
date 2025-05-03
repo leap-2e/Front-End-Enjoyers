@@ -22,9 +22,86 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { CreatorType } from "./Explore";
+import { toast } from "sonner";
+import { BASE_URL } from "@/constants";
+import axios from "axios";
+import { ChangeEvent, useEffect, useState } from "react";
+import { ValueType } from "./UpdateProfileInfo";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Label } from "@/components/ui/label";
 
 export function EditProfile({ currentProfile }: { currentProfile?: CreatorType | undefined }) {
-  const form = useForm();
+
+  const [file, setFile] = useState<File | string>("");
+  const [imageUrl, setImageUrl] = useState(currentProfile?.avatar_image);
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token as string)
+  }, []);
+
+
+  const formSchema = z.object({
+    name: z.string().min(2, {
+      message: "Name must be at least 2 characters.",
+    }),
+    about: z.string().min(10, {
+      message: "About yourself must be at least 10 characters.",
+    }),
+    social_media: z.string(),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    values: {
+      name: `${currentProfile?.name ?? ""}`,
+      about: `${currentProfile?.about ?? ""}`,
+      social_media: `${currentProfile?.social_media_url ?? ""}`,
+    },
+  });
+
+  const handleImage = (event: ChangeEvent) => {
+    const file = ((event.target as HTMLInputElement).files as FileList)[0];
+    setImageUrl(window.URL.createObjectURL(file));
+    setFile(file);
+  };
+
+  const UPLOAD_PRESET = "ml_default";
+  const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+  const formData = new FormData();
+  formData.append("file", file as File);
+  formData.append("upload_preset", UPLOAD_PRESET);
+
+  const onSubmit = async (value: ValueType) => {
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const { url } = await response.json();
+
+    const res = await axios.put(`${BASE_URL}/profiles`, {
+      id: currentProfile?.id,
+      name: value.name,
+      about: value.about,
+      avatar_image: url,
+      social_media_url: value.social_media,
+      user_id: currentProfile?.user_id
+
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    toast(`${res.data.message}`)
+  }
 
   return (
     <div className="w-1/2 h-fit rounded-lg bg-white flex flex-col gap-5 justify-self-center">
@@ -54,21 +131,29 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
                   </p>
                 </DialogHeader>
 
-                <Form {...form}>
-                  <form className="flex flex-col gap-6">
-                    <div>Add photo</div>
-                    <Avatar className="w-[160px] h-[160px]">
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+                <div className="flex justify-start">
+                  <Label htmlFor="avatar_image" className="flex flex-col">
+                    <p className="font-[500] text-sm text-start">Add photo</p>
+                    <div className="w-40 h-40 rounded-full border bg-cover bg-center mt-3 mb-3" style={{ backgroundImage: `url('${imageUrl ? imageUrl : "../assets/user.jpg"}')` }}>
+                    </div>
+                  </Label>
+                  <input
+                    id="avatar_image"
+                    className="hidden"
+                    type="file"
+                    onChange={handleImage}
+                  ></input>
+                </div>
 
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
                     <div className="flex flex-col gap-3">
                       <FormField
                         control={form.control}
                         name="name"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>name</FormLabel>
+                            <FormLabel>Name</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter your name..."
@@ -82,13 +167,14 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
 
                       <FormField
                         control={form.control}
-                        name="username"
+                        name="about"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>About</FormLabel>
                             <FormControl>
                               <textarea
-                                placeholder="Please write your message here"
+                                {...field}
+                                placeholder="Update your info here"
                                 className="h-[131px] border rounded-md py-2 px-3"
                               ></textarea>
                             </FormControl>
@@ -99,13 +185,13 @@ export function EditProfile({ currentProfile }: { currentProfile?: CreatorType |
 
                       <FormField
                         control={form.control}
-                        name="name"
+                        name="social_media"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Social media URL</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter your social account..."
+                                placeholder="Update your social account..."
                                 {...field}
                               />
                             </FormControl>
