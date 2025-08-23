@@ -61,6 +61,11 @@ const Login = () => {
 
   };
 
+  const handleMockUser = () => {
+    form.setValue("email", "Bold05@gmail.com");
+    form.setValue("password", "12345678")
+  };
+
   return (
     <div>
       <div className="fixed top-0 bg-transparent flex w-full h-[56px] items-center justify-center">
@@ -115,11 +120,12 @@ const Login = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full mt-3">
+                  <Button type="submit" className="w-full mt-3 cursor-pointer">
                     Continue
                   </Button>
                 </form>
               </Form>
+              <Button className="my-6 w-full bg-yellow-300 text-black hover:bg-yellow-300 cursor-pointer" onClick={handleMockUser}>Mock user</Button>
             </div>
           </div>
         </div>

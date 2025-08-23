@@ -7,9 +7,6 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <section>
-      {children}
-    </section>
-  );
+  
+  return <section>{children}</section>;
 }
